@@ -1,0 +1,246 @@
+WEEK 2
+
+\section{Reading from MySQL}
+
+È uno dei più usati database. I dati sono strutturati in database, all'interno di ogni database ci sono una serie di tables e in ogni table ci sono una serie di fields.
+Si può immaginare ogni table come una sorta di dataset e ogni field come una colonna di quel data set. Ogni singola riga nel database è chiamato record.
+
+Un esempio di un database è:
+
+http://dev.mysql.com/doc/employee/en/sakila-structure.html
+
+Ogni scatola può essere interpretata come un dataframe in R e le variabili indicate in queste scatole possono essere interpretate come i nomi delle variabili (quindi delle colonne) di un database.
+
+La prima cosa per poter interfacciare MySQL ed R è installare MySQL, dopo di che posso installare il pacchetto RMySQL.
+
+install.packages("RMySQL")
+
+Questo pacchetto funziona con Mac, con altri sistemi operativi ci sono impostazioni diverse.
+Il primo comando utile è dbConnect() che mi permette di connettermi ad un database. In pratica apre una connessione. Per usarlo bene mi servono le informazioni per connettermi alla base di dati.
+Un esempio lo posso trovare a questa pagina.
+
+http://genome.ucsc.edu/goldenPath/help/mysql.html
+
+Carico il pacchetto e creo la connessione dal database.
+
+> library(RMySQL)
+Loading required package: DBI
+> ucscDb <- dbConnect(MySQL(), user = "genome", host="genome-mysql.cse.ucsc.edu")
+
+Ora posso usare le funzioni del pacchetto RMySQL ma al loro interno ci vanno comandi di MySQL... quindi mi tocca imparare qualcosa di questo almeno. Una cosa importantissima è che dopo aver preso i dati di quello che mi serve, disconnettermi dal database.
+Il comando dbDiconnect(ucscDB) dovrebbe restituire come valore TRUE, altrimenti vuol dire che sono ancora connesso.
+
+Con questo comando sostanzialmente vado nella connessione selezionata, che in questo caso è dbGetQuery ed eseguo il comando proprio di MySQL, che in questo caso mi indica di mostrarmi tutti i database presenti in questa connessione.
+
+> result <- dbGetQuery(ucscDb, "show databases;")
+
+Dopo di che mi disconnetto:
+
+> dbDisconnect(ucscDb)
+[1] TRUE
+
+Provo ora a leggere un database inserendo il comando db = "<nome data base>":
+
+hg19 <- dbConnect(MySQL(),user="genome", db="hg19", host="genome-mysql.cse.ucsc.edu")
+
+Ora in hg19 vediamo quante table ci sono; si può immaginare ogni table come un oggetto R data frame (o data table).
+
+allTables <- dbListTables(hg19)
+
+Meglio che non lo stampo perché contiene molte table.
+
+> length(allTables)
+[1] 11020
+> head(allTables)
+[1] "HInv"         "HInvGeneMrna" "acembly"      "acemblyClass" "acemblyPep"   "affyCytoScan"
+
+
+Ogni table è un diverso dataset, data frame ecc quindi ci si rende della potenza di MySQL nella gestione di grandissime quantità di dati.
+Ricordando che i field di in un dataset possono essere interpretati come i nomi delle colonne di un oggetto R, con il seguente comando posso vedere i fields di uno dei tanti oggetti presenti nella connessione precedente, un oggetto a cui potrei essere interessato.
+affyU133Plus2 è il nome del dataset (del table parlando in termini di MySQL)
+
+> dbListFields(hg19,"affyU133Plus2")
+ [1] "bin"         "matches"     "misMatches"  "repMatches"  "nCount"      "qNumInsert"  "qBaseInsert"
+ [8] "tNumInsert"  "tBaseInsert" "strand"      "qName"       "qSize"       "qStart"      "qEnd"       
+[15] "tName"       "tSize"       "tStart"      "tEnd"        "blockCount"  "blockSizes"  "qStarts"    
+[22] "tStarts"   
+
+Quindi ora so che hg19 ha 22 colonne; importante ed utile ora è capire le righe per avere una idea delle dimensioni di questo oggetto.
+Ancora una volta mi serve un comando di MySQL:
+
+> dbGetQuery(hg19, "select count(*) from affyU133Plus2")
+  count(*)
+1    58463
+
+In questo caso il comando count(*) mi dice di contare il numero di righe del successivo oggetto che è il table affyU133Plus2, preso dal database hg19.
+
+Supponiamo che questa table di questo database è proprio quello che cercavo. Posso quindi leggere questo table.
+
+> affyData <- dbReadTable(hg19, "affyU133Plus2")
+There were 16 warnings (use warnings() to see them)
+
+Siccome spesso questi dataset sono enormi è possibile che ci siano problemi quindi è meglio selezionare solo i dati che ci interessano.
+Con il comando seguente dbSendQuery creo un oggetto query che nel database hg19 mi va a selezionare tutte le righe (per questo select *) dalla table affyU133Plus dove la colonna di nome "misMatches" è tra 1 e 3.
+
+query <- dbSendQuery(hg19, "select * from affyU133Plus2 where misMatches between 1 and 3")
+
+Con il comando affyMis <- fetch(query) mi vado a prendere (fetch) quello che mi serve perché con il comando query, creo la connessione ma non prendo i dati.
+Sulla guida di Vignette del pacchetto c'è:
+
+fetch() will be deprecated in the near future; please use dbFetch() instead.
+
+Con il comando Fetch() anche dopo essermi disconnesso dal database con
+> dbDisconnect(hg19)
+[1] TRUE
+
+Ottengo comunque head() i dati. Bisogna capire dove me li porta e che fine fanno dopo averli letti.
+
+
+\section{Reading HDF5}
+
+È un particolare formato di file usato per gestire grandi quantità di dati. Sul sito http://www.hdfgroup.org si legge che è:
+
+ A versatile data model that can represent very complex data objects and a wide variety of metadata.
+A completely portable file format with no limit on the number or size of data objects in the collection.
+
+Per scaricare i pacchetti, che non sono presenti su CRAN, servono i seguenti comandi:
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("rhdf5")
+
+Dopo di che si può caricare con il solito comando library(rhdf5).
+Inizio col creare un oggetto con estensione .h5
+
+created = h5createFile("example.h5")
+
+Dopo credo dei sotto gruppi di questo oggetto dove nel terzo, creo foobaa che è figlio del gruppo foo.
+
+created = h5createGroup("example.h5","foo")
+created = h5createGroup("example.h5","baa")
+created = h5createGroup("example.h5","foo/foobaa")
+
+Dopo posso vedere quello che ho creato con il comando h5ls("<file_creato>")
+
+> h5ls("example.h5")
+  group   name     otype dclass dim
+0     /    baa H5I_GROUP           
+1     /    foo H5I_GROUP           
+2  /foo foobaa H5I_GROUP 
+
+Ora ho questi gruppi vuoti; posso iniziare a scriverci qualcosa dentro.
+Per prima cosa mi creo una matrice A
+
+A = matrix(1:10,nr=5,nc=2)
+
+E poi con il comando h5write(A, "example.h5", "foo/A") me la scrivo al gruppo foo del file example.h5.
+
+Posso anche scrivere non solo matrici ma anche un array multidimensionale.
+B = array(seq(0.1,2.0,by=0.1),dim=c(5,2,2))
+
+Poi con il comando attr gli do un atributo e poi con h5write() scrivo questo array in un particolare gruppo.
+
+attr(B, "scale") <- "liter"
+h5write(B, "example.h5","foo/foobaa/B")
+
+infatti chiamando h5ls, vedo quello che c'è dentro.
+
+> h5ls("example.h5")
+  group   name       otype  dclass   dim
+0     /    baa   H5I_GROUP              
+1     /    foo   H5I_GROUP              
+2  /foo      A H5I_DATASET INTEGER 5 x 2
+3  /foo foobaa   H5I_GROUP         
+
+Posso creare un oggetto e farne direttamente un gruppo. Creo ad esempio un data frame
+df = data.frame(1L:5L,seq(0,1,length.out=5),
+  c("ab","cde","fghi","a","s"), stringsAsFactors=FALSE)
+
+Poi faccio > h5write(df, "example.h5","df") che mi permette di creare in loco un gruppo df
+
+> h5ls("example.h5")
+  group   name       otype   dclass   dim
+0     /    baa   H5I_GROUP               
+1     /     df H5I_DATASET COMPOUND     5
+2     /    foo   H5I_GROUP               
+3  /foo      A H5I_DATASET  INTEGER 5 x 2
+4  /foo foobaa   H5I_GROUP        
+
+
+In effetti andando a veder il file, cosa ho dentro con il comando h5ls, me lo trovo al livello superiore il data frame che avevo creato in precedenza.
+
+Per leggere quello che c'è dentro posso usare il comando h5read() usando diverse impostazioni come ad esempio il nome del gruppo, o l'indirizzo nel quale si trova.
+readA = h5read("example.h5","foo/A")
+readB = h5read("example.h5","foo/foobaa/B")
+readdf= h5read("example.h5","df")
+
+> readA
+     [,1] [,2]
+[1,]    1    6
+[2,]    2    7
+[3,]    3    8
+[4,]    4    9
+[5,]    5   10
+
+
+È possibile anche leggere e scrivere singoli pezzi di un dataset.
+
+h5write(c(12,13,14),"example.h5","foo/A",index=list(1:3,1))
+
+Con questo comando scrivo nel dataset A che è dentro il file example.h5 il vettore c(12,13,14) e lo scrivo nel posto indicato dalle coordinate index che variano in base alle dimensioni dell'oggetto su cui vado a scrivere.
+con 1:3,1 indico dalla riga uno alla terza della prima colonna.
+
+> h5read("example.h5", "foo/A")
+     [,1] [,2]
+[1,]   12    6
+[2,]   13    7
+[3,]   14    8
+[4,]    4    9
+[5,]    5   10
+
+Il file infatti è cambiato.
+
+
+\section{Reading data from the WEB}
+
+http://en.wikipedia.org/wiki/Web_scraping
+
+Per avere una idea di quello che è il web scraping. Comunque nella lezione alcuni comandi non funzionano. Il pacchetto migliore sembra essere httr
+Per prima cosa scelgo un URL da dover analizzare. 
+
+> url <- "https://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en"
+
+library(httr)
+html2 = GET(url)
+
+
+
+content2 = content(html2,as="text")
+parsedHtml = htmlParse(content2,asText=TRUE)
+xpathSApply(parsedHtml, "//title", xmlValue)
+
+
+
+\section{Reading From API}
+
+API sta per application programming interfaces,
+
+
+
+
+
+\section{Reading from other sources}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

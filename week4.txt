@@ -1,0 +1,125 @@
+WEEK 4
+
+un importante passo per la pulizia dei dati è manipolare il testo.
+Un primo passo qualora si voglia, è eliminare ad esempio lettere maiuscole dai nomi:
+
+	tolower(names(<oggetto>))
+
+Posso eliminare 
+
+	strsplit(names(<oggetto>), "\\.")
+
+I due \\ servono per "escape" il puntino che altrimenti sarebbe interpretato da R come un separatore decimale. Questo comando elimina il puntino dai nomi degli oggetti e restituisce una list ogni elemento è dato a sua volta da due elementi costituiti entrambi dal nome originale diviso però dal simbolo . che è scomparso.
+
+Rimuovere alcuni simbolo dai nomi e sostituirli con un altro
+
+	sub("_", "", names(<oggetto>))
+
+Questo comando dice di sostituire con "" (cioè niente!), ogni volta che incontra, all'interno dei nomi di <oggetto>, un underscore _.
+
+supponendo però che esista un nome dato da:
+
+	this_is_a_test
+
+con sub rimuovo solo il primo underscore. Devo usare quindi la funzione sub:
+
+	gsub("_", "", names(<oggetto>))
+
+Posso cercare tra i nomi tutte le stringe che contengono una determinata parola:
+
+	grep("<parola>", <oggetto>)
+
+Grep mi restituisce un vettore con le posizioni (non i valori, ma solo i numeri delle posizioni) dove la stringa cercata appare. Per far si che ritorni i valori devo settore in grep l'opzione value = TRUE. Così facendo grep non mi da le posizioni ma gli elementi stessi.
+
+Posso usare anche grepl che si differenzia da grep perché restituisce un vettore logico con TRUE quando la stringa cercata c'è e FALSE quando non c'è.
+
+Sempre con grep posso usare la funzione lenght
+
+	length(grep("JeffStreet",cameraData$intersection))
+
+Se come risultato mi da 0 vuol dire che nell'oggetto cercato non ci sono elementi con la stringa "JeffStreet", quindi questo è un modo semplice per verificare se un certo valore appare nelle stringhe di un oggetto.
+
+un'altra funzione utile può essere nchar() che mi dice il numero di caratteri che ci sono in una stringa; oppure substr(<stringa>, 1, 7) che mi prende solo le lettere dalla uno alla sette della <stringa>.
+
+Paste() permette di fonderle insieme fuse da uno spaio, se metto solo le stringhe oppure unite da un altro simbolo se lo imposto con sep = ""
+
+Posso fonderle senza spazio usando direttamente la funzione paste0()
+
+La funzione str_trim del pacchetto stringr permette di eliminare lo spazio in eccesso.
+	> str_trim("Prova      ")
+	[1] "Prova"
+
+
+\section{Regular Expressions}
+
+Metacaratteri permettono di eseguire ricerche...
+
+^<parola>  questo mi cerca tutte le parole, frasi, elementi che INIZIANO con <parola>
+$<parola>  questo mi cerca tutte le frasi che finiscono con <parola>
+^[Ii] am   questo mi cerca tutte le frasi che iniziano con i/I am
+
+Posso anche mettere range
+^[0-9][a-zA-Z]  questo mi cerca tutte le frasi che iniziano con un numero compreso tra zero ed uno e che sono seguite da una lettera compresa tra a e z e tra A e Z.
+
+Un altro metacarattere è il semplice punto . .
+
+	9.11 ad esempio mi cerca tutte le combinazioni di stringhe che hanno un nove seguito da un simbolo qualsiasi da poi da un 11. Il punto quindi ha valore di jolly valendo in questo caso qualunque simbolo purché, nell'esempio, preceduto da un nove e seguito da un 11.
+
+Un altro carattere è | . Questo cercherà tutte le stringhe che hanno l'una o l'altra espressione:  <parola1>|<parola2> mi cerca si c'è <parola1> oppure se c'è <parola2> e non se ci sono entrambe anche se ti traduce con "and". Non ci vogliono spazi, come negli altri metacaratteri, altrimenti R si blocca.
+
+Ne posso mettere pure due o tre di  |||
+
+
+Fare attenzione alle sottigliezze 
+
+^([Gg]ood|[Bb]ad)
+^[Gg]ood|[Bb]ad
+
+L'unica differenza è data dalle parentesi tonde ma il comportamento di queste due espressioni è molto diverso. La prima cercherà frasi che iniziano o per good/Good oppure che iniziano per bad/Bad. La seconda invece cercherà frasi che iniziano per good/Good oppure che hanno al suo interno bad/bad.
+
+Un punto esclamativo indica che l'espressione cercata è opzionale.
+
+Da notare che un metacarattere è un carattere che per un programma ha un particolare significato. vedere wiki http://en.wikipedia.org/wiki/Metacharacter.
+
+
+* indica qualsiasi numero di volte
+
+ad esempio (.*) cerca qualsiasi parenti che abbia al suo interno qualsiasi carattere un numero qualsiasi di volte quindi mi troverà anche solo ().
+
+Il segno più include almeno uno dei simboli
+
+[0-9]
+
+
+
+
+\section{data}
+la funzione date() restituisce la data
+Sys.Date() restituisce la data ma la classe è "Date" che quindi permette di fare altre cose.
+
+format(oggetto_data, "%a %b %d" )   permette di riformattare la data abbreviandola con
+
+- %a le iniziali del nome abbreviate (%A  non abrreviato)
+- %d un giorno espresso in numero tra 0-31
+- %m mese 1-12
+- %B mese non abbreviato
+- %y anno espresso in due cifre
+- %Y anno intero
+
+as.Date(<oggetto>, "%d%b%Y") mi converte l'oggetto in date secondo le istruzioni del secondo argomento che io gli do.
+
+
+paccheetto lubridate
+
+
+
+
+
+
+
+
+
+
+
+
+

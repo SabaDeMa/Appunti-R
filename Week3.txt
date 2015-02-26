@@ -1,0 +1,163 @@
+APPUNTI WEEK 3
+
+Una funzione interessante è table che dalla guida:
+
+table uses the cross-classifying factors to build a contingency table of the counts at each combination of factor levels.
+
+Quindi mi prende i fattori, ogni tipo, e mi costruisce una table con la frequenza di ognuno.
+
+Per vedere i missing values c'è un trucchetto.
+
+Posso fare sum(is.na(<dati>))
+
+Siccome is.na restituisce 1 quando c'è un missing value e 0 altrimenti, se questo comando produce uno 0 vuol dire che non ci sono missing values.
+
+all vede se tutti gli elementi dell'oggetto che ha come argomento sono TRUE 
+
+all(<dati> > 0)
+
+Mi vede se tutti gli elementi di <dati> sono maggiori di zero. Se è vero restituisce TRUE.
+
+Posso fare ad esempio un:
+
+colSums(is.na(<dati>))
+
+Mi fa la somma di ogni singola colonna, somma che però è degli is.na.
+Come risultato ottengo quindi la somma degli elementi NA di ogni singola colonna. 
+
+Una cosa molto pratica al posto di concatenare diversi == è quella di usare la condizione %in%
+
+table(<dati> %in% c(1,2,3))
+
+in pratica è come se concatenassi diversi == e quindi mi restituisce i valori di <dati> che sono uguali ad 1 a 2 ed a 3.
+
+object.size(<dati>) mi da le dimensioni di dati in termini di bytes.
+
+print(object.size(<dati>), units = "Mb")
+
+Mi stampa a video le dimensioni, espresse in megabyte, di <dati>.
+
+
+Approfondire xtabs.
+
+
+\section{CREATING NEW VARIABLES}
+Spesso è utile creare nuove variabili perché i dati raw non possiedono i valori che stiamo cercando (oppure i dati necessitano di una trasformazione, in termini di scala o di unità di misura).
+Variabili molto comuni che spesso vengono create per facilitare i lavori di analisi sono: indicatori di dati mancanti, "tagliare a pezzi" (cut-up) variabili quantitative (forse intende creare classi di variabili) o applicare delle trasformazioni. 
+
+Per creare sequenze c'è se(a, b, by = x) che crea una sequenza da a fino a ad incrementi di x.
+Posso anche aggiungere la lunghezza length = y, che mi dice di creare y elementi. 
+
+X <- oggetto
+
+seq(along = X)
+Mi crea una sequenza della stessa lunghezza di X... ma ci sarebbero anche altri modi in effetti (come spesso accade in R).
+
+Una cosa molto utile può essere creare variabili binarie
+
+prova <- ifelse(<dati>  < 0, TRUE, FALSE)
+
+Mi da un vettore di true e false in base alla condizione. Se è rispettata mi da un TRUE, altrimenti un FALSE.
+Questi dati poi posso metterli in una table table(prova, <dati> < 0)
+
+
+Posso creare intervalli con la funzione  cut; dalla guida di R si ha che:
+
+cut divides the range of x into intervals and codes the values in x according to which interval they fall. The leftmost interval corresponds to level one, the next leftmost to level two and so on.	
+
+library(Hmisc) pacchetto
+
+cut2(<dati>, g =4)
+Mi taglia dati e mi mostra quanti ce ne sono per ogni quartile (con g = 4), oppure posso usare dei valori prova <- table(cut2(Z, -5:5))
+
+plyr e dplyr dove il secondo è una continuazione del primo che permette di avere comandi ad un livello più alto e tempi di esecuzione molto minori.
+Questo link è una spiegazione delle differenze.
+
+http://blog.rstudio.org/2014/01/17/introducing-dplyr/
+
+
+\section(RESHAPING DATA)
+
+
+\section{dplyr}
+In R e in statistica in genere i data frame sono molto importanti.
+Questo pacchetto si fonda sulla nozione di tidy data (almeno nelle basi) quindi ogni osservazione ha una riga e ogni colonna rappresenta una variabile o una misura o una caratteristica.
+Questo pacchetto sempre sviluppato da Wickham può essere interpretato come una versione migliorata e concentrata di plyr. Sostanzialmente non fornisce nuove funzioni ma opera una grandissima semplificazione di operazioni che già si possono fare.
+Molte delle operazioni sono scritte in C++ quindi è molto veloce.
+Questo pacchetto ha 5 "verbi"
+
+- arrange riordina righe
+- filter estrae un subset di righe
+- select da un subset delle colonne del data frame
+- mutate aggiunge variabili 
+- rename rinomina le variabili
+- summarise/summarize genera statitiche 
+
+Tutte queste funzioni hanno alcune caratteristiche simili.
+- il primo argomento è sempre un data frame.
+- l'argomento successivo descrive cosa fare con esso ed è possibile fare riferimento a colonne senza usare l'operatore $ ma semplicemente usando il nome
+- il risultato è un nuovo data frame
+
+
+\section{dplyr}
+
+Con select posso selezionare colonne di un data frame, specificandone solo il nome e senza il comando $. Posso anche selezionare un interallo di colonne usando l'operatore : , anche in questo caso uso solo i nomi. Infine con un segno meno davanti posso escludere dalla selezione colonne.
+
+select(<dati>, colonna1, colonna2)
+
+select(<dati>, colonna1:colonna5) # dalla uno alla cinque
+
+select(<dati>, -colonna3) # prendo tutto tranne la colonna 3.
+
+select(<dati>, -(colonna1:colonna5) ) # prende tutto tranne le colonne dalla uno alla cinque.
+
+Questo ovviamente si può fare normalmente solo che il codice sarebbe un pochino più lungo.
+
+i <- match("colonna1", names(<dati>) )
+j <- match("colonna5", names(<dati>) )
+<dati>[ , -(i:j) ]
+
+Il risultato è lo stesso solo che il codice è un pochino più complicato.
+
+
+La funzione successiva è filter che serve per selezionare righe in base a condizioni.
+
+filter(<dati>, colonna1esempio > x)
+filter(<dati>, colonna1esempio > x & colonna3 >= y)
+
+
+arrange ha lo scopo di riordinare le righe in base a condizioni.
+
+arrange(<dati>, colonna2)
+arrange(<dati>, desc(colonna2)) # ordine decrescente.
+
+rename serve per rinominare colonne.
+
+rename(<dati>, nuovo_nome = vecchio_nome_colonna1, nuovo_nome2 = colonna2)
+
+Mi cambia i nomi delle colonne specificate lasciando inalterati gli altri nomi.
+
+mutate è usata per trasformare o creare variabili all interno di un data frame.
+
+mutate(<dati>, colonna_nuova = colonna2 - mean(colonna2, na.rm = TRUE))
+
+
+group_by mi permette di raggruppare in base a valori di colonne e quindi ogni funzione che eseguirò sarà eseguita singolarmente per ogni "gruppo" anche se all'apparenza il data frame sembrerà lo stesso (tranne che per l'importantissima etichetta "Groups: <variabile>" che sarà presente in alto a sinistra).
+
+Quando si hanno colonne con date è possibile raggruppare per data. Prima si crea la colonna anno con mutate e poi si raggruppa per quest'ultima.
+
+<dati> <- mutate(<dati>, year = as.POSIXlt(date)$year + 1900) # dove $year è il nome della colonna che contiene già le date.
+
+dopo di che posso
+
+<dati_per_anni> <- group_by(<dati>, year)
+
+
+Il pacchetto dplyr implementa l'operatore chain che permette di concatenare diverse funzioni ed operazioni con un codice molto più snello. Esso semplicemente prende la fonte dei dati che sta alla sua sinistra e se la porta avanti ai comandi che sono alla sua destra. In questo modo posso scrivere la fonte dei dati e le funzioni successive senza indicarla.
+L'operatore chain è %>%
+
+
+
+\section{MERGING DATA}
+
+unire database. La funzione merge() è quella che fa al caso nostro.

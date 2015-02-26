@@ -1,0 +1,5 @@
+\select@language {italian}
+\select@language {italian}
+\contentsline {chapter}{\numberline {1}Le Basi}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}The name of the Game}{1}{section.1.1}
+\contentsline {chapter}{Aggiornamenti}{5}{section*.4}

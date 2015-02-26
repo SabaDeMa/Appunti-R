@@ -1,0 +1,33 @@
+\documentclass[11pt]{book}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, italian]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{microtype}
+\usepackage{indentfirst}
+\usepackage{anyfontsize}
+\usepackage{emptypage}
+\usepackage{listings}
+\lstset{	basicstyle = \sffamily,%
+		frame = lines,%
+		language = R,%
+		numbers = left,%
+		numberstyle = \small\sffamily,%
+		stepnumber = 1,%
+		tabsize = 4}
+\usepackage{amsmath ,amssymb, amsthm}
+\newcommand{\erre}{\textsf{\bfseries{R}}}
+\newcommand{\cod}{\textsf}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\begin{document}
+\frontmatter
+\input{front/cover}
+\input{front/lists}
+%------------------------------------------------
+\mainmatter
+\input{chapters/1}
+%------------------------------------------------
+\backmatter
+\input{chapters/change}
+\end{document}

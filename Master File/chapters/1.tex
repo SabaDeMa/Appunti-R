@@ -1,9 +1,74 @@
 \chapter{Le Basi}
-\section{The name of the Game}
+\section{Prime Cose Da Fare}
+La prima cosa da fare è innanzitutto installare \erre. Il software è disponibile a questo indirizzo, inoltre \textbf{dopo} aver installato \erre\ potete installare \textsf{RStudio}. Quest'ultimo è un \textsf{IDE} gratuito ed open-source che implementa alcune funzioni proprie, come la funzione \textsf{View( )}, rendendo l'uso di \erre\ più ``comodo'' ed orientato allo sviluppo.
+
+Un'altra importantissima cosa fare è impostare la lingua\dots\ in inglese.
+Quando le cose non vanno come dovrebbero \erre\ ci informa con dei messaggi di errore che seguono alla interruzione della esecuzione del comando dato oppure con degli avvertimenti (warnings) che ci informano che sebbene il comando sia stato eseguito, qualche cosa, per i più disparati motivi, non ha funzionato come avrebbe dovuto.
+
+Leggere ed interpretare questi messaggi, a volte criptici, può non essere facile all'inizio. Una cosa da fare potrebbe essere copiare l'errore ed inserirlo nel nostro motore di ricerca preferito per vedere se altri sfortunati utenti di \erre\ si sono imbattuti nella stessa fattispecie.
+
+Avere \erre\ localizzato in italiano, con messaggi di errore tradotti è una sicura limitazione delle probabilità di trovare una soluzione al nostro problema. È buona regola quindi sovrascrivere l'opzione di \erre, che di default legge nelle preferenze di sistema del nostro computer, forzando il sistema a ``parlare'' in inglese.
+
+Questo può essere ottenuto con il seguente codice in \erre:
+\begin{lstlisting}
+> system("defaults write org.R-project.R force.LANG en_US.UTF-8")
+\end{lstlisting}
+oppure con il seguente codice via terminale (o prompt dei comandi, o shell ecc.):
+\begin{lstlisting}
+> defaults write org.R-project.R force.LANG en_US.UTF-8
+\end{lstlisting}
+
+\section{Prime Cose da Sapere}
+Per imparare un software come \erre\ è necessario oltre che studiare, principalmente esercitarsi e mettere alla prova le proprie conoscenze. In \erre\ è presente un pacchetto con dei data set pre caricati molto utili per esercitarsi.
+
+Quasi sicuramente la vostra versione di \erre\ oltre ad avere già installato questo pacchetto, lo ha anche già caricato in automatico. Per verificare ciò usate la funzione \textsf{sessionInfo()} priva di argomenti.
+
+\begin{lstlisting}
+> sessionInfo()
+R version 3.1.2 (2014-10-31)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+[1] tools_3.1.2
+\end{lstlisting}
+
+La linea denominata \textsf{attached base packages:} fornisce i nomi dei pacchetti caricati, all'interno della quale potete leggere \textsf{datasets}.
+
+\subsection{Installare e caricare pacchetti}
+La funzione del paragrafo precedente restituisce informazioni sulla nostra versione di \erre\footnote{Come il nome in effetti suggerisce.}. Come si è detto la linea denominata \textsf{attached base packages:} fornisce i nomi dei pacchetti caricati. Qualora \textsf{datasets} non fosse presente caricatelo con il seguente comando:
+
+\begin{lstlisting}
+> library(datasets)
+\end{lstlisting}
+
+Qualora il pacchetto non fosse installato, e di conseguenza con il comando pretendente \erre\ vi restituisce un errore del tipo \textsf{Error in library(datasets) : there is no package called 'datasets'}  procedete alla installazione manuale del pacchetto con il seguente comando, dopodiché caricatelo con il comando precedente.
+
+\begin{lstlisting}
+> install.packages("datasets")
+\end{lstlisting}
+
+Grazie a questo comando il ``vostro'' \erre\ si connetterà con i databases di CRAN e scaricherà l'ultima versione di \textsf{datasets}. Questo procedimento è ovviamente valido per qualsiasi dei più di 4000 pacchetti presenti su CRAN.
+
+Da notare l'uso delle virgolette per installare il pacchetto, mentre l'assenza di queste per caricarlo con il comando \textsf{library}.
+
+Ci sono anche altre fonti per pacchetti che necessitano una procedura leggermente diversa per l'installazione ma per ora è meglio tralasciare questo aspetto.
+
+\section{The Name of the Game}
+
 Cercare un punto da cui partire per introdurre un argomento come \erre, che come vedremo è vastissimo, non è cosa facile.
 Un primo punto da cui partire è capire innanzitutto come ragione R e come sono le ``parole'' che usa, al fine di poter comunicare con questo software\footnote{\erre\ è si un software ma è anche un linguaggio derivato a sua volta da altri linguaggi di più basso livello, \cod{S} ed \cod{S-Plus}. Per ora, al fine di non introdurre troppi concetti si passi questa definizione superficiale.}
 
-La prima cosa da da capire sono i tipi di oggetti, con cui possiamo è possibile lavorare in \erre. Il primo tipo è costituito da ``atomic vector'', chiamati così in quanto sono l'unità fondamentale alla base di \erre.
+La prima cosa da da capire sono i tipi di oggetti, con cui possiamo è possibile lavorare in \erre.
+
+Sostanzialmente ogni cosa in \erre\ è un oggetto.
+
+Il primo tipo è costituito da ``atomic vector'', chiamati così in quanto sono l'unità fondamentale alla base di \erre.
 Proviamo ad esempio a creare e a stampare, semplicemente scrivendo il suo nome, un elemento che chiameremo first, costituito dal solo numero 1.
 
 \begin{lstlisting}
@@ -21,6 +86,8 @@ Tornando leggermente indietro, analizziamo il codice che ci ha permesso di crear
 Il primo importante operatore che abbiamo usato è stato \cod{<-} composto da un segno minore ed un segno meno. Importante è non inserire alcuno spazio tra questi due simboli. Questo operatore permette di definire oggetti, attribuire loro determinati valori in senso lato (quindi anche funzioni, matrici, ecc.).
 
 Un modo semplice per comprendere concettualmente questo operatore è quello di interpretarlo come una freccia (cosa che da un punto di vista grafico ricorda molto) che punta verso sinistra. In pratica è come se dicessimo ad \erre\ ``vedi questa stringa che ho digitato, first, assegnale il valore che è alla destra della freccia''.
+
+Infine a volte si potrebbe essere tentati di usare = in luogo di <- ma ciò oltre ad essere sconsigliato potrebbe causare problemi. Di fatto l'utilizzo del simbolo di uguaglianza è stato ritenuto per meri motivi di retro-compatibilità\footnote{Sia le linee guida di Google che su diversi forum proibiscono o sconsigliano l'uso semplice di un =. Alcuni link=1 sembra che le due cose abbiano funzioni diverse anche se provando l'esempio proposto in \erre entrambi funzionano.}.
 
 Il secondo, ed importantissimo, elemento introdotto è \cod{c( )}. Questa è una funzione che permette di combinare elementi e di generare, dalla combinazione di questi, un vettore.
 
@@ -59,3 +126,144 @@ Proviamo ora a creare e stampare a video un elemento, di nome second, composto d
 
 In questo caso avendo un numero di elementi maggiore di uno l'uso della funzione \cod{c( )} si rende necessario. Senza di essi infatti avremmo un errore.
 
+Un'altra fondamentale caratteristica è che un vettore in \erre\ può contenere solo oggetti appartenenti alla stessa classe. Per ora si tralasci il concetti di classe che sarà introdotto nel prosieguo e si rifletta sul semplice fatto che sia abbastanza logico aspettarsi che un software tratti un maniera diversa un numero, rispetto ad una lettera o rispetto ad un carattere o ancora rispetto ad un condizione di vero o falso e così via.
+
+Tuttavia se creo un vettore con oggetti appartenenti a classi diverse in realtà R non mi da errore ma forza la creazione del vettore stesso modificando gli oggetti in esso contenuti in modo tale da farli appartenere alla stessa classe. C’è una precisa gerarchia con cui \erre\ fa questa operazione.
+
+\subsection{Classi}
+
+La classe di un oggetto è sostanzialmente un attributo di quest'ultimo. Essa serve ad \erre\ per capire come relazionarsi con gli altri oggetti e a definire il comportamento dell'oggetto stesso. Per ora si considerino le seguenti classi di oggetti, ognuna delle quali ha fortissime implicazioni nel modo in cui \erre\ tratta gli oggetti:
+
+\begin{itemize}
+\item character (stringhe di caratteri)
+\item numerico (numeri reali)
+\item integer (che in realtà non sono numeri interi, ma ``livelli''), utile per descrivere ``mutabili'' e non ``variabili''
+\item numeri complessi
+\item logical (vero/falso)
+\end{itemize}
+
+\section{Working Directory}
+
+Una delle prime cose da impostare e capire in \erre è la working directory. Per vedere in quale cartella del nostro computer stiamo lavorando è necessario usare il codice:
+\begin{lstlisting}
+> getwd()
+[1] "/Users/sabatodemaio"
+\end{lstlisting}
+
+
+\section{List}
+Un altro tipo di oggetti usati in \erre\ sono le list. Le list sostanzialmente sono dei vettori, ma non degli atomic vectors. Le list sono definite recursive vectors perché sostanzialmente sono delle collezioni di oggetti che possono contenere elementi appartenenti a più classi diverse.
+
+Creiamo ora, con il comando \textsf{list( )} una lista chiamata impiegato, con alcune caratteristiche di quest'ultimo:
+
+\begin{lstlisting}
+> impiegato <- list(nome = "Mario", cognome = "Rossi", 
+stipendio = 100000, sindacato = TRUE)
+> impiegato
+$nome
+[1] "Mario"
+
+$cognome
+[1] "Rossi"
+
+$stipendio
+[1] 1e+05
+
+$sindacato
+[1] TRUE
+\end{lstlisting}
+
+Da notare che abbiamo usato per ogni caratteristica dei nomi, rappresentati dalle parole alla sinistra di ogni simbolo =; ciò può essere visto con il comando \textsf{names( )} che ci restituisce i nomi degli oggetti che compongono la lista.
+\begin{lstlisting}
+> names(impiegato)
+[1] "nome"      "cognome"   "stipendio" "sindacato"
+\end{lstlisting}
+
+Spesso per pratiche applicazione nominare gli elementi di una lista è molto utile. Il risultato comunque sarebbe stato lo stesso anche se non li avessimo usati; il seguente codice non utilizza nomi ma produce lo stesso risultato tranne che, ovviamente, per l'assenza dei nomi che \erre\ non restituisce non essendo stati specificati dall'utente.
+\begin{lstlisting}
+> impiegato1 <- list("Mario", "Rossi", 100000, TRUE)
+> impiegato1
+[[1]]
+[1] "Mario"
+
+[[2]]
+[1] "Rossi"
+
+[[3]]
+[1] 1e+05
+
+[[4]]
+[1] TRUE
+
+> names(impiegato1)
+NULL
+\end{lstlisting}
+
+\section{Matrici}
+
+In \erre\ una matrice è sostanzialmente un vettore con due attributi dimensionali: il numero delle righe ed il numero delle colonne. Gli attributi dimensionali a loro volta possono essere conservati in una altro vettore di interi.
+
+Essendo la matrice una particolare forma di vettore ne deriva che anche nelle matrici possono essere conservati dati appartenenti ad una sola classe.
+
+\section{Data Frame}
+
+Da un punto di vista concettuale i data frame possono essere considerati come delle matrici. Da un punto di vista più tecnico un data frame è una list i cui elementi sono dei vettori di uguale dimensione.
+
+Ne consegue che, per definizione di list, all'interno di un data frame possono essere conservati oggetti appartenenti a diverse classi; cosa non possibile cone le matrici.
+
+\section{Names}
+
+Dare dei nomi agli oggetti spesso può risultare molto utile. Sostanzialmente tutti gli oggetti in \erre\ possono avere nomi. È possibile attribuire il nome con funzione \textsf{names( )}. Nell'esempio, <oggetto> è un qualsiasi oggetto \erre\ che vogliamo rinominare, mentre <vettore> è un vettore contente i nomi, o anche solo il singolo nome (in questo caso ovviamente è possibile omettere la funzione \textsf{c( )} necessaria per creare vettori).
+
+\begin{lstlisting}
+names(<oggetto>) <- <vettore>
+\end{lstlisting}
+
+Il seguente esempio può sicuramente aiutare a meglio comprendere l'uso di questa funzione.
+
+\begin{lstlisting}
+> names(impiegato1)
+NULL
+> impiegato1
+[[1]]
+[1] "Mario"
+
+[[2]]
+[1] "Rossi"
+
+[[3]]
+[1] 1e+05
+
+[[4]]
+[1] TRUE
+
+> nomi <- c("nome", "cognome", "stipendio", "sindacato")
+> names(impiegato1) <- nomi
+> impiegato1
+$nome
+[1] "Mario"
+
+$cognome
+[1] "Rossi"
+
+$stipendio
+[1] 1e+05
+
+$sindacato
+[1] TRUE
+\end{lstlisting}
+
+\section{Factors}
+
+Factors sono usati per rappresentare dati a categorie (categorial data), caratteristiche non misurabili, o come spesso chiamati in statistica, ``mutabili'' quindi proprietà di unità statistiche che misurano caratteristiche di queste ultime piuttosto che valori variabili. Esempi possono essere il sesso, l'orientamento politico ecc.
+
+I factors possono essere pensati come un vettore che possiede alcune informazioni aggiuntive riguardo i valori che il vettore può assumere. Questi valori sono definiti livelli.
+
+\begin{lstlisting}
+> partiti <- factor(c("PD", "FI", "M5S", "LN", "NCD"))
+> partiti
+[1] PD  FI  M5S LN  NCD
+Levels: FI LN M5S NCD PD
+\end{lstlisting}
+% link=1 
+% http://stackoverflow.com/questions/1741820/assignment-operators-in-r-and

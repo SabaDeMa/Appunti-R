@@ -1,0 +1,99 @@
+\chapter{Funzioni della famiglia apply}
+\section{Scopo}
+
+Molto spesso nelle pratiche applicazioni  al fine di condurre nel migliore dei modi la nostra analisi si rende necessario applicare una stessa funzione a una serie di elementi.
+
+Il modo principale per ottenere ciò è attraverso la creazione di un apposito loop (una ripetizione consecutiva un numero di volte) con i costrutti di \erre\ a questo scopo preposti come \textsf{for}, \textsf{if}, eccetera.
+
+Spesso però, con operazioni abbastanza frequenti (come la somma di tutti i valori di una colonna ad esempio) lo stesso risultato si può ottenere con una famiglia di funzioni appositamente costruita per sfruttare le caratteristiche proprie degli oggetti a cui si applicano ed ottenere lo stesso risultato di un loop ma con meno codice.
+
+Queste funzioni appartengo alla cosiddetta famiglia \textsf{apply}.
+
+\section{apply}
+La prima di queste funzioni è \textsf{apply}. Questa funzione opera in maniera molto semplice permettendo con poco codice di applicare un'altra funzione, da specificare all'interno di \textsf{apply}, su una dimensione di un oggetto array e quindi anche sulla forma più basilare di array, un array bidimensionale o più volgarmente, una matrice.
+
+Nella esecuzione non è più veloce di un loop (lo era nelle prime versioni del linguaggio \textsf{S}), è però molto più pratica in quanto come si è detto, richiede molto meno codice.
+
+La sintassi è la seguente:
+\begin{lstlisting}
+apply(<array>, <dimensione>, <funzione>)
+\end{lstlisting}
+
+Dove con array abbiamo un oggetto ti tipo array anche multidimensionale ma anche un data frame, con funzione abbiamo il nome e soltanto il nome di una funzione da applicare e con dimensione abbiamo una delle dimensioni dell'oggetto.
+
+La particolarità da ricordare onde evitare di incorrere in errori, è che l'oggetto \textsf{<funzione>} all'interno di \textsf{lapply} va inserito senza alcuna parentesi. In pratica va scritto solo il nome della funzione usata. Ad esempio se vogliamo la media, dobbiamo usare la funzione \textsf{mean} e scrivere solo il nome di quest'ultima.
+
+Fondamentale è anche capire il concetto di dimensione. Banalmente una matrice (che è un array bidimensionale), ha appunto due dimensioni: righe e colonne. Ne consegue che quindi specificando 1 la funzione \textsf{<funzione>} all'interno di \textsf{<array>} sarà applicata alle righe mentre con 2 sarà applicata alle colonne.
+
+Vediamo un esempio in cui creiamo un data frame usando due vettori di valori e successivamente applichiamo a quest'ultimo la funzione \textsf{sd} al fine di trovare la deviazione standard di ogni colonna.
+\begin{lstlisting}
+> valori1 <- c(1:5)
+> valori1
+[1] 1 2 3 4 5
+> valori2 <- c(10:15)
+> valori2
+[1] 10 11 12 13 14
+>
+> dataF <- data.frame(valori1, valori2)
+> dataF
+  valori1 valori2
+1       1      10
+2       2      11
+3       3      12
+4       4      13
+5       5      14
+> apply(dataF, 2, sd)
+ valori1  valori2 
+1.581139 1.581139 
+\end{lstlisting}
+
+Alcune considerazioni sull'esempio precedente:
+\begin{itemize}
+\item la funzione \textsf{apply} si applica a data frame e array ed ha come output una lvettore di elementi; come si vedrà non sempre l'output è un oggetto vettore.
+\item è stato utilizzato l'operatore \textsf{colon} dato dai due puntini \textsf{< : >} per creare una sequenza di numeri da 1 a 5 e da 10 a 14, quindi per ottenere due vettori di 5 elementi.
+\item la lunghezza dei vettori da unire nel data frame deve essere uguale altrimenti \erre\ avrebbe restituito un errore.
+\item il numero 2 usato come secondo elemento della funzione \textsf{apply} sta ad indicare la seconda dimensione del nostro oggetto e cioè le colonne. Sarebbe stato possibile calcolare la deviazione standard per ogni riga specificando la dimensione 1 e cioè righe.
+\end{itemize}
+
+
+\section{lapply e sapply}
+
+La seconda di queste funzioni è \textsf{lapply}, diminutivo di list apply. L'idea alla base di questa funzione è che data una lista di oggetti \textsf{lapply} applica una determinata funzione a tutti gli elementi di quella lista, quindi ad ogni singolo oggetto.
+
+Questo oltre ad essere molto utile per oggetti che sono liste in senso stretto ha anche altre implicazioni. A ben ricordare un data frame non è altro che una list composta da vettori di eguali dimensioni.
+
+La funzione lapply quindi prende ogni colonna del data frame, che in realtà non è altro che un elemento vettore a sua volta parte del data frame che è una list, e vi applica una specifica funzione. Ne consegue che è come se avessimo creato un loop per tutte le colonne (ma anche le righe) di un data frame.
+
+La sintassi è molto semplice:
+\begin{lstlisting}
+lapply(<dataframe>, <funzione>)
+\end{lstlisting}
+
+Ecco un esempio in cui creiamo un data frame usando due vettori di valori e successivamente applichiamo a quest'ultimo la funzione \textsf{sd} al fine di trovare la deviazione standard di ogni colonna.
+
+\begin{lstlisting}
+> dataF
+  valori1 valori2
+1       1      10
+2       2      11
+3       3      12
+4       4      13
+5       5      14
+>
+> lapply(dataF, sd)
+$valori1
+[1] 1.581139
+
+$valori2
+[1] 1.581139
+\end{lstlisting}
+
+Come già detto, con \textsf{lapply} si ottiene come output un oggetto di classe list. Ciò a volte potrebbe non essere desiderabile e per ottenere un oggetto di tipo vettore, in \erre\ è implementata un'altra funzione che lavora esattamente come \textsf{lapply} ma semplifica il risultato offrendo come output un vettore. Questa funzione è \textsf{sapply}, che sta per simplified lapply.
+
+Ecco un esempio usando il data frame creato in precedenza.
+
+\begin{lstlisting}
+> sapply(dataF, sd)
+ valori1  valori2 
+1.581139 1.581139 
+\end{lstlisting}

@@ -58,7 +58,7 @@ Alcune considerazioni sull'esempio precedente:
 
 \section{lapply e sapply}
 
-La seconda di queste funzioni è \textsf{lapply}, diminutivo di list apply. L'idea alla base di questa funzione è che data una lista di oggetti \textsf{lapply} applica una determinata funzione a tutti gli elementi di quella lista, quindi ad ogni singolo oggetto.
+La seconda di queste funzioni è \textsf{lapply}\footnote{È una funzione definita internamente in C.}, diminutivo di list apply. L'idea alla base di questa funzione è che data una lista di oggetti \textsf{lapply} applica una determinata funzione a tutti gli elementi di quella lista, quindi ad ogni singolo oggetto.
 
 Questo oltre ad essere molto utile per oggetti che sono liste in senso stretto ha anche altre implicazioni. A ben ricordare un data frame non è altro che una list composta da vettori di eguali dimensioni.
 
@@ -97,3 +97,106 @@ Ecco un esempio usando il data frame creato in precedenza.
  valori1  valori2 
 1.581139 1.581139 
 \end{lstlisting}
+
+\section{tapply}
+La funzione \textsf{tapply} è usata per applicare una funzione su sottoinsiemi di un oggetto matrice o data frame o array, divisi secondo particolari istruzioni definite da un altro sottoinsieme dello stesso oggetto\footnote{Ma anche di altri in effetti.}. 
+
+Immaginiamo di avere un vettore numerico e di voler applicare una funzione a sottoinsiemi di questo vettore basati su alcuni caratteristiche definite da un altro vettore (che quasi sempre è un factor). In pratica \textsf{tapply} divide un vettore in pezzi più piccoli ed applica la funzione ad ognuno di questi.
+
+È molto utile vedere un esempio. Supponiamo di misurare per un gruppo di sei persone, il loro sesso e il loro reddito. Al fine di condurre una ricerca su una eventuale differenza di reddito tra uomini e donne sarebbe utile con i nostri dati calcolare la media del reddito per ogni gruppo: uomini e donne.
+
+Per prima cosa creiamo un data base e successivamente usiamo la funzione
+\textsf{tapply} per applicare la funzione \textsf{mean} (media), sulla colonna reddito suddivisa però sulla base dei due livelli presenti nella colonna genere, quindi per sesso maschile e femminile.
+
+\begin{lstlisting}
+> d <- data.frame( list( genere = c("M","M","F","M","F","F"), 
+reddito = c(55000,88000,32450,76500,123000,45650) ) )
+> d
+  genere reddito
+1      M   55000
+2      M   88000
+3      F   32450
+4      M   76500
+5      F  123000
+6      F   45650
+> tapply(d$reddito, d$genere, mean)
+       F        M 
+67033.33 73166.67
+\end{lstlisting}
+
+L'output è composto dalle due medie della colonna reddito, una calcolata sulla base del fattore M e l'altra sulla base del fattore F.
+
+
+\section{mapply}
+
+Da un punto di vista concettuale \textsf{mapply} potrebbe essere quella più tricky. La forza di \textsf{mapply} sta nel fatto di poter essere applicata ad elementi multipli. Il funzionamento è il seguente: dati due (o più) oggetti \erre, ad esempio due vettori di uguale lunghezza, \textsf{mapply} estrae il primo elemento di ognuno e vi applica la funziona specificata, dopodiché estrae il secondo elemento di ogni oggetto e vi applica la funzione, dopodiché estrae il terzo elemento di ogni oggetto e vi applica la funzione\dots\ e così via fino a che tutti gli elementi di tutti gli oggetti non sono stati trattati.
+
+Come al solito un esempio può essere chiarificatore.
+
+Supponiamo di avere due vettori p1 e p2 e di voler sommare il primo elemento di p1 con il primo di p2, il secondo di p1 con il secondo di p2 ecc.
+
+\begin{lstlisting}
+> p1 <- c(1:5)
+> p2 <- c(10:14)
+> mapply( "+" , p1, p2)
+[1] 11 13 15 17 19
+\end{lstlisting}
+
+Considerazioni sull'esempio:
+\begin{itemize}
+\item l'esempio è volutamente banale; lo stesso risultato si sarebbe potuto avere semplicemente con \textsf{> p1 + p2}, alcuni esempi più complessi si avranno nei successivi paragrafi. 
+\item si noti l'uso delle virgolette nello specificare la funzione somma.
+\item il semplice operatore di addizione, il simbolo ``+'', è in realtà una funzione.
+\end{itemize}
+
+\subsection{Introduzione alle anonymous functions}
+
+Al fine di meglio comprendere la funzione \textsf{mapply} fornendo esempi più complessi, si introducono brevemente le anonymous functions molto usate dalle funzioni della famiglia \textsf{apply}. Le anonymous functions sono funzioni che non hanno un nome perché definite solo all'interno della funzione (\textsf{mapply}, ma anche \textsf{apply}, \textsf{sapply} ed altre) che di esse si serve ed usate solo al suo interno. Una volta eseguite, sostanzialmente spariscono.
+
+Un esempio semplice è rappresentato dal seguente codice che sostanzialmente istruisce \erre\ su una funzione composta da due argomenti x ed y che restituisce come output un valore dato dalla potenza del primo, x, elevato alla seconda, y.
+
+\begin{lstlisting}
+function(x,y) x^y
+\end{lstlisting}
+
+
+\subsection{mapply: esempi con le anonymous functions}
+
+Ora che brevemente sono state introdotte le anonymous functions è possibile sfruttarle per costruire qualche esempio più complesso su come utilizzare la funzione \textsf{mapply}.
+
+Supponiamo di avere tre vettori di eguale lunghezza 
+\begin{lstlisting}
+> p1 <- c(1:5)
+> p2 <- c(10:14)
+> p3 <- c(-1, 1, -1, 2, 1)
+\end{lstlisting}
+
+Usiamo questi vettori e la funzione \textsf{mapply} per ottenere quel valore dato dalla quoziente avente al numeratore il prodotto del primo elemento di p1, moltiplicato il primo elemento di p2 e come denominatore il primo elemento di p3.
+
+\begin{lstlisting}
+> mapply( function(x, y, z) (x*y)/z , p1, p2, p3)
+[1] -10  22 -36  26  70
+\end{lstlisting}
+
+Una simile funzione in \erre\ non esiste ecco perché si è reso necessario definirla all'interno della funzione \textsf{mapply}.
+
+Un altro esempio illustrativo potrebbe essere il seguente che fa uso della funzione \textsf{rep(<valore>, <volte>)}, che sostanzialmente ripete il <valore> un numero di <volte>.
+\begin{lstlisting}
+> mapply( function(x,y,z){ rep(y, x) * z } , p1, p2, p3)
+[[1]]
+[1] -10
+
+[[2]]
+[1] 11 11
+
+[[3]]
+[1] -12 -12 -12
+
+[[4]]
+[1] 26 26 26 26
+
+[[5]]
+[1] 14 14 14 14 14
+\end{lstlisting}
+
+Come prima la funzione anonima function ha tre elementi. Essa è istruita per prendere il primo elemento di p1, ripeterlo un numero di volte pari al numero del primo elemento p2 e moltiplicare questo output per il primo elemento di p3. Così per tutti gli elementi i-esimi dei tre vettori di eguale lunghezza.

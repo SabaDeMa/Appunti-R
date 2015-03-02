@@ -6,15 +6,25 @@
 \usepackage{microtype}
 \usepackage{indentfirst}
 \usepackage{anyfontsize}
+\usepackage{xcolor}
 \usepackage{emptypage}
 \usepackage{listings}
 \lstset{	basicstyle = \sffamily,%
 		frame = lines,%
 		language = R,%
+		breaklines = true,%
+		stringstyle = \color[HTML]{424242},%
+		identifierstyle = \color[HTML]{424242},%
+		keywordstyle = \color[HTML]{0D47A1},%
+		breakatwhitespace = true,%
+		numberblanklines = false,%
+		showstringspaces = false,%
 		numbers = left,%
-		numberstyle = \small\sffamily,%
+		numberstyle = \tiny\sffamily,%
 		stepnumber = 1,%
-		tabsize = 4}
+		tabsize = 4
+		}
+
 \usepackage{amsmath ,amssymb, amsthm}
 \newcommand{\erre}{\textsf{R}}
 \newcommand{\cod}{\textsf}

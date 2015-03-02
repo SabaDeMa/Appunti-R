@@ -55,13 +55,60 @@ Qualora il pacchetto non fosse installato, e di conseguenza con il comando prete
 
 Grazie a questo comando il ``vostro'' \erre\ si connetterà con i databases di CRAN e scaricherà l'ultima versione di \textsf{datasets}. Questo procedimento è ovviamente valido per qualsiasi dei più di 4000 pacchetti presenti su CRAN.
 
-Da notare l'uso delle virgolette per installare il pacchetto, mentre l'assenza di queste per caricarlo con il comando \textsf{library}.
+Da notare l'uso delle virgolette per installare il pacchetto, mentre l'assenza di queste per caricarlo con il comando \textsf{library}. Non preoccupatevi se inizieranno a comparire diversi messaggi sulla console: \erre\ vi informerà di essersi connesso e di aver iniziato il processo di download del file richiesto.
 
 Ci sono anche altre fonti per pacchetti che necessitano una procedura leggermente diversa per l'installazione ma per ora è meglio tralasciare questo aspetto.
 
 \subsection{Imparare \erre\ in \erre: il pacchetto swirl}
 
-Ora che si conosce la procedura per installare e caricare un pacchetto, il primo da installare è sicuramente \href{http://swirlstats.com}{swirl}. Questo pacchetto offre all'interno di \erre\ diverse lezioni su molti argomenti base del software che, guidando l'utente passo dopo passo, permettono di acquisire oltre a nozioni pratiche, la dimestichezza con l'interfaccia. 
+Ora che si conosce la procedura per installare e caricare un pacchetto, il primo da installare è sicuramente \href{http://swirlstats.com}{swirl}. Questo pacchetto offre all'interno di \erre\ diverse lezioni su molti argomenti base del software che, guidando l'utente passo dopo passo, permettono di acquisire oltre a nozioni pratiche, la dimestichezza con l'interfaccia.
+
+\subsection{La working directory}
+
+Concetto fondamentale in \erre\ è la cosiddetta working directory, lo spazio lavoro dell'utente, il luogo logico del nostro computer dove \erre\ va a cercare i file da caricare ed eventualmente dove salvare i file che noi decidiamo di salvare.
+
+Per sapere quale sia la nostra working directory usiamo il seguente comando che produce come output il percorso della cartella usata da \erre\ come working directory.
+
+\begin{lstlisting}
+> getwd()
+[1] "/Users/sabatodemaio"
+\end{lstlisting}
+
+Supponiamo che la cartella che \erre\ ha impostato di default non sia di nostro gradimento, ad esempio potremmo voler spostare la nostra working directory in una cartella condivisa con altri utenti, una cartella condivisa con il cloud ad esempio.
+
+Per impostare la working directory è necessario usare il seguente comando:
+
+\begin{lstlisting}
+> setwd("/Users/sabatodemaio/dropbox")
+\end{lstlisting}
+
+Ovviamente la cartella di destinazione deve esistere.
+
+Per vedere all'interno della nostra working directory le sotto-cartelle ed i file presenti, molto utile è il comando seguente che restituisce come output un atomic vector di class ``character'' con tutti gli elementi presenti nella wd.
+
+\begin{lstlisting}
+> list.files()
+ [1] "Applications"        "datasciencecoursera"
+ [3] "Desktop"             "Documenti"          
+ [5] "Documents"           "Downloads"          
+ [7] "Dropbox"             "GetClean"           
+ [9] "knime-workspace"     "Library"            
+[11] "Movies"              "Music"              
+[13] "Pictures"            "Public"             
+[15] "Rom Lollipop"        "UCI HAR Dataset"    
+[17] "wekafiles"          
+\end{lstlisting}
+
+
+Altri comandi molto utili per lavorare, settare ed esplorare la working directory sono i seguenti:
+\begin{itemize}
+
+\item \lstinline!dir.create("<nome>")! permette di creare all'interno della working directory una cartella con il nome indicato da \textsf{<nome>}
+\item \lstinline!file.info("<nome>")! permette di ottenere informazioni su di un file o su una cartella specificata dal \textsf{<nome>} all'interno della working directory
+\item \lstinline!file.rename("nuovo", "vecchio")!  permette di rinominare un file o una cartella
+\item \lstinline!file.exists("<nome>")! permette di verificare se all'interno della working directory è presente un file denominato \textsf{nome}. Restituisce \textsf{TRUE} se la il file esiste e \textsf{FALSE} in caso contrario.
+\item \lstinline!unlink("testdir2", recursive = TRUE)! permette di cancellare un file o una cartella all'interno della working directory\footnote{Potrebbe apparire più logico aver creato questo comando con il nome \textsf{dir.delete} ma probabilmente gli autori di \erre\ erano degli utenti Linux.}. L'argomento \lstinline!recursive = TRUE! permette ad \erre\ di accertare che l'utente è al corrente che all'interno della cartella che si vuole eliminare sono presenti altri file. Se non specificato, \erre\ restituisce un errore al fine di avvertirci che all'interno della directory che noi abbiamo deciso di eliminare ci sono altri files o cartelle. In effetti \erre\ vuole metterci in guardia dal cancellare in modo maldestro files utili presenti all'interno della cartella che stiamo per eliminare.
+\end{itemize}
 
 \section{The Name of the Game}
 

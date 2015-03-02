@@ -1,6 +1,6 @@
 \chapter{Le Basi}
 \section{Prime Cose Da Fare}
-La prima cosa da fare è innanzitutto installare \erre. Il software è disponibile a questo indirizzo, inoltre \textbf{dopo} aver installato \erre\ potete installare \textsf{RStudio}. Quest'ultimo è un \textsf{IDE} gratuito ed open-source che implementa alcune funzioni proprie, come la funzione \textsf{View( )}, rendendo l'uso di \erre\ più ``comodo'' ed orientato allo sviluppo.
+La prima cosa da fare è innanzitutto installare \erre. Il software è disponibile a questo indirizzo, inoltre \textbf{dopo} aver installato \erre\ potete installare \textsf{RStudio}. Quest'ultimo è un \textsf{IDE} gratuito ed open-source che implementa alcune funzioni proprie, come la funzione \lstinline!View( )!, rendendo l'uso di \erre\ più ``comodo'' ed orientato allo sviluppo.
 
 Un'altra importantissima cosa fare è impostare la lingua\dots\ in inglese.
 Quando le cose non vanno come dovrebbero \erre\ ci informa con dei messaggi di errore che seguono alla interruzione della esecuzione del comando dato oppure con degli avvertimenti (warnings) che ci informano che sebbene il comando sia stato eseguito, qualche cosa, per i più disparati motivi, non ha funzionato come avrebbe dovuto.
@@ -21,7 +21,7 @@ oppure con il seguente codice via terminale (o prompt dei comandi, o shell ecc.)
 \section{Prime Cose da Sapere}
 Per imparare un software come \erre\ è necessario oltre che studiare, principalmente esercitarsi e mettere alla prova le proprie conoscenze. In \erre\ è presente un pacchetto con dei data set pre caricati molto utili per esercitarsi.
 
-Quasi sicuramente la vostra versione di \erre\ oltre ad avere già installato questo pacchetto, lo ha anche già caricato in automatico. Per verificare ciò usate la funzione \textsf{sessionInfo()} priva di argomenti.
+Quasi sicuramente la vostra versione di \erre\ oltre ad avere già installato questo pacchetto, lo ha anche già caricato in automatico. Per verificare ciò usate la funzione \lstinline!sessionInfo()! priva di argomenti.
 
 \begin{lstlisting}
 > sessionInfo()
@@ -38,24 +38,24 @@ loaded via a namespace (and not attached):
 [1] tools_3.1.2
 \end{lstlisting}
 
-La linea denominata \textsf{attached base packages:} fornisce i nomi dei pacchetti caricati, all'interno della quale potete leggere \textsf{datasets}.
+La linea denominata \lstinline!attached base packages:! fornisce i nomi dei pacchetti caricati, all'interno della quale potete leggere \lstinline!datasets!.
 
 \subsection{Installare e caricare pacchetti}
-La funzione del paragrafo precedente restituisce informazioni sulla nostra versione di \erre\footnote{Come il nome in effetti suggerisce.}. Come si è detto la linea denominata \textsf{attached base packages:} fornisce i nomi dei pacchetti caricati. Qualora \textsf{datasets} non fosse presente caricatelo con il seguente comando:
+La funzione del paragrafo precedente restituisce informazioni sulla nostra versione di \erre\footnote{Come il nome in effetti suggerisce.}. Come si è detto la linea denominata \lstinline!attached base packages:! fornisce i nomi dei pacchetti caricati. Qualora \lstinline!datasets! non fosse presente caricatelo con il seguente comando:
 
 \begin{lstlisting}
 > library(datasets)
 \end{lstlisting}
 
-Qualora il pacchetto non fosse installato, e di conseguenza con il comando pretendente \erre\ vi restituisce un errore del tipo \textsf{Error in library(datasets) : there is no package called 'datasets'}  procedete alla installazione manuale del pacchetto con il seguente comando, dopodiché caricatelo con il comando precedente.
+Qualora il pacchetto non fosse installato, e di conseguenza con il comando pretendente \erre\ vi restituisce un errore del tipo \lstinline!Error in library(datasets) : there is no package called 'datasets'!  procedete alla installazione manuale del pacchetto con il seguente comando, dopodiché caricatelo con il comando precedente.
 
 \begin{lstlisting}
 > install.packages("datasets")
 \end{lstlisting}
 
-Grazie a questo comando il ``vostro'' \erre\ si connetterà con i databases di CRAN e scaricherà l'ultima versione di \textsf{datasets}. Questo procedimento è ovviamente valido per qualsiasi dei più di 4000 pacchetti presenti su CRAN.
+Grazie a questo comando il ``vostro'' \erre\ si connetterà con i databases di CRAN e scaricherà l'ultima versione di \lstinline!datasets!. Questo procedimento è ovviamente valido per qualsiasi dei più di 4000 pacchetti presenti su CRAN.
 
-Da notare l'uso delle virgolette per installare il pacchetto, mentre l'assenza di queste per caricarlo con il comando \textsf{library}. Non preoccupatevi se inizieranno a comparire diversi messaggi sulla console: \erre\ vi informerà di essersi connesso e di aver iniziato il processo di download del file richiesto.
+Da notare l'uso delle virgolette per installare il pacchetto, mentre l'assenza di queste per caricarlo con il comando \lstinline!library!. Non preoccupatevi se inizieranno a comparire diversi messaggi sulla console: \erre\ vi informerà di essersi connesso e di aver iniziato il processo di download del file richiesto.
 
 Ci sono anche altre fonti per pacchetti che necessitano una procedura leggermente diversa per l'installazione ma per ora è meglio tralasciare questo aspetto.
 
@@ -103,11 +103,11 @@ Per vedere all'interno della nostra working directory le sotto-cartelle ed i fil
 Altri comandi molto utili per lavorare, settare ed esplorare la working directory sono i seguenti:
 \begin{itemize}
 
-\item \lstinline!dir.create("<nome>")! permette di creare all'interno della working directory una cartella con il nome indicato da \textsf{<nome>}
-\item \lstinline!file.info("<nome>")! permette di ottenere informazioni su di un file o su una cartella specificata dal \textsf{<nome>} all'interno della working directory
+\item \lstinline!dir.create("<nome>")! permette di creare all'interno della working directory una cartella con il nome indicato da \lstinline!<nome>!
+\item \lstinline!file.info("<nome>")! permette di ottenere informazioni su di un file o su una cartella specificata dal \lstinline!<nome>! all'interno della working directory
 \item \lstinline!file.rename("nuovo", "vecchio")!  permette di rinominare un file o una cartella
-\item \lstinline!file.exists("<nome>")! permette di verificare se all'interno della working directory è presente un file denominato \textsf{nome}. Restituisce \textsf{TRUE} se la il file esiste e \textsf{FALSE} in caso contrario.
-\item \lstinline!unlink("testdir2", recursive = TRUE)! permette di cancellare un file o una cartella all'interno della working directory\footnote{Potrebbe apparire più logico aver creato questo comando con il nome \textsf{dir.delete} ma probabilmente gli autori di \erre\ erano degli utenti Linux.}. L'argomento \lstinline!recursive = TRUE! permette ad \erre\ di accertare che l'utente è al corrente che all'interno della cartella che si vuole eliminare sono presenti altri file. Se non specificato, \erre\ restituisce un errore al fine di avvertirci che all'interno della directory che noi abbiamo deciso di eliminare ci sono altri files o cartelle. In effetti \erre\ vuole metterci in guardia dal cancellare in modo maldestro files utili presenti all'interno della cartella che stiamo per eliminare.
+\item \lstinline!file.exists("<nome>")! permette di verificare se all'interno della working directory è presente un file denominato \textsf{nome}. Restituisce \lstinline!TRUE! se la il file esiste e \lstinline!FALSE! in caso contrario.
+\item \lstinline!unlink("testdir2", recursive = TRUE)! permette di cancellare un file o una cartella all'interno della working directory\footnote{Potrebbe apparire più logico aver creato questo comando con il nome \lstinline!dir.delete! ma probabilmente gli autori di \erre\ erano degli utenti Linux.}. L'argomento \lstinline!recursive = TRUE! permette ad \erre\ di accertare che l'utente è al corrente che all'interno della cartella che si vuole eliminare sono presenti altri file. Se non specificato, \erre\ restituisce un errore al fine di avvertirci che all'interno della directory che noi abbiamo deciso di eliminare ci sono altri files o cartelle. In effetti \erre\ vuole metterci in guardia dal cancellare in modo maldestro files utili presenti all'interno della cartella che stiamo per eliminare.
 \end{itemize}
 
 \section{The Name of the Game}
@@ -205,7 +205,7 @@ Una delle prime cose da impostare e capire in \erre è la working directory. Per
 \section{List}
 Un altro tipo di oggetti usati in \erre\ sono le list. Le list sostanzialmente sono dei vettori, ma non degli atomic vectors. Le list sono definite recursive vectors perché sostanzialmente sono delle collezioni di oggetti che possono contenere elementi appartenenti a più classi diverse.
 
-Creiamo ora, con il comando \textsf{list( )} una lista chiamata impiegato, con alcune caratteristiche di quest'ultimo:
+Creiamo ora, con il comando \lstinline!list( )! una lista chiamata impiegato, con alcune caratteristiche di quest'ultimo:
 
 \begin{lstlisting}
 > impiegato <- list(nome = "Mario", cognome = "Rossi", 
@@ -224,7 +224,7 @@ $sindacato
 [1] TRUE
 \end{lstlisting}
 
-Da notare che abbiamo usato per ogni caratteristica dei nomi, rappresentati dalle parole alla sinistra di ogni simbolo =; ciò può essere visto con il comando \textsf{names( )} che ci restituisce i nomi degli oggetti che compongono la lista.
+Da notare che abbiamo usato per ogni caratteristica dei nomi, rappresentati dalle parole alla sinistra di ogni simbolo =; ciò può essere visto con il comando \lstinline!names( )! che ci restituisce i nomi degli oggetti che compongono la lista.
 \begin{lstlisting}
 > names(impiegato)
 [1] "nome"      "cognome"   "stipendio" "sindacato"
@@ -264,7 +264,7 @@ Ne consegue che, per definizione di list, all'interno di un data frame possono e
 
 \section{Names}
 
-Dare dei nomi agli oggetti spesso può risultare molto utile. Sostanzialmente tutti gli oggetti in \erre\ possono avere nomi. È possibile attribuire il nome con funzione \textsf{names( )}. Nell'esempio, <oggetto> è un qualsiasi oggetto \erre\ che vogliamo rinominare, mentre <vettore> è un vettore contente i nomi, o anche solo il singolo nome (in questo caso ovviamente è possibile omettere la funzione \textsf{c( )} necessaria per creare vettori).
+Dare dei nomi agli oggetti spesso può risultare molto utile. Sostanzialmente tutti gli oggetti in \erre\ possono avere nomi. È possibile attribuire il nome con funzione \lstinline!names( )!. Nell'esempio, <oggetto> è un qualsiasi oggetto \erre\ che vogliamo rinominare, mentre <vettore> è un vettore contente i nomi, o anche solo il singolo nome (in questo caso ovviamente è possibile omettere la funzione \lstinline!c( )! necessaria per creare vettori).
 
 \begin{lstlisting}
 names(<oggetto>) <- <vettore>

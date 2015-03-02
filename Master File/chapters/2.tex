@@ -98,6 +98,12 @@ Ecco un esempio usando il data frame creato in precedenza.
 1.581139 1.581139 
 \end{lstlisting}
 
+Questa funzione opera dietro le quinte una semplificazione del risultato ottenuto, ma per far ciò deve cercare in qualche modo di capire quale potrebbe essere un risultato semplificato.
+
+Questo processo che \textsf{sapply} esegue in background, con basi di dati di grosse dimensioni potrebbe essere abbastanza lento per i normali tempi di esecuzione e a volte anche per l'utente che potrebbe avvertire il lungo tempo di esecuzione.
+
+Per ovviare a ciò potrebbe essere utile usare la funzione \textsf{vapply} che richiede un terzo argomento obbligatorio che indica il formato di output desiderato. In questo modo la computazione è molto più veloce perché la funzione sa già cosa deve restituite. Tuttavia \erre\ fa esattamente ciò che l'utente dice di fare a meno che non si tratti di qualcosa di impossibile, è bene quindi prestare attenzione a non richiedere un formato di output impossibile per i dati che \textsf{vapply} deve processare.
+
 \section{tapply}
 La funzione \textsf{tapply} è usata per applicare una funzione su sottoinsiemi di un oggetto matrice o data frame o array, divisi secondo particolari istruzioni definite da un altro sottoinsieme dello stesso oggetto\footnote{Ma anche di altri in effetti.}. 
 

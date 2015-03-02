@@ -1,0 +1,391 @@
+\chapter{Trovare e Pulire i Dati}
+Questo capitolo si focalizza sul fatto che spesso in qualsiasi pratica applicazione i dati necessari alla nostra analisi, tranne poche eccezioni, non solo non sono formattati bene ma addirittura richiedono alcune procedure di pulizia. Solo in rari casi i dati sono già pronti per eventuali analisi\footnote{Un esempio sono i dati relativi ai prezzi di attivi finanziari scaricabili da Yahoo! Finance.}.
+
+Spesso accade che i dati siano totalmente grezzi, privi di forma e che quindi si renda necessario implementare procedure ed utilizzare strumenti per estrarre da questa massa  di informazioni, quelle rilevanti alla analisi che si vuole fare. Altre volte invece i dati sono ben formattati e/o strutturati ma lo sono in formati
+diversi da quelli che generalmente si usano (come Json ad esempio). Spesso accade che i dati devono essere estratti da strutture più complesse, come ad esempio delle basi di dati (mySQL, MongoDB ecc.).
+
+In tutte queste fattispecie è evidente che una parte dell'analisi non può essere condotta se non prima aver ottenuto i dati.
+
+
+\section{RAW}
+
+"data are values of qualitative or quantitative variables, belonging to a set of items"
+
+Dove set of items sono la popolazione (o il campione) l'insieme oggetto dell'analisi, l'oggetto dell'interesse della ricerca.
+
+
+I dati raw sono la fonte originale dei dati, sono difficili da manipolare per 
+l'analisi.
+I dati processati sono già pronti per l'analisi.
+Importante è capire il processing (che è parte della analisi quindi analisi non è solo l'analisi in senso stresso!) dei dati perché si possono avere effetti a valle per operazioni fatte a monte. In pratica il modo in cui dai dati raw passo a dati ordinati 
+e pronti per l'analisi può influire sui risultati.
+È bene oltre che seguire best practies routine consolidate, anche registrare assolutamente
+tutti i passaggi.
+I dati ordinati sono dati già pronti per l'analisi che sono stati già processati.
+Registrare tutti i passaggi sia per quanto riguarda il processing (il o i passaggi che dai raw portano ai dati ordinati) sia per quanto riguarda l'analisi in senso stretto.
+
+\section{components of tidy data}
+
+Bisogna avere quattro cose:
+- i dati raw, dai quali ho estratto le informazioni
+- i dati ordinati (tidy)
+- un codeboook (i metadati) che spiegano cosa contengono i dati (ad esempio con un data frame, nel codebook dovrei trovare informazioni su cosa contengono le righe, unità di misura ecc. In effetti mi par di capire più sono le informazioni e meglio è.)
+- Una spiegazione dettagliata dei passaggi e metodologie che mi hanno permesso di
+ottenere i dati ordinati dai dati raw.
+
+È facile capire che i dati raw sono tali quando nessun software è capace di aprirli, non è stata fatta alcuna manipolazione dei numeri dei dati, non è stato ne rimosso ne aggiunto nulla, non sono stati semplificati in alcun modo.
+
+I dati ordinati dovrebbero essere tali se:
+- ogni variabili osservata dovrebbe essere in una colonna.
+- ogni singola osservazione di quella variabile deve esistere in una riga differente
+- dovrebbe esserci una table per ogni tipo di variabile
+- con molte table dovrebbe esserci una colonna che permette di collegare(rsi) tra le table.
+- includere una riga con i nomi
+- creare variabili leggibili come "AgeDiagnosis" al posto di "AgeDia"
+
+\section{Code Book}
+Dovrebbe includere informazioni sulle variabili, sulle semplificazioni usate.
+Deve essere un file .txt per massimizzare la compatibilità di essere letto.
+
+Instruction list 
+- uno script (si spera in R)
+- l'input dello script: i dati raw
+- l'output: i dati ordinati
+- non ci sono parametri per lo script
+
+
+\section{Downloading files}
+
+Prima cosa non dimenticare mai la directory in R con i comandi getwd() e setwd()
+Una scorciatoia setwd("../") con questo comando muovo la directory al livello superiore
+rispetto a quello in cui mi trovo.
+
+file.exists("<directoryName>") mi verifica se <directoryName> esiste e se non c'è me la
+posso creare con dir.create("<directoryName>").
+Un piccolo programmino per automatizzare questo:
+
+if (!file.exists("<data>")) {
+	dir.create("<data>")
+}
+
+Per scaricare un file c'è la funzione download.file().
+Per semplificare posso prima creare una variabile con l'indirizzo
+
+fileUrl <- "<indirizzoInternetHTTPS>"
+download.file(fileUrl, destfile = "./data/camera.csv", method = "curl")
+
+Importante per utenti Mac è il method curl se il formato è HTTPS, con utenti Windows è probabile che non sia
+necessario.
+Una volta fatta questa operazione posso chiamare un list.file("./data/") e vedere come 
+il file che ho scaricato, in formato .csv sia presente.
+
+Spesso questi file sono aggiornati e per tenere traccia degli aggiornamenti è utile
+impostare un file dateDownloaded <- date() in modo tale da fissare la data in cui
+ho scaricato il file, così se ci sono aggiornamenti successivi al file posso ricaricarlo
+e compiere analisi su dati aggiornati. In alternativa continuo ad usare il file scaricato.
+
+
+\section{Reading local flat files}
+
+
+Continuando dal paragrafo precedente...
+
+Una funzione importante di R è read.table(), richiede alcuni parametri per funzionare
+carica i dati nella RAM (quindi con dataset grandi può creare problemi ma in effetti con questi tipi di file read.table non è la strategia migliore --- big data?)
+Alcuni parametri importanti sono file, header, sep, row.names, nrows.
+
+Di default questa funzione cerca un tab come delimitatore. Con il comando sep = "," impostiamo il separatore (in questo caso una virgola).
+Se il file è un csv posso usare direttamente la funzione read.csv che mi imposta di default il sep = "," e header = TRUE.
+
+Altri parametri sono:
+- quote che indica dove ci sono citazioni nel file; impostato quote ="" significa che non ci sono citazioni nel file
+- na.strings dice ad R qual'è il carattere che mi indica un missing value
+- nrows dice ad R di leggere le prime nrow = <numero> righe.
+- skip dice ad R di saltare le prime <numero> righe.
+
+
+\section{Reading Excel Files}
+
+Per leggere file excels prima di tutto bisogna caricare il pacchetto xlsx con library(xlsx), c'è anche il pacchetto library (XLConnect).
+La sintassi da usare è simile, sostanzialmente si ha:
+
+cameraData <- read.xlsx(file, sheetIndex = 1, header = TRUE)
+
+Il comando sheetIndex dice ad R in quale pagina (foglio) del file excel i nostri dati
+possono essere trovati; in questo caso 1.
+
+Supponiamo che il file sia di grandi dimensioni ma che solo alcune colonne, ad esempio la seconda e la terza, ed alcune righe, ad esempio dalla prima alla quarta, siano utili ai fini della nostra analisi.
+È possibile creare due oggetti:
+
+colIndex <- 2:3
+rowIndex <- 1:4
+
+cameraDataSubset <- read.xlsx("<indirizzofile>", sheetIndex = 1, colIndex = colIndex, rowIndex = rowIndex)
+
+R leggerà solo un subset.
+
+Per avere come output un file di excel si può usare la funzione write.xlsx() che ha una sintassi molto simile a read.xlsx().
+read.xlsx2 è leggermente più veloce di read.xlsx ma per leggere subset può essere leggermente più instabile.
+
+XLConnect ha più opzioni; XLConnect vignette è un inizio per imparare XLConnect.
+
+In genere comunque è consigliabile avere come output database di file .csv separati con virgola o con un tab (.tab o .txt) perché sono molto comuni e possono essere letti facilmente dalla maggior parte dei programmi.
+
+
+\section{Reading XML}
+
+Extensible markup language, molto usato per archiviare dati strutturati molto usato in web applications.
+Si compone di due elementi:
+- markup dato dalle etichette (o tags) che costituiscono la struttura del testo
+- contenuto il reale testo del documento, oggetto del markup
+
+I tag di XML somigliano a quelli dell'HTML <section> e quello di chiusura è </ section>
+e ci sono anche i tag vuoti <line-break />.
+
+Ci sono anche attributi ai dati come ad esempio il tag
+<img src ="<indirizzo>" />
+che ha l'attributo source.
+
+Per leggere un file XML innanzitutto leggere usando il pacchetto library(XML) (parse =  analizzare)
+
+doc <- xmlTreeParse("<file>", useInternal = TRUE)
+
+Una volta caricato il file XML è comunque un file strutturato quindi sono necessarie delle funzioni per poter entrare all'interno dei tag, prima ancora capire come sono questi tag.
+Devo quindi togliere il "wrapper" che c'è sul file e capire cosa c'è dentro con xmlRoot
+rootNode <- xmlRoot(doc)
+names(rootNote)
+
+per estrarre è molto semplice rootNode[[1]] estraggo il primo elemento.
+
+rootNode[[1]][[1]]
+
+Come se fosse una list estraggo il primo componente del primo elemento.
+
+Con la funzione xmlSApply posso applicare in loop una determinata funzione.
+Ad esempio con l'esempio sottostante
+xmlSApply(rootNode, xmlValue)
+
+Per estrarre da un file XML molto utile è la conoscenza almeno basilare di XPath che è un linguaggio parte della famiglia XML che permette di individuare i nodi all'interno di un documento XML.
+
+xpathSApply(rootNode, "//name", xmlValue)
+
+l'elemento con //name è proprio così e rappresenta tutti i nodi che hanno un elemento con name e dopo averli individuati applica xmlValue e quindi mi tira fuori i valori.
+
+xpathSApply(rootNode, "//price", xmlValue)
+
+Così mi prende tutti quelli con price.
+
+Posso estrarre anche dal web
+
+doc <- htmlTreeParse(fileUrl, useInternal = TRUE)
+scores <- xpathSApply(doc, "//li[@class='score']", xmlValue)
+
+co scores estraggo i valori di alcuni tag (grazie ad xmlValue) in modo sistematico come se fosse un loop (perché la funzione è ...Apply).
+Io voglio però gli elementi che sono list (quindi //li) e che siano di una classe (di classe score) particolare quindi @class='score'.
+Quindi con scores mi analizza tutto il documento, ogni volta che vede un elemento list si ferma e controlla se è della classe score; in caso affermativo estrae il suo valore.
+
+Lo stesso discorso per il comando che mi estrae i nomi delle squadre.
+
+teams <- xpathSApply(doc, "//li[@class='team-name']", xmlValue)
+
+
+
+\section{Reading JSON}
+
+È molto comune perché leggero, è l'abbreviazione di javascript object notation. I dati in json possono essere di tipo:
+- numeri
+- stringhe racchiuse con "<stringa>"
+- booleani (vero falso)
+- array separati da virgola racchiusi da parentesi quadre
+- oggetti non ordinati racchiusi da parentesi graffe con elementi separati da virgola
+
+Prima carico la libreria 
+
+library(jsonlite)
+jsonDdata <- fromJSON("<indirizzo_file>")
+names(jsonData)
+
+Mi ritorna un dataframe.
+Posso esportare un dataframe in json.
+
+myjson <- toJSON(iris, pretty = TRUE)
+cat(myjson)
+
+
+
+\section{Using data.table}
+
+data.table eredita dal data.frame tutte le caratteristiche di quest'ultimo, e tutte le funzioni che lavorano su un data frame lavorano su data table.
+È scritto in C quindi è più veloce, sopratutto nei subsetting, gruppi ecc.
+
+Per prima cosa scarico (dalla rete) e carico (nella mia workspace) il pacchetto necessario con i comandi:
+
+install.packages("data.table")
+library(data.table)
+
+Creo un oggetto da modificare come esempio:
+
+DF = data.frame(x = rnorm(9), y = rep(c("a","b","c"), each = 3), z = rnorm(9))
+
+ma anche un data table
+
+DT = data.table(x = rnorm(9), y = rep(c("a","b","c"), each = 3), z = rnorm(9))
+
+I due oggetti sono identici. Con il comando tables() posso vedere quanti oggetti data.table ci sono nella mia workspace.
+Posso creare subset dell'oggetto DT come se fosse un data frame ad esempio con
+
+DT[DT$y == "a",]
+DT[2,]
+
+Una differenza è che posso fare un subset con un solo elemento:
+DT[c(2,3)], in questo caso estrae le righe quindi con questo comando ottengo la seconda e la terza riga per tutte le colonne.
+Se subset colonne il tutto è diverso dal data frame perché la funzione di subsetting è diversa.
+L'argomento dato dopo la virgola viene chiamato "espressione"; in R una espressione è una collezione di affermazioni contenute all'interno di parentesi graffe.
+
+{
+	x = 1
+	y = 2
+}
+k = {print(10); 5}
+
+
+Da questo ne deriva che al secondo elemento al posto di indicare una semplice posizione
+posso indicare funzioni (in una lista) ed R mi eseguirà quelle funzioni.
+DT[, list(mean(x), sum(z))]
+
+Da notare che non ho inserito i "" perché R mi riconosce automaticamente le colonne e mi restituisce una list con i risultati delle funzioni.
+
+DT[, list(mean(x), sum(z))]
+           V1        V2
+1: -0.2590263 0.7958503
+
+
+Posso pure aggiungere nuovi oggetti semplicemente con un doppio punto :=
+
+DT[, w:=z^2]
+
+Ad esempio con la colonna w data dal quadrato di z; Questo può essere spinto oltre con intere espressioni dati da molti passaggi.
+
+DT[ , m:= {tmp <- (x+z); log2(tmp+5)}]
+
+In questo caso aggiungo m dato da logaritmo di tmp+5, tmp che a sua volta è definito all'interno del nuovo oggetto ed è dato dalla somma di x e z quindi x+z.
+Oppure creare anche valori logici.
+
+DT[, a:= x >0]
+
+Che mi restituisce la colonna a data da TRUE (quando x è maggiore di zero) e FALSE (nel caso opposto).
+Posso ad esempio aggiungere una colonna b che ha come valori la media di x+w quando a è TRUE ed in corrispondenza di questi mi mette la media di questi quando a è TRUE, quando a è FALSE mi calcola la media e mette questi altri valori. Media aggregata ovviamente.
+
+DT[ , b:=mean(x+w), by = a]
+
+Un elemento molto utile con i data table è la funzione .N che semplicemente mi calcola
+il numero di volte che un elemento è presente nel data table.
+Ad esempio (dove con 1E5 si indica 10 alla 5 quindi centomila, potrei fare 1E2 per indicare 10 alla seconda quindi cento):
+
+DT <- data.table(x = sample(letters[1:3], 1E5, TRUE))
+DT[, .N, by = x]
+
+
+   x     N
+1: a 32971
+2: c 33305
+3: b 33724
+
+Un aspetto unico dei data table è che hanno delle keys, se si imposta una key è molto più facile subset il data table.
+
+DT <- data.table(x = rep(c("a","b","c"), each = 100), y = rnorm(300))
+setkey(DT,x)
+DT['a']
+
+Se ad esempio imposto la key come x, se faccio un subset specificando 'a' automaticamente R mi andrà a cercare solo i valori di x che sono a.
+
+Le keys possono essere usate anche per unire due o più data table.
+
+DT1 <- data.table(x = c('a','a','b','dt1'), y = 1:4)
+DT2 <- data.table(x = c('a','b','dt2'), z = 5:7)
+setkey(DT1, x); setkey(DT2, x)
+merge(DT1, DT2)
+
+
+I data table sono anche più veloci da leggere.
+
+
+
+\section{Riassunto}
+
+Dalla guida di R si può leggere che:
+
+read.csv and read.csv2 are identical to read.table except for the defaults. They are intended for reading ‘comma separated value’ files (‘.csv’) or (read.csv2) the variant used in countries that use a comma as decimal point and a semicolon as field separator. Similarly, read.delim and read.delim2 are for reading delimited files, defaulting to the TAB character for the delimiter. Notice that header = TRUE and fill = TRUE in these variants, and that the comment character is disabled.
+
+
+XML
+
+prima leggo il file:
+> fileUrl <- "http://www.w3schools.com/xml/simple.xml"
+> fileUrl
+[1] "http://www.w3schools.com/xml/simple.xml"
+> fileXml <- xmlTreeParse(fileUrl,useInternal = TRUE)
+
+poi estraggo la radice principale con
+
+top <- xmlRoot(fileXml)
+
+perché altrimenti non riesce a vedere cosa c'è dentro la struttura del XML perché spesso c'è altro contenuto.
+Ad esempio se faccio 
+> xmlName(top)
+[1] "breakfast_menu"
+Mi da il nome del nodo principale. Ma se applico il comando al file mi da:
+
+> xmlName(fileXml)
+Error in UseMethod("xmlName", node) : 
+  no applicable method for 'xmlName' applied to an object of class "c('XMLInternalDocument', 'XMLAbstractDocument')"
+
+Perché la classe di xmlFile è:
+
+> class(fileXml)
+[1] "XMLInternalDocument" "XMLAbstractDocument"
+
+
+mentre la classe di top è:
+
+> class(top)
+[1] "XMLInternalElementNode" "XMLInternalNode"        "XMLAbstractNode" 
+
+Con il comando names(<elemento>) vedo tutti i nodi figli di <elemento>
+
+> names(top)
+  food   food   food   food   food 
+"food" "food" "food" "food" "food" 
+
+Oppure posso vedere i figli dei figli:
+
+> names(top[[1]])
+         name         price   description      calories 
+       "name"       "price" "description"    "calories" 
+
+Supponiamo che io voglia creare un database con i prezzi e le calorie. Devo quindi estrarre queste informazioni dal file XML.
+Per farlo in modo sequenziale, come se fosse un loop, anche in questo caso mi servo di funzioni della famiglia apply appositamente scritte per i file XML.
+Con xmlSApply, applico a tutti gli elementi che indico, la funzione xmlValue che mi permetta di estrarre le calorie ed i prezzi.
+Mi servo di una funzione anonima.
+
+prezzi <- xmlSApply(top, function(x) xmlSApply(x[[2]], xmlValue) )
+
+calorie <- xmlSApply(top, function(x) xmlSApply(x[[4]], xmlValue) )
+
+Se provo ad estrarre insieme mi da errori, ecco le prove che ho fatto:
+Con 2:4 mi da lo stesso risultato, con 2 & 4 mi da proprio errore.
+Da notare l'uso di una anonymous function.
+
+> calEpre <- xmlSApply(top, function(x) xmlSApply(x[[2:4]], xmlValue) )
+> calEpre
+food.text food.text food.text food.text food.text 
+  "$5.95"   "$7.95"   "$8.95"   "$4.50"   "$6.95" 
+> calEpre <- xmlSApply(top, function(x) xmlSApply(x[[2&4]], xmlValue) )
+
+
+L'errore di sopra è uno dei motivi che rende necessaria la sintassi xPath. Per potere accedere ad oggetti figli di altri nodi ecc, e/o che magari abbiano particolari attributi ecc.
+Inoltre ha una sintassi molto più semplice. Ad esempio posso estrarre i prezzi con la funzione xpathSApply, che ha tre argomenti.
+
+prezzi <- xpathSApply(top, "//price", xmlValue )
+
+Dove un solo slash indica il nodo, due // un nodo secondario, price è il nome del nome.

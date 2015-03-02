@@ -13,3 +13,7 @@ Sarà presente comunque una bibliografia.
 Gli appunti saranno scritti il LaTeX; all'inizio saranno un insieme abbastanza confuso perché ho molto materiale da sistemare ed organizzare. Cercherò, tranne in questa fase iniziale, di rendere sempre disponibile un PDF compilato dell'ultima versione per chiunque volesse fruirne.
 
 Ogni contributo è benvenuto.
+
+## Aggiornamenti
+
+* 02/03/2015 Gli appunti iniziano ad avere una forma organica e consistente il capitolo sulla famiglia di funzioni apply è abbastanza buono. Il testo è da considerarsi assolutamente ancora alla versione --0 non pronto.

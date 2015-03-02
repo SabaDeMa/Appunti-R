@@ -1,0 +1,287 @@
+\chapter{Grafici}
+\section{Introduzione}
+Nella rappresentazione grafica di dat ci sono delle regole generali da seguire nella costruzione al fine di meglio spiegare cosa i dati contengono, quali informazioni possiedono ecc.
+
+Alcuni punti fondamentali da seguire sono i seguenti:
+\begin{description}
+\item[show comparisons] È sempre utilissimo, se non vitale\footnote{Soprattutto in alcune materie come l'economia}, presentare dati comparati, grandezze relative ad altre grandezze in modo da poter fare paragoni. Ogni ipotesi è sempre relativa rispetto ad un'altra, quindi chiedersi sempre ``questi dati rappresentati a cosa sono comparati?''.
+
+\item[show casuality, mechanism, explanation, systematic structure] includere una anche probabile sovrastruttura, al fine di chiedersi quale è il contesto generale, il framework, all'interno del quale questi dati si collocano. Includere relazioni di cause e/o effetto, ma anche semplici relazioni al fine sia di arricchire l'analisi ma anche eliminare, qualora le relazioni fossero sbagliate, possibili fonti di errore che apporterebbero sicuramente più danni all'analisi se scoperte in una fase successiva.
+
+\item[show multivariate data] dati multivariati perché la realtà è complessa!
+
+\item[integration of evidence] integrare il più possibile parole, numeri, immagini, diagrammi; fare uso di diversi modi di presentare i dati anche gli stessi; non lasciare che siano gli strumenti a guidare l'analisi. Combinare diversi elementi. Se sai fare solo una tabella non limitarti solo a quello.
+
+\item[Describe and document the evidence] Un grafico dovrebbe poter raccontare una storia, un fatto in modo completo ma soprattutto credibile. Tutto ciò si raggiunge con descrizioni, unità di misura usate, scale di valori e soprattuto fonti.
+
+\item[contenti is king] la prima cosa, la più importante è comunque la storia da raccontare, la research question che si vuole soddisfare. Poi si pensa a rappresentarli.
+\end{description}
+
+\section{Grafici Esplorativi}
+
+All'inizio di una analisi di dati è utile costruire dei grafici esplorativi che siano di rapida esecuzione, richiedano poco codice e che aiutino a far capire cosa c'è al loro interno. Spesso i grafici di questa fase sono molto ampi, includendo molti dati e presentano caratteristiche estetiche che o sono assenti o sono limitate ad una mera informazione anche se è bene ricordare che di fatto spesso, nelle fasi finali, si tramutano in potenti mezzi per comunicare con i grafici.
+
+Al di la di questo, gli scopi principali di rappresentare i dati in forma grafica possono essere molteplici tra cui:
+\begin{itemize}
+\item capire le proprietà dei dati
+\item trovare regolarità
+\item suggerire strategie per applicare modelli
+\item effettuare il debug di una analisi poco efficace
+\item ma anche comunicare risultati
+\end{itemize}
+
+Nei successivi paragrafi si analizzeranno i primi comandi per creare grafici. Per far ciò ci si servirà di alcuni dei data sets già installati in \erre\ forniti col pacchetto \textsf{datasets}. Per informazioni su questo pacchetto si veda il paragrafo XXX su come caricarlo e/o installarlo. Per avere una panoramica sui dataset presenti in questo pacchetto e sul loro contenuto, si utilizzi il seguente comando.
+\begin{lstlisting}
+> library(help = "datasets")
+\end{lstlisting}
+
+\subsection{BoxPlot}
+È possibile fare un boxplot con il seguente comando:
+\begin{lstlisting}
+> boxplot(pollution$pm25, col = "blue") 
+\end{lstlisting}
+dove l'argomento opzionale \textsf{col} indica il colore da usare per colorare la nostra scatola.
+È possibile  aggiungere una linea fissata al valore che ai fini della nostra analisi può essere utile, con il seguente comando:
+\begin{lstlisting}
+abline(h = 12)
+\end{lstlisting}
+in questo modo appare evidente graficamente quanti valori sono al di sotto e al di sopra del nostro valore di riferimento.
+
+\subsection{Istogramma}
+Per costruire un istogramma si usa il comando \textsf{hist}. Ecco nel codice seguente un esempio, nel quale come nell'esempio del boxplot, si utilizza l'elemento opzionale col.
+\begin{lstlisting}
+> hist(pollution$pm25, col = "green")
+\end{lstlisting}
+L'istogramma può essere personalizzato aggiungendo i dati stessi sotto forma di ``tappeto''con il comando \textsf{rug}, molto utile soprattutto per verificare e constatare anche visivamente la presenza di valori eccezionali.
+\begin{lstlisting}
+rug(pollution$pm25)
+\end{lstlisting} 
+Posso cambiare i breaks, ossia il numero delle classi in cui dividere le nostre osservazioni con l'argomento opzionale \textsf{breaks = 100}.
+Anche all'istogramma si possono aggiungere linee. Il comando seguente aggiunge una linea verticale, per questo il primo argomento è v (fosse stata orizzontale l'argomento sarebbe stato h) di spessore (line width) 2.
+\begin{lstlisting}
+> abline(v = 12, lwd = 2, col = "magenta")
+\end{lstlisting} 
+
+\subsection{Barplot}
+È possibile ottenere un barplot con il seguente comando:
+\begin{lstlisting}
+barplot(table(pollution$region), col = "wheat", main = "Number of Counties in Each Region")
+\end{lstlisting} 
+Così mi vedo dove sono più numerosi i valori se nella east o west coast.
+
+\section{Aggiungere multidemensionalità (in modo semplice)}
+
+
+grafici bidimensionali
+- multiple/overlayed plots fatti con lattice o ggplot2
+- scatterplot, smooth scatterplot
+
+maggiori di due dimensioni
+spinning plot, 3d , colori ecc ma spesso è molto utile magari avere comunque un grafico 2d ed usare colori, font, etichette ecc per renderlo multivariato ed aggiungerci diverse cose.
+
+\begin{lstlisting}
+boxplot(pm25 ~ region, data = pollution, col = "red")
+\end{lstlisting} 
+Con questo in effetti mi diventa già a due dimensioni perché ho sull'asse x la costa (east ed west) mentre sul y ho la concentrazione di pm10
+
+Lo stesso si può fare anche con gli istogrammi:
+\begin{lstlisting}
+par( mfrow = c(2,1), mar = c(4, 4, 2, 1))
+hist(subset(pollution, region == "east")$pm25, col = "green")
+hist(subset(pollution, region == "west")$pm25, col = "green")
+\end{lstlisting} 
+
+Dove con par serve per impostare i parametri dei grafici.
+
+
+lo scatterplot:
+\begin{lstlisting}
+with(pollution, plot(latitude, pm25))
+abline( h = 12, lwd = 2, lty = 2)
+\end{lstlisting} 
+dove la funzione è plot, che senza specificazione particolari mi stampa uno grafico scatter secondo le impostazioni di plot.default
+posso anche colorare diversamente le regioni in modo da avere una visione più chiara:
+\begin{lstlisting}
+with(pollution, plot(latitude, pm25, col =region))
+abline( h = 12, lwd = 2, lty = 2)
+\end{lstlisting} 
+
+tutti questi grafici iniziali sono Exploratory plots are "quick and dirty" nel senso che è preferibile non perdere tempo per formattare assi, colori, legende ecc.
+Uno degli scopi finali è quello di farsi una idea dei dati e sopratutto cercare di capire come approcciare i dati e magari trarre spunti su quale modello utilizzare ecc.
+
+\section{Introduzione 2}
+\subsection{Base}
+In \erre\ ci sono tre diversi sistemi di disegnare grafici ognuno dei quali con le proprie caratteristiche utili per raggiungere risultati diversi. Unica cosa molto  importante da ricordare e da considera quando si inizia l'analisi di dati è che bisogna scegliere uno ed uno solo e creare grafici seguendo quello, non si possono mischiare le funzioni di uno con quelle di un altro altrimenti il grafico viene (se viene?) in modo confusionale.
+
+Il primo metodo è ``base'', è il vecchio sistema che era presente in \erre. Concettualmente è come la tela bianca di un artista. Uno alla volta si aggiungono elementi per comporre il grafico finale aggiungendo assi, text, lines, points axis eccetera. È utile come fase iniziale. le ultime funzioni sono cosiddette annotations invece altre servono proprio per generare il grafico.
+
+Questo sistema è pratico, intuitivo e facile ma non si può andare indietro ad esempio aggiustando i margini. Il ``disegnare'' si compone da una serie di comandi di \erre\ e quindi sostanzialmente non c'è un vero e proprio linguaggio grafico sottostante che permetta ad esempio di creare nuovi tipi di grafici.
+
+Un esempio di un grafico disegnato con base potrebbe essere questo
+\begin{lstlisting}
+library(datasets)
+data(cars)
+with(cars, plot(speed, dis))
+\end{lstlisting} 
+
+È semplice ma posso aggiungere e fare qualsiasi cosa... un poco alla volta..
+
+\subsection{lattice}
+Il secondo sistema per creare grafici è lattice. Si attiva con il pacchetto \textsf{lattice} e l'idea di fondo è che piuttosto che aggiungere i pezzi uno alla volta al grafico, lo si crea con una singola funzione composta da diversi argomenti.
+
+Utilizzare \textsf{lattice} è molto utile per grafici condizionati, inoltre I margini, gli spazi e molti parametri sono impostati automaticamente quindi il risultato oltre ad avere un aspetto più gradevole, richiede meno tempo per aggiustamenti. Questo è utile soprattuto quando si devono esportare i grafici come si vedrà.
+
+Il lato negativo è che spesso è difficile specificare in una sola funzione tutto un grafico, è poco intuitivo annotare, non si può aggiungere nulla al grafico una volta creato ma bisogna ricrearlo.
+
+Un esempio con lattice che è relativamente semplice ma che avrebbe richiesto molto più codice per essere fatto in  base.
+\begin{lstlisting}
+library(lattice)
+state <- data.frame(state.x77, region = state.region)
+xyplot(Life.Exp ~ Income | region, data = state, layout = c(4, 1))
+\end{lstlisting} 
+
+
+\subsection{ggplot2}
+
+Sostanzialmente il merito di questo pacchetto è di aver creato una sorta di grammatica o addirittura linguaggio per i grafici. Mischia concetti di entrambi i sistemi (base e lattice), permette di costruire il grafico un poco alla volta come il sistema base però permette anche di fare in modo automatico i calcoli per i margini, spazi ecc.
+
+Molto utile come lattice per fare grafici condizionati. Ha un sacco di parametri impostati su default quindi se l'utente non vuole può lasciare tutto come sta. Esempio:
+\begin{lstlisting}
+library(ggplot2)
+data(mpg)
+qplot(displ, hwy, data = mpg)
+\end{lstlisting} 
+
+
+\section{BASE}
+
+Il motore grafico di ``base'' per creare grafici è contenuto all'interno di due pacchetti che sono graphics (che contiene le funzioni di base per creare i grafici) e grDevices (che contiene il codice per generare PDF, postscript, ma anche per graphic devices come Quartz, per X11 ed altri).
+
+Il motore lattice usa il pacchetto lattice che contiene le funzioni per generare grafici che sono indipendenti dal sistema ``base'' infatti esso si serve del pacchetto \textsf{grid} che implementa un sistema base alternativo a ``base''.
+
+Prima di costruire un grafico è importante fare alcune considerazioni sul ``dove'', inteso come supporto, il grafico andrà ad essere rappresentato.  Sarà un grafico mostrato solo a schermo? oppure in una presentazione? o stampato su carta in una relazione? mi serve poterlo ridimensionare? c'è un grande ammontare di dati oppure solo pochi punti?
+
+Con il sistema base per creare grafici a due dimensioni ci sono due fasi sostanzialmente. La prima è quella di inizializzare un grafico (sostanzialmente se non c'è un device che mi riproduce il grafico alcune funzioni come plot o hist fanno si che una finestra con il grafico appaia) la seconda è quella di aggiungere elementi ad un grafico esistente.
+
+Ci sono diversi parametri che sono unici per tutte le funzioni di ``base''. L'elenco seguente, senza presunzione di completezza, ne riporta i principali:
+\begin{description}
+\item[pch] i simboli da utilizzare (di default sono cerchi non colorati)
+\item[lty] tipo di linea da utilizzare piena, tratteggiata, puntini eccetera (di default è una linea piena)
+\item[lwd] spessore della linea
+\item[col] specifica il colore; la funzione \textsf{colors()} restituisce i nomi da poter usare nello spazio nomi, oppure è possibile specificare il colore usando la codifica hex.
+\item[xlab] etichetta asse x
+\item[ylab] etichetta asse y
+\end{description}
+
+La funzione \textsf{par} serve per specificare parametri globali, quindi parametri che saranno a tutti i grafici che nella sessione di lavoro saranno generati. L'elenco seguente ne riporta alcuni parametri:
+\begin{description}
+\item[las] orientamento
+\item[bg] sfondo
+\item[mar] dimensioni dei margini
+\item[oma] margine esterno dimensioni (default è zero)
+\item[mfrow e mfcol] numero di grafici per riga e colonna; entrambi utili quando si hanno grafici multipli come ad esempio una matrice di grafici, servono per controllare quanti grafici ci sono per riga e o colonna 
+\end{description}
+
+Per ognuno di questi parametri è possibile visionare il valore di default con il seguente codice che non necessita spiegazioni.
+\begin{lstlisting}
+par("<nome_parametro>")
+\end{lstlisting} 
+
+
+Alcune funzioni base di ``base'':
+\begin{description}
+\item[plot] riproduce come output uno scattergramma ma, in base al tipo di dati che deve rappresentare, anche altri tipi di grafici
+\item[lines] aggiunge linee ad un grafico
+\item[points] aggiunge punti
+\item[text] aggiunte etichette di testo usando specifiche coordinate
+\item[title] aggiunge annotazioni agli assi, etichette assi, sottotitoli eccetera
+\item[mtext] aggiunge testo ai margini (text margin)
+\item[axis] modica assi (etichette e spessore)
+\end{description}
+
+
+Nelle pagine successive saranno proposti alcuni esempi.
+\begin{lstlisting}
+library(datasets)
+with(airquality, plot(Wind, Ozone))
+title(main = "Ozone and Wind in New York City") 
+\end{lstlisting} 
+
+Con questi invece aggiungo punti colorati al grafico precedente:
+\begin{lstlisting}
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in New York City"))
+with(subset(airquality, Month == 5), points(Wind, Ozone, col = "blue"))
+\end{lstlisting} 
+
+
+
+con questo aggiungo una linea di regressione:
+\begin{lstlisting}
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in New York City", 
+                      pch = 20))
+model <- lm(Ozone ~ Wind, airquality)
+abline(model, lwd = 2)
+\end{lstlisting} 
+
+aggiungo due grafici nello stesso grafico con il par(mfrow = c(1, 2))
+
+\begin{lstlisting}
+par(mfrow = c(1, 2))
+with(airquality, {
+    plot(Wind, Ozone, main = "Ozone and Wind")
+    plot(Solar.R, Ozone, main = "Ozone and Solar Radiation")
+})
+\end{lstlisting} 
+
+Con questo invece ne creo tre, e con mtext creo una etichetta generale per tutte e tre i grafici:
+\begin{lstlisting}
+par(mfrow = c(1, 3), mar = c(4, 4, 2, 1), oma = c(0, 0, 2, 0))
+with(airquality, {
+    plot(Wind, Ozone, main = "Ozone and Wind")
+    plot(Solar.R, Ozone, main = "Ozone and Solar Radiation")
+    plot(Temp, Ozone, main = "Ozone and Temperature")
+    mtext("Ozone and Weather in New York City", outer = TRUE)
+})
+\end{lstlisting} 
+
+\section{Graphic Device}
+
+Un graphic devices è una entità, sia fisica (monitor) che virtuale (un file) dove si può far apparire un grafico.
+
+Ogni volta che \erre\ disegna un grafico sulla base di nostre indicazioni deve necessariamente inviarlo ad un graphic device.
+
+Lo schermo fisico del computer ad esempio è un graphic device che in base al sistema operativo utilizzato assume diversi nomi e conseguentemente può essere invocato con diverse funzioni. Sui sistemi Mac OS si attiva con la funzione \textsf{quartz} mentre sui sistemi Windows è presente l'apposita funzione \textsf{windows}, sui sistemi Linux\textbackslash Unix infine è presente la funzione \textsf{x11} su Linux/Unix
+
+È importante considerare per prima cosa dove il grafico andrà a finire, in altre parole quale è il graphic device che lo riceve? Per capire ciò basta è ?Devices.
+
+Il primo modo per creare un grafico è creare una funzione di plotting come plot xyplot o qplot ecc. Il grafico appare e poi lo puoi annotare ecc.
+
+Un altro modo è quello di richiamare in modo esplicito un graphic device.
+
+I graphic file device sono di diversi formati organizzati in due classi: vettoriali e bitmap.
+Vettoriali:pdf (buono ma con molti punti può essere lento), svg basato su xml molto utile per il web supporta anche animazioni e cose interattive, win.metafile solo per windows, postscript un formato un poco più vecchio
+
+
+bitmap: png ha una compressione senza perdita come il GIF, jpeg per le linee non va bene perché si può vedere aliasing , tiff bmp
+
+
+È possibile avere diversi graphic devices contemporaneamente ma si può disegnare solo uno alla volta ed in quello attivo. Quello attivo si può sapere con la funzione dev.cur()
+
+Ogni graphic devices è un numero intero tra 2 ecc. si può cambiare con dev.set(<numero intero>) dove intero è il numero associato a quel graphic device.
+
+dev.copy permette di copiare un grafico da un devices (spesso lo schermo), verso un altro
+
+dev.copy2pdf lo fa come prima ma direttamente verso un pdf.
+
+Copiare non è un lavoro perfetto, spesso ci sono degli aggiustamenti ecc.
+
+
+\begin{lstlisting}
+library(datasets)
+with(faithful, plot(eruptions, waiting))  ## Create plot on screen device
+title(main = "Old Faithful Geyser data")  ## Add a main title
+dev.copy(png, file = "geyserplot.png")  ## Copy my plot to a PNG file
+dev.off()
+\end{lstlisting} 
+
+

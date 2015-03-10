@@ -1,0 +1,26 @@
+\chapter{Manipolare date con lubridate}
+Spesso nei dataset è utile avere la presenza di date. Si pensi ad esempio ad osservazioni di uno stesso fenomeno e/o variabile per un periodo continuato di tempo ad intervalli regolari come i prezzi di attivi finanziari.
+
+Lavorare con le date in \erre\ non è facile e come suggerisce la descrizione del pacchetto che andremo ad analizzare in questo capitolo, può essere anche frustrante.
+
+Le prime operazioni da fare sono ovviamente quelle di installare e caricare il pacchetto.
+today() restituisce il giorno corrente mentre now() restituisce sia il giorno che l'ora esatta in cui la funzione viene invocata.
+Dalle precedenti funzioni possiamo estrarre con i seguenti comandi year(), month(), or day() ispettivamente l'anno il mese ed il giorno (espresso sotto forma di numero dove 1 è la domenica, 2 lunedì e così via) da un oggetto di classe data. Con la funzione day è anche possibile ottenere direttamente il nome del giorno della settimana con l'argomento opzionale label = TRUE.
+
+Inoltre se è stata invocata anche la funzione now(), oppure semplicemente si ha un dataset con anche le ore ed i minuti, con le funzioni hour(), minute(), and second() si possono estrarre rispettivamente le ore i minuti ed i secondi.
+
+Lubridate permette in modo agevole di separare stringhe, ma come vedremo anche valori di classe numeric, al fine di ricavarne delle date. Le funzioni sono molte ma in realtà hanno tutte una sintassi di fondo molto semplice. Consideriamo che anno nella lingua inglese si traduce con year, mese con month e così via. Gli autori del pacchetto hanno creato una serie di funzioni denominandole usando le iniziali delle unità temporali (mesi, anni, ma anche secondi eccetera) da voler dividere.
+
+Ad esempio la funzione \textsf{ymd} una stringa secondo questo ordine year, month, day. Qualora la stringa o l'oggetto da voler separare contenesse anche ore minuti e secondi alla funzione precedente si aggiunge  \textsf{ymd\_hms} con hms che indica nell'ordine hours, minutes, seconds. 
+
+Tutte queste funzioni restituiscono oggetti di classe POSIXct, una delle classi usate da \erre\ per immagazzinare informazioni relative a misure temporali.
+
+Lucriate offre la funzione update per aggiornare una data. Supponiamo di avere una data e di volerla aggiornare ad una successiva, ad esempio di 4 metri, due giorni tre ore, 34 minuti e 55 secondi. Con lubridate tutto ciò è possibile in modo molto semplice. Si osservi il seguente esempio.
+
+Lubridate offre anche la possibilità di operare con oggetti di classe POSIXct usando una normale notazione algebrica.
+
+\begin{lstlisting}
+depart <- nyc + days(2)
+\end{lstlisting}
+
+È possibile convertire date usando diverse time zones\footnote{Si faccia riferimento alla seguente pagina per una lista delle time zones http://en.wikipedia.org/wiki/List_of_tz_database_time_zones}

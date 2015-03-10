@@ -23,17 +23,22 @@
 \contentsline {section}{\numberline {2.5}mapply}{15}{section.2.5}
 \contentsline {subsection}{\numberline {2.5.1}Introduzione alle anonymous functions}{16}{subsection.2.5.1}
 \contentsline {subsection}{\numberline {2.5.2}mapply: esempi con le anonymous functions}{16}{subsection.2.5.2}
-\contentsline {chapter}{\numberline {3}Grafici}{19}{chapter.3}
+\contentsline {chapter}{\numberline {3}Subsetting}{19}{chapter.3}
 \contentsline {section}{\numberline {3.1}Introduzione}{19}{section.3.1}
-\contentsline {section}{\numberline {3.2}Grafici Esplorativi}{20}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}BoxPlot}{20}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Istogramma}{21}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Barplot}{21}{subsection.3.2.3}
-\contentsline {section}{\numberline {3.3}Aggiungere multidemensionalit\IeC {\`a} (in modo semplice)}{21}{section.3.3}
-\contentsline {section}{\numberline {3.4}Introduzione 2}{22}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Base}{22}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}lattice}{23}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}ggplot2}{23}{subsection.3.4.3}
-\contentsline {section}{\numberline {3.5}BASE}{23}{section.3.5}
-\contentsline {section}{\numberline {3.6}Graphic Device}{26}{section.3.6}
-\contentsline {chapter}{Aggiornamenti}{27}{section*.4}
+\contentsline {section}{\numberline {3.2}Subsetting di Vettori}{19}{section.3.2}
+\contentsline {section}{\numberline {3.3}Subsetting di List}{21}{section.3.3}
+\contentsline {section}{\numberline {3.4}Operatori Logici}{21}{section.3.4}
+\contentsline {chapter}{\numberline {4}Grafici}{23}{chapter.4}
+\contentsline {section}{\numberline {4.1}Introduzione}{23}{section.4.1}
+\contentsline {section}{\numberline {4.2}Grafici Esplorativi}{24}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}BoxPlot}{24}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Istogramma}{25}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Barplot}{25}{subsection.4.2.3}
+\contentsline {section}{\numberline {4.3}Aggiungere multidemensionalit\IeC {\`a} (in modo semplice)}{25}{section.4.3}
+\contentsline {section}{\numberline {4.4}Introduzione 2}{26}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Base}{26}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}lattice}{27}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}ggplot2}{27}{subsection.4.4.3}
+\contentsline {section}{\numberline {4.5}BASE}{27}{section.4.5}
+\contentsline {section}{\numberline {4.6}Graphic Device}{30}{section.4.6}
+\contentsline {chapter}{Aggiornamenti}{31}{section*.4}

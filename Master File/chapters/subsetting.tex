@@ -1,0 +1,101 @@
+\chapter{Subsetting}
+\section{Introduzione}
+
+Nelle pratiche applicazioni mai (o quasi) i dati con i quali ci si trova a lavorare sono quelli necessari alla nostra analisi. Spesso sarebbe opportuno avere altri dati oppure, al fine di rispondere a determinate domanda, si rende necessario estrarre dai dati in nostro possesso in sotto insieme di questi. La operazione di estrazione di sottoinsiemi di dati da oggetti in \erre\ (che quindi da un punto di vista concettuale diventano insiemi di livello superiore, che quindi contengono i primi) va sotto di subsetting.
+
+Estrarre un sottoinsiemi di dati da una base di dati di maggiori dimensioni può diventare una operazione abbastanza frustrante se non si conoscono le corrette procedure per raggiungere il nostro obiettivo e se non ci comprende a fondo come lavorano gli strumenti utilizzati per il subsetting.
+
+\section{Subsetting di Vettori}
+I primi strumenti da utilizzare per il subsetting sono le funzioni date dalla coppia di parentesi quadre e dalla doppia di parentesi quadre: [<valore>] e [[<valore>]].
+
+Prima di tutto è bene ricordare e tenere sempre a mente che, sebbene composte da uno ed un solo simbolo, le parentesi quadre sono delle funzioni in \erre. Ciò potrà tornare utile nelle pratiche applicazioni. Queste funzioni hanno la seguente sintassi:
+\begin{lstlisting}
+> <oggetto>[<posizione>]
+\end{lstlisting}
+ed  estraggono all'<oggetto> il valore corrispondente alla <posizione>. La principale differenza è che con la funzione di doppia parentesi quadra è possibile estrarre un solo valore mentre con una singola coppia, come si vedrà, è possibile estrarre più valori, ma anche più valori consecutivi, un intervallo di valori ma anche escludere valori. Alcuni esempi.
+
+Si consideri il seguente codice che crea un vettore di nome \textsf{vettore}\footnote{Che fantasia! ecco perché Keynes chiamava l'Economia (e gli economisti) la scienza triste\dots} composto da 100 osservazioni di numeri casali. Si tralasci per ora l'utilizzo della funzione \textsf{rnorm} che serve a generare numero pseudo casuali, anche se il codice è abbastanza chiaro.
+\begin{lstlisting}
+> vettore <- rnorm(100)
+\end{lstlisting}
+
+Sappiamo che \textsf{vettore} contiene 100 osservazioni, supponiamo ora di voler estrarre il valore corrispondente alla settantesima osservazione\footnote{Il numero settanta non ha alcun significato, è usato ora a mero titolo di esempio}. La funzione [ è ciò che fa al caso nostro. La sintassi è molto semplice, dall'oggetto vettore dal quale vogliamo estrarre (che si scrive per primo) si richiama la funzione [ che prende come argomento il numero della posizione che vogliamo estrarre.
+\begin{lstlisting}
+> vettore[70]
+[1] -0.4074543
+\end{lstlisting}
+
+Lo stesso risultato del precedente codice si può ottenere utilizzando la funzione \textsf{[[} che si differenzia dalla semplice \textsf{[} in quanto permette di estrarre uno ed uno solo elemento da on oggetto \erre. Ne consegue che tutti gli esempi seguenti non saranno fattibili con la funzione \textsf{[[}.
+
+Supponiamo ora di voler estrarre i valori delle osservazioni che vanno dalla cinquantesima alla sessantesima. La funzione [ in questo caso avrà due valori separati dalla funzione \textsf{:} che serve per generare sequenze. In questo caso è come se si stesse dicendo ad \erre\ ``dammi i valori di vettore che sono dalla posizione cinquanta alla sessanta''.
+\begin{lstlisting}
+> vettore[50:60]
+ [1] -0.9688182 -0.1123738  0.1217248 -1.8646036
+ [5] -0.2812464 -0.6120908 -0.6647192 -1.5550553
+ [9] -0.1804152 -0.5585904 -0.5825612
+\end{lstlisting}
+
+Si noti che lo stesso risultato si sarebbe potuto ottenere con il seguente codice che seppure più lungo, noioso, nonché palesemente inefficiente introduce l'utilizzo della funzione \textsf{c} all'interno della funzione \textsf{[}.
+\begin{lstlisting}
+> vettore[c(50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60)]
+ [1] -0.9688182 -0.1123738  0.1217248 -1.8646036
+ [5] -0.2812464 -0.6120908 -0.6647192 -1.5550553
+ [9] -0.1804152 -0.5585904 -0.5825612
+\end{lstlisting}
+
+Con la funzione \textsf{c} all'interno di \textsf{[} è possibile selezionare più valori non consecutivi, dove evidentemente l'utilizzo della funzione \textsf{:} restituirebbe ciò che a noi serve. Il seguente esempio permette di estrarre utilizzando sia \textsf{c} che \textsf{[} i valori delle osservazioni che sono al, ad esempio, dodicesimo, venticinquesimo ed ottantunesimo posto nel nostro oggetto.
+
+\begin{lstlisting}
+> vettore[c(12, 25, 81)]
+[1] -1.2779710  1.8429035  0.4637161
+\end{lstlisting}
+
+Supponiamo ora di voler estrarre dal nostro vettore tutti i valori escludendo però i valori dal ventesimo al quarantesimo. Per far ciò ci serviremo della funzione \textsf{:} e dell'operatore \textsf{$-$} che serve per escludere i valori che lo seguono. Si faccia attenzione al costrutto logico: voler ottenere un sottoinsieme di \textsf{vettore} costituito da tutti i valori \textbf{esclusi} i valori che vanno dal ventesimo al quarantesimo.
+
+Quest'ultima precisazione è per dissuadere il lettore ad utilizzare il seguente codice \textsf{> vettore[-20:40]} che restituirebbe un errore\footnote{Di fatto con questo codice si dice ad \erre\ di estrarre la sequenza di valori compresi tra la posizione -20 e la posizione 40}. Il codice corretto è il seguente e per essere tale si serve anche della funzione \textsf{c} e non già soltanto dell'operatore \textsf{$-$}.
+
+\begin{lstlisting}
+> vettore[-c(20:40)]
+\end{lstlisting}
+
+Si noti che lo stesso risultato si sarebbe potuto ottenere anche con il seguente codice\footnote{Per esercizio si salvino in due oggetti diversi i subsetting fatti con entrambi i metodi e si verifichi che essi siano esattamente uguali utilizzando la funzione \textsf{identical(<oggetto1>, <oggetto2>)} che ha una sintassi abbastanza eloquente.}
+\begin{lstlisting}
+> prova2 <- vettore[-20:-40]
+\end{lstlisting}
+
+\section{Subsetting di List}
+
+Il subsetting di oggetti list può a volte essere leggermente più complesso. È bene sapere che le funzioni viste nel precedente paragrafo non perdono la loro validità ma anzi sono usate. Particolare rilievo ha la funzione \textsf{[[} quando si tratta di liste e si ricordi che questa funzione permette di estrarre un solo elemento da un oggetto \erre.
+
+Per illustrare il subsetting da un list si osservi il seguente codice con il quale creiamo una sequenza di numeri da uno a dieci e la salviamo un vettore di nome \textsf{numeri}, un vettore di caratteri formato dalle prime dieci lettere dell'alfabeto e successivamente creiamo con la funzione \textsf{list} una lista di oggetti che comprende il vettore lettere, il vettore numeri ed un terzo oggetto NA.
+
+\begin{lstlisting}
+> numeri <- 1:10
+> lettere <- letters[1:10]
+> lista <- list(lettere, numeri, NA)
+\end{lstlisting}
+
+Prima di procedere si osservi che le lettere sono state create estraendo dall'oggetto \textsf{letters} le prime dieci. Questo oggetto che contiene le lettere minuscole dell'alfabeto è già presente nella nostra workspace in quanto rappresenta una delle costanti presenti di default in \erre\footnote{Si utilizzi ?letters per maggiori informazioni.}.
+
+Procediamo ora al subsetting di elementi (ma anche di oggetti in questo caso) da un oggetto di tipo list. Nessuna funzione nuova è introdotta, in sostanza il subsetting di oggetti list si ottiene con una combinazione delle funzioni già viste in precedenza.
+
+Supponiamo di voler estrarre il il primo elemento della lista, la sintassi da usare è la stessa di quella usata per un vettore.
+\begin{lstlisting}
+> lista[1]
+[[1]]
+ [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j"
+\end{lstlisting}
+ 
+Qualora invece volessimo estrarre il terzo elemento del primo elemento della lista, in altre parole il terzo elemento del vettore che a sua volta è il primo elemento dell'oggetto lista, la sintassi da utilizzare è la seguente, che altro non è che una combinazione delle due funzioni viste finora.
+\begin{lstlisting}
+> lista[[1]][3]
+[1] "c"
+\end{lstlisting}
+
+Si osservi che se avessimo usato \textsf{[} in luogo di \textsf{[[} nel primo elemento del subsetting avremmo ottenuto un valore NULL.
+\begin{lstlisting}
+> lista[1][3]
+[[1]]
+NULL
+\end{lstlisting}
+\section{Operatori Logici}

@@ -156,6 +156,72 @@ $M
 4      M   76500
 \end{lstlisting}
 
+\subsection{Aggregate}
+
+Alla funzione aggregate è dedicato questo sotto-paragrafo che è tale non per una minore importanza dell'argomento, ma semplicemente perché aggregate può essere interpretata da un punto di vista concettuale come una sorta di tappi potenziata. Sebbene il suffisso apply non sia presente nel nome di questa funzione, essa è da considerarsi a pieno titolo appartenente a tale famiglia perché al suo interno applica tapply. Ne consegue che aggregate potrebbe essere usata in luogo di tapply. I risultati sarebbero gli stessi ma il formato di output sarebbe leggermente diverso.
+
+Si osservi il seguente esempio costruito usando il database iris presente di default in \erre\ nel pacchetto datasets\fotonote{Si usi data() per vedere tutti dataset preinstallati in \erre. }
+\begin{lstlisting}	
+> prova <- tapply(iris$Sepal.Length, iris$Species, mean)
+> prova
+    setosa versicolor  virginica 
+     5.006      5.936      6.588 
+>
+>
+> prova1 <- aggregate(iris$Sepal.Length, list(iris$Species), mean)
+> prova1
+     Group.1     x
+1     setosa 5.006
+2 versicolor 5.936
+3  virginica 6.588
+>
+>
+> is.atomic(prova)
+[1] TRUE
+> is.atomic(prova1)
+[1] FALSE
+>
+>
+> class(prova)
+[1] "array"
+> class(prova1)
+[1] "data.frame"
+\end{lstlisting}
+
+Come si può notare dal codice le due funzioni presentano gli stessi risultati sotto forma diversa. tapply restituisce un array mentre aggregate un data frame. Tuttavia la vera differenza, che si spera non sia sfuggita ad un lettore attento, è negli argomenti delle due funzioni.
+
+La funzione aggregate ha come secondo argomento, l'indice il base al quale suddividere che abbiamo visto in tapply, un oggetto di tipo list. Da questa caratteristica deriva la vera potenza di aggregate: poter applicare una determinata funzione non già su una determinata caratteristica ma bensì su di una lista di caratteristiche. Vediamo un esempio.
+
+Supponiamo di voler calcolare la media di Sepal.Length sulla base della specie, dalla dalla colonna Species ed anche sulla base della variabile Petal.Width. Il codice seguente permette di fare questo. L'unico elemento necessario è quello di usare la funzione list per indicare per quali elementi l'oggetto della nostra funzione, la colonna Sepal.Length, deve essere suddiviso.
+\begin{lstlisting}	
+> prova5 <- aggregate(iris$Sepal.Length, list(iris$Species, iris$Petal.Width), mean)
+> head(prova5)
+  Group.1 Group.2        x
+1  setosa     0.1 4.820000
+2  setosa     0.2 4.972414
+3  setosa     0.3 4.971429
+4  setosa     0.4 5.300000
+5  setosa     0.5 5.100000
+6  setosa     0.6 5.000000
+> tail(prova5)
+     Group.1 Group.2        x
+22 virginica     2.0 6.650000
+23 virginica     2.1 6.916667
+24 virginica     2.2 6.866667
+25 virginica     2.3 6.912500
+26 virginica     2.4 6.266667
+27 virginica     2.5 6.733333
+>
+>
+> class(prova5)
+[1] "data.frame"
+\end{lstlisting}
+
+Piccola postilla in conclusione di questo paragrafo. Lo stesso risultato in verità si potrebbe ottenere con la stessa funzione tapply, tuttavia il risultato sarebbe stato un oggetto poco pratico da usare. Si provi il seguente codice.
+\begin{lstlisting}	
+prova3 <- tapply(iris$Sepal.Length, list(iris$Species, iris$Petal.Width), mean)
+\end{lstlisting}
+
 \section{mapply}
 
 Da un punto di vista concettuale \textsf{mapply} potrebbe essere quella più tricky. La forza di \textsf{mapply} sta nel fatto di poter essere applicata ad elementi multipli. Il funzionamento è il seguente: dati due (o più) oggetti \erre, ad esempio due vettori di uguale lunghezza, \textsf{mapply} estrae il primo elemento di ognuno e vi applica la funziona specificata, dopodiché estrae il secondo elemento di ogni oggetto e vi applica la funzione, dopodiché estrae il terzo elemento di ogni oggetto e vi applica la funzione\dots\ e così via fino a che tutti gli elementi di tutti gli oggetti non sono stati trattati.

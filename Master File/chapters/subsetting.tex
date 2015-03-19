@@ -1,20 +1,20 @@
 \chapter{Subsetting}
 \section{Introduzione}
 
-Nelle pratiche applicazioni mai (o quasi) i dati con i quali ci si trova a lavorare sono quelli necessari alla nostra analisi. Spesso sarebbe opportuno avere altri dati oppure, al fine di rispondere a determinate domanda, si rende necessario estrarre dai dati in nostro possesso in sotto insieme di questi. La operazione di estrazione di sottoinsiemi di dati da oggetti in \erre\ (che quindi da un punto di vista concettuale diventano insiemi di livello superiore, che quindi contengono i primi) va sotto di subsetting.
+Nelle pratiche applicazioni mai (o quasi) i dati con i quali ci si trova a lavorare sono quelli necessari alla nostra analisi. Spesso sarebbe opportuno avere altri dati oppure, al fine di rispondere a determinate domande, si rende necessario estrarre dai dati in nostro possesso un sotto insieme di questi. La operazione di estrazione di sottoinsiemi di dati da oggetti in \erre\ (che quindi da un punto di vista concettuale diventano insiemi di livello superiore, che quindi contengono i primi) va sotto di subsetting.
 
-Estrarre un sottoinsiemi di dati da una base di dati di maggiori dimensioni può diventare una operazione abbastanza frustrante se non si conoscono le corrette procedure per raggiungere il nostro obiettivo e se non ci comprende a fondo come lavorano gli strumenti utilizzati per il subsetting.
+Estrarre un sottoinsieme di dati da una base di dati di maggiori dimensioni può diventare una operazione abbastanza frustrante se non si conoscono le corrette procedure per raggiungere il nostro obiettivo se non ci comprende a fondo come lavorano gli strumenti utilizzati per il subsetting ma soprattutto se non si sa bene con che tipo di oggetto si ha a che fare perché ogni tipo di oggetto richiede un approccio diverso.
 
 \section{Subsetting di Vettori}
-I primi strumenti da utilizzare per il subsetting sono le funzioni date dalla coppia di parentesi quadre e dalla doppia di parentesi quadre: [<valore>] e [[<valore>]].
+I primi strumenti da utilizzare per il subsetting sono le funzioni date dalla coppia di parentesi quadre e dalla doppia coppia di parentesi quadre: [<valore>] e [[<valore>]].
 
 Prima di tutto è bene ricordare e tenere sempre a mente che, sebbene composte da uno ed un solo simbolo, le parentesi quadre sono delle funzioni in \erre. Ciò potrà tornare utile nelle pratiche applicazioni. Queste funzioni hanno la seguente sintassi:
 \begin{lstlisting}
 > <oggetto>[<posizione>]
 \end{lstlisting}
-ed  estraggono all'<oggetto> il valore corrispondente alla <posizione>. La principale differenza è che con la funzione di doppia parentesi quadra è possibile estrarre un solo valore mentre con una singola coppia, come si vedrà, è possibile estrarre più valori, ma anche più valori consecutivi, un intervallo di valori ma anche escludere valori. Alcuni esempi.
+ed estraggono all'<oggetto> il valore corrispondente alla <posizione>. La principale differenza è che con la funzione di doppia parentesi quadra è possibile estrarre un solo valore mentre con una singola coppia, come si vedrà, è possibile estrarre più valori, ma anche più valori consecutivi, un intervallo di valori ma anche escludere valori. Alcuni esempi.
 
-Si consideri il seguente codice che crea un vettore di nome \textsf{vettore}\footnote{Che fantasia! ecco perché Keynes chiamava l'Economia (e gli economisti) la scienza triste\dots} composto da 100 osservazioni di numeri casali. Si tralasci per ora l'utilizzo della funzione \textsf{rnorm} che serve a generare numero pseudo casuali, anche se il codice è abbastanza chiaro.
+Si consideri il seguente codice che crea un vettore di nome \textsf{vettore}\footnote{Che fantasia! ecco perché Keynes chiamava l'Economia (e gli economisti) la scienza triste\dots} composto da 100 osservazioni di numeri casali. Si tralasci per ora l'utilizzo della funzione \textsf{rnorm} che serve a generare numero pseudo casuali, anche se il codice è abbastanza chiaro\footnote{Di fatto la \textsf{r} sta per random e \textsf{norm} sta per normal.}.
 \begin{lstlisting}
 > vettore <- rnorm(100)
 \end{lstlisting}
@@ -25,7 +25,7 @@ Sappiamo che \textsf{vettore} contiene 100 osservazioni, supponiamo ora di voler
 [1] -0.4074543
 \end{lstlisting}
 
-Lo stesso risultato del precedente codice si può ottenere utilizzando la funzione \textsf{[[} che si differenzia dalla semplice \textsf{[} in quanto permette di estrarre uno ed uno solo elemento da on oggetto \erre. Ne consegue che tutti gli esempi seguenti non saranno fattibili con la funzione \textsf{[[}.
+Lo stesso risultato del precedente codice si può ottenere utilizzando la funzione \textsf{[[} che si differenzia dalla semplice \textsf{[} in quanto permette di estrarre uno ed uno solo elemento da un oggetto \erre. Ne consegue che tutti gli esempi seguenti non saranno fattibili con la funzione \textsf{[[}.
 
 Supponiamo ora di voler estrarre i valori delle osservazioni che vanno dalla cinquantesima alla sessantesima. La funzione [ in questo caso avrà due valori separati dalla funzione \textsf{:} che serve per generare sequenze. In questo caso è come se si stesse dicendo ad \erre\ ``dammi i valori di vettore che sono dalla posizione cinquanta alla sessanta''.
 \begin{lstlisting}

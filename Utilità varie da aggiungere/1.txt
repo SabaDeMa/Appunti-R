@@ -1,2 +1,6 @@
 la funzione list.files() produce un vettore di caratteri i cui elementi sono i nomi dei file e/o cartelle presenti nel suo argomento. Senza alcun argomento.
 
+
+oggetti -> sono strutture di dati
+
+

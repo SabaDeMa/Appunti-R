@@ -1,0 +1,784 @@
+\chapter{Loops}
+Quanto le funzioni della famiglia \textsf{apply} non sono sufficienti, e spesso nella programmazione di script e funzioni ciò accade molto spesso, si rende necessario di loops o per essere più precisi di costrutti per il controllo del flusso.
+Le strutture di controllo permettono sostanzialmente di controllare il flusso di come le operazioni di un programma vengono eseguite. Strutture comuni sono:
+
+\begin{description}
+\item[if,else] servono per testare una condizione \\
+\item[for] esegue un loop un numero finito di volte \\
+\item[while] esegue un loop fino a quando la condizione specificata è rispettata \\
+\item[repeat] lo ripete in infinito \\
+\item[break] (inter)rompe l'esecuzione di un loop, necessario con repeat \\
+\item[next] salta l'interazione di un loop \\
+\item[return] permette di uscire da una funzione \\
+\end{description}
+
+\section{STRUTTURA IF-ELSE}
+
+if-else combinato permettono di verificare delle condizioni logiche e di far fare ad \erre determinate operazioni a seconda che le condizioni specificate siano rispettate oppure no. Else è opzionale e diventa operativo se la condizione non è rispettata, perché se è rispettata esegue ciò che if (se) dice di eseguire.
+Ci sono diversi modi di formulare costrutti logici usando questi due strumenti.
+Questo esempio se x è maggiore di tre \erre imposta y=10 oppure se if è falsa,
+quindi se x è minore di tre \erre imposta y=0.
+\begin{lstlisting}
+if(x>3) {
+	y<-10
+} else {
+	y<-0
+}
+\end{lstlisting}
+È possibile anche fare in un altro modo:
+\begin{lstlisting}
+y<- if(x>3) { 10 } else {0}
+\end{lstlisting}
+
+else è opzionale ma la si può mettere se voglio fare qualcosa di alternativo ad if, ma si può anche omettere, oppure fare un intreccio
+di if conditions:
+\begin{lstlisting}
+if(<conditions>) {}
+if(<conditions>) {}
+\end{lstlisting}
+
+\section{STRUTTURA FOR LOOPS}
+
+È molto comune, l'idea di base è di avere un indice spesso chiamato i che va tipicamente
+come una sequenza di numeri interi.
+Un esempio banale è questo che in pratica mi stampa i numeri 1:10
+(quindi da uno a dieci), la variabile è i:
+
+\begin{lstlisting}
+for(i in 1:10) {print(i)}
+\end{lstlisting}
+
+Una volta terminato il loop, si passa al blocco di codice successivo ad esso.
+Ci sono diversi modo di usare un loop for.
+Questi modi sotto sono tutti equivalenti e mi stampano le lettere dell'oggetto c.
+
+\begin{lstlisting}
+x<-c("a","b","c","d")
+for(i in 1:4) {print(x[i])}
+
+for(i in seq_along(x)) { print(x[i])} 
+\end{lstlisting}
+
+seq\_along prende un vettore come input e crea una sequenza di interi
+che è uguale alla lunghezza di questo vettore, che quindi è lo stesso di 1:4 in questo caso.
+Nel caso successivo chiamo la variabile indice letter perché non necessariamente deve esser un intero ma può prendere i valori da qualsiasi vettore:
+
+\begin{lstlisting}
+for(letter in x) {print(letter)}
+\end{lstlisting}
+
+L'ultimo è esattamente come gli altri anche perché in effetti dopo in ho messo x e quindi quando do il comando letter (ma avrei potuto chiamarlo in qualsiasi modo) in effetti dico ad \erre di non far altro che andarsi a prendere letter che in realtà è x in questo caso e di stamparlo.
+
+Quando la condizione è una come in questo caso posso ometterle e scrivere in forma compatta il loop\footnote{Ma meglio evitare\dots}.
+
+\begin{lstlisting}
+for(i in 1:4) print(x[i])
+\end{lstlisting}
+
+I for loops possono essere concatenati.
+Un esempio banale può essere questo:
+
+\begin{lstlisting}
+x<-matrix(1:6,2,3)
+
+for(i in seq_len(nrow(x))) {
+	for(j in seq_len(ncol(x))) {
+		print(x[i,j])
+	}
+}
+\end{lstlisting}
+
+Prima creo una matrice con il comando matrix; poi uso la funzione funzione seq\_len che prende un numero intero del suo argomento che in questo caso sono il numero delle righe della matrice x (date dalla funzione nrow()) e ne crea una sequenza. Quindi in effetti l'argomento è nrow(x). Che di fatto è un numero e da questo ne crea
+una sequenza di interi. In questo caso avendo due righe la sequenza che ne esce fuori è
+1 e 2.
+Quando invece l'argomento è ncol(x) la sequenza è 1,2,3.
+Alla fine questo comando mi dice di stampare tutti gli elementi della matrice.
+Il comando essenzialmente è quello di stampare l'elemento di riga i e colonna j preso
+dalla matrice x infatti i va da 1 a 2, e j va da 1 a 3 quindi mi stampa sei elementi, i sei della matrice.
+
+Meglio evitare di innestare troppi loop perché benché funzionante si potrebbe creare un comando molto difficile da interpretare. Spesso questa complessità può essere evitata semplicemente ricorrendo alla scrittura di una funzione.
+
+\section{STRUTTURA WHILE}
+
+L'idea di base è che \erre prende quel costrutto logico ed esegue le operazioni basandosi su questo.
+In pratica, se la condizione è rispettata, \erre esegue la(e) operazione(i) e la(e) esegue fino a quando sussiste(-ono). Questo però
+fa si che il loop potrebbe essere teoricamente infinito se la condizione che lo fa fermare
+non esiste, altrimenti il programma non finirà mai\footnote{Un esempio di loop infinito è while(count<10)\{print(count)\} }.
+Esempio (che non funziona!):
+
+\begin{lstlisting}
+count<-0
+while(count <10) {print(count) count<- count +1}
+\end{lstlisting}
+Io ho provato questa e funziona alla grande:
+\begin{lstlisting}
+count<-0
+while(count<10){print(count<-count+1)
+\end{lstlisting}
+
+Ovviamente si possono inserire più condizioni in un solo loop.
+In questo esempio la variabile z è inizializzata a 5. La condizione while è che sia maggiore o uguale di 3 e minore o uguale di 10:
+\begin{lstlisting}
+z<-5
+
+while(z>=3 && z<=10) {
+		      print(z)
+		      coin<-rbinom(1,1,0.5)
+		      if(coin==1) {## RANDOM WALK
+		      z<-z+1} else {z<-z-1}
+}
+\end{lstlisting}
+
+Dove la funzione rbinom(x,size,pro) è una funzione di densità, distribuzione,
+generazione di numeri casuali di una binomiale con x è il vettore dei quantili,
+size è il numero delle prove da effettuare e prob è la probabilità\footnote{Ci vorrebbe
+un ripasso della binomiale in effetti!}.
+Quando \erre si trova a dover verificare diverse condizioni, segue uno schema
+logico interno: le verifica partendo da sinistra verso destra.
+Nell'esempio in effetti prima vede se z>=3 e una volta verificata questa 
+verifica anche la seconda che z<=10.
+Se entrambe sono vere, finalmente \erre va avanti e va nel corpo del loop while
+ed esegue i comandi in esso specificati.
+
+
+\section{REPEAT, NEXT, BREAK}
+
+REPEAT
+
+Repeat non è molto frequente perché inizializza un loop infinito e l'unico modo per fermarlo è invocare ad un certo punto un break.
+Nell'esempio prima definisco x0 e tol.
+
+\begin{lstlisting}
+x0<-1
+tol<-1e-8
+
+repeat{
+	x1<-computeEstimate() #questa funzione non esiste! solo per esempio!
+	if(abs(x1-x0)<tol) {break}
+	else{x0<-x1}
+}
+
+\end{lstlisting}
+In pratica questo esempio dice che fissa x1 come il risultato di una funzione, in questo caso generica che non esiste, dopodiché se il valore assoluto della differenza tra x1 (risultato di questa funzione fittizia) è minore di tol si ferma altrimenti imposta x0 come x1 e ripete il loop dall'inizio.
+Questo loop è pericoloso perché non è detto che si fermi quindi è meglio usare un for
+loop ed usare un limite di iterazioni e alla fine osservare la convergenza.
+
+\subsection{NEXT}
+
+Next è usato per skip (saltare) una iterazione di un loop (di qualsiasi tipo). Un esempio semplice è questo:
+
+\begin{lstlisting}
+for(i in 1:100) {if(i <= 20) {next}
+		fa_qualcosa_qua() # esempio
+}
+\end{lstlisting}
+
+
+\section{FUNZIONI}
+
+Non è preferifibile scrivere funzioni in \erre ma usare un editor di testo o quello fornito con \erre stesso.	
+La prima funzione che chiamo add2 è una funzione che dati due numeri mi permette di ottenere la somma. Ho bisogno quindi di due elementi che chiamo x ed y.  La creo, come con le altre con
+la funzione function() che costituisce il meccanismo base per definire nuove funzioni
+nel linguaggio \erre.
+\begin{lstlisting}
+add2 <- function(x, y){
+		     x+y
+}
+\end{lstlisting}
+Per usarla in \erre prima la eseguo, non ho ben capito ma è come se istruissi \erre
+a questa nuova funzione.
+Poi la invoco con due argomenti ed ottengo il risultato.
+\begin{lstlisting}
+add2(3,5)
+[1] 8
+\end{lstlisting}
+
+La seconda funzione prende un vettore di numeri e restituisce un subset di questo vettore
+che è superiore al numero 10. ``Un'' subset\dots\ quindi un unico elemento e quindi un solo argomento della funzione che in pratica mi crea un oggetto con tutti gli oggetti del  vettore che sono maggiori di 10. Use non ha un significato particolare, potei chiamare
+come voglio quel parametro, lo stesso dicasi per x, o il numero 10. Funziona però
+
+\begin{lstlisting}
+above10<-function(x){
+	use<-x>10
+	x[use]
+}
+
+> above10(1:14)
+[1] 11 12 13 14
+\end{lstlisting}
+
+In questo esempio la funzione ha due argomenti x ed n. Con il secondo argomento n
+scrivo la funzione in modo tale che sia l'utente a specificare oltre quale valore
+usare (perciò di nuovo use) compiere le azioni specificate dall'utente che in questo è una semplice stampa.
+\begin{lstlisting}
+above <- function(x, n){
+	use<-x>n
+	x[use]
+}
+\end{lstlisting}
+
+Ipotizziamo invece come prima che sia importante il numero dieci perché magari
+spesso lo si usa in alcune analisi ecc. Possiamo procedere in un altro modo.
+\begin{lstlisting}
+above<-function(x, n = 10){
+	use<-x>n
+	x[use]
+}
+\end{lstlisting}
+In questo modo se ho l'oggetto x, ma nella funzione above(x,n) n non lo specifico
+per dimenticanza o perché assumo che sia 10, \erre non darà un errore ma assumerà
+che n sia uguale a 10. La funzione da caricare avrà quindi un solo argomento above(x)
+ed n sarà impostato di default in base a ciò che è scritto nella funzione.
+Qualora invece voglia ottenere un valore diverso mi basta specificarlo con above(x,n).
+
+
+Quest'altra funzione è un po' più complessa. Dato un data frame o una matrice in pratica
+mi prende ogni colonna e mi calcola la media. In effetti devo svolgere una operazione 
+(la media), in un loop (per ogni colonna)\footnote{Il comando gira bene in \erre senza problemi perché il database airquality è uno di quelli già inseriti all'interno del programma forse, molto probabilmente, a mera finalità didattica e di test.}. Da notare la funzione numeric() che mi permette di creare o forzare a diventare numerico il suo argomento.
+
+\begin{lstlisting}
+columnmean<-function(y){
+		nc<-ncol(y) # primo passaggio mi calcola il numero delle colonne.
+		means<-numeric(nc) # crea vettore numerico vuoto lungo nc
+		for(i in 1:nc) {
+			means[i] <- mean(y[, i])
+	}
+		means # esempio
+}
+\end{lstlisting}
+
+Ora questa funzione potrebbe dare alcune NAs perché alcune colonne potrebbero contenere
+degli NAs che renderebbero impossibile calcolare la media.
+La funzione si può costruire in modo tale che prima di calcolare la media delle colline
+elimini da queste gli eventuali valori NAs.
+\begin{lstlisting}
+columnmean<-function(y, removeNA = TRUE){
+		nc <- ncol(y) # primo passaggio mi calcola il numero delle colonne.
+		means <- numeric(nc) # crea vettore numerico vuoto lungo nc
+		for(i in 1:nc) {
+			means[i] <- mean(y[ , i], na.rm = removeNA )
+	}
+		means # esempio qui ci starebbe anche altro codice 
+}
+\end{lstlisting}
+Dove nella funzione precedente na.rm è un argomento logico della funzione impostato di
+default su FALSE che permette di omettere nel calcolo della media i valori NA.
+
+Le funzioni si possono editare anche con un editor di testo e salvare con la
+estensione .R.
+
+\section{Funzioni}
+
+Le funzioni rappresentano la linea di confine tra utente e programmatore.
+Le funzioni nascono dall'esigenza di automatizzare operazioni che spesso ci troviamo a fare o che sarebbero troppo dispendiose in termini di tempo e precisione se lasciate all'utente.
+
+Le funzioni sono create con la direttiva function() e sono salvate come fossero oggetti
+normali di \erre, quindi con l'estensione .R. Nello specifico esse sono oggetti di \erre appartenenti alla classe funzioni.
+
+La base è che ad un nome assegno la direttiva funzione con un determinato argomento e
+del codice di \erre all'interno di parentesi graffe che fa quello che io voglio faccia.
+\begin{lstlisting}
+nome<-function(<argomento>) {
+		## CODICE CHE MI DICE QUELLO CHE DEVE FARE LA FUNZIONE
+}
+\end{lstlisting}
+Le funzioni in \erre sono oggetti di prima classe (così chiamati).
+In pratica possono essere trattate come altri oggetti:
+\begin{itemize}
+\item funzioni possono essere argomenti di altre funzioni
+\item funzioni possono essere annidate quindi definire una funzione dentro un'altra funzione
+\end{itemize}
+Le funzioni hanno argomenti ``named''  che potenzialmente hanno valori di default.
+Potenzialmente perché alcuni devono/possono essere obbligatori per farla funzionare.
+Quelli formali sono quelli inclusi nella definizione della funzione (nelle parentesi tone <argomento>).
+Questi possono essere visti o impostati con la funzione formals(<nome>), per esempio formals(mean)
+\footnote{Un altra funzione molto utile è args(lm) che displays the argument names and 
+corresponding default values of a function or primitive.}.
+Non sempre si devono specificare tutti.
+Si può impostare che se non richiamati dall'utente, alcuni argomenti assumano un valore di default.
+
+Mi posso pure complicare le cose ma alla fine queste sono tutte equivalenti.
+Genero con rnorm() un campione casuale di 100 osservazioni che si
+distribuiscono come una normale.
+
+\begin{lstlisting}
+mydata<-rnorm(100)
+\end{lstlisting}
+
+E poi calcolo la deviazione standard di questo campione, ma queste formule
+sono tutte equivalenti tra loro.
+
+\begin{lstlisting}
+sd(mydata)
+sd(x=mydata)
+sd(x=mydata, na.rm=FALSE) # di default na.rm=F 
+sd(mydata, na.rm=F) 	  # ecc. ecc.
+sd(na.rm = FALSE, mydata)
+\end{lstlisting}
+
+Meglio evitare di invertire gli ordini delle funzioni, chiamandole x =mydata, solo
+perché teoricamente si può.
+\subsection{Ordine degli argomenti (Argument Matching)}
+
+Gli argomenti delle funzioni possono essere invocati in modo posizionale
+o invocandoli per nome.
+Quando chiamo un argomento per nome come ad esempio lm(data=mydata,...
+l'ordine non conta TRANNE CHE per quelli che non sono stati chiamati per nome per i
+quali l'ordine è importante e molto.
+
+\subsection{NULL}
+Questa generica funzione f ha quattro argomenti. Solo a non ha un valore
+di default mentre gli altri come si vede ce l'hanno. Il valore di default di d è NULL che equivale a non specificarne alcune, come a in effetti.
+\begin{lstlisting}
+f <- function(a, b = 1, c = 2, d = NULL){
+			# CODICE
+}
+\end{lstlisting}
+
+
+\subsection{Lazy Evaluation}
+La lazy evaluation significa che gli argomenti delle funzioni sono valutati
+solo quando necessari e servono.
+\begin{lstlisting}
+f <- function(a,b) { a^2}
+
+f(2)
+
+4
+
+f2 <- function(a,b){a^b}
+> f2(3)
+Errore in f2(3) : 
+  l'argomento "b"  non e specificato e non ha un valore predefinito
+\end{lstlisting}
+Non mi da errore perché anche se ci sono due parametri a e b nel corpo della
+funzione b non è specificato, e non ha neanche un valore di default, quindi non
+succede niente in pratica perché la funzione f non usa neanche b.
+Nel secondo esempio invece mi da errore perché b mi serve nella funzione e non ho specificato neanche un valore di default.
+Altro esempio di funzione con lazy evaluation:
+\begin{lstlisting}
+f <- function(a,b){
+	print(a)
+	print(b)
+}
+
+
+ f <- function(a,b){
++ 	print(a)
++ 	print(b)
++ }
+> 
+> f(45)
+[1] 45
+Errore in print(b) : 
+  l'argomento "b"  non e specificato e non ha un valore predefinito
+\end{lstlisting}
+In pratica mi stampa 45 ma quando arriva al codice successivo mi da errore perché non trova nulla e non ha nessun valore di default.
+Da notare che 45 me lo stampa questo vuol dire che la funzione lavora in parte.
+La prima parte delle funzione esegue l'operazione correttamente [quella con print(a)] e l'altra parte no perché non è specificato nessun valore sia di default che dall'utente.
+
+
+\section{Binding Value to Symbol}
+
+Come fa \erre ad assegnare valori ai simboli. Esempio la funzione lm già esiste
+ma se io ne riscrivessi un'altra con lo stesso simbolo lm?
+Quando \erre cerca di abbinare, legare (bind) un oggetto ad un valore, per farlo cerca all'interno di ambienti\footnote{Ambienti in \erre (environments  =  liste di oggetti e simboli, un posto dove salvare la roba)}.
+Per vedere a che ambiente appartiene una funzione mi basta la funzione environment(<noomeFUNZIONE>).
+L'ordine con il quale \erre cerca negli ambienti è il seguente e può essere
+visualizzato con il comando search():
+\begin{lstlisting}
+search()
+ [1] ".GlobalEnv"        "tools:RGUI"        "package:stats"     "package:graphics" 
+ [5] "package:grDevices" "package:utils"     "package:datasets"  "package:methods"  
+ [9] "Autoloads"         "package:base"     
+\end{lstlisting}
+
+La funzione lm già esiste ed è quella per modelli lineari, io però posso
+definirla come più mi piace come ad esempio:
+\begin{lstlisting}
+> lm <-function(x){x*x}
+> lm(3)
+[1] 9
+\end{lstlisting}
+Quando lancio in esecuzione la funzione, \erre mi cerca prima nel .GlobalEnv che
+è quello definito dall'utente e quindi mi bypassa ciò che è definito in altri
+ambienti.
+Gli ambienti sono scansionati alla ricerca di simboli nell'ordine dato dal comando
+search(). Ovviamente è possibile modificare questo comportamento ed impostare
+in quale ambiente \erre deve cercare per primo.
+
+È possibile anche impostare quali pacchetti caricare all'inizio.
+
+Quando un utente carica un pacchetto con il comando library(), lo spacename
+o l'ambiente relativo a quel pacchetto vengono spostati di posizione alla numero due
+nel comando search().
+Esempio con il pacchetto rugarch.
+\begin{lstlisting}
+> library(rugarch)
+Package Rsolnp (1.14) loaded.  To cite, see citation("Rsolnp")
+
+KernSmooth 2.23 loaded
+Copyright M. P. Wand 1997-2009
+> search()
+ [1] ".GlobalEnv"        "package:rugarch"   "tools:RGUI"        "package:stats"    
+ [5] "package:graphics"  "package:grDevices" "package:utils"     "package:datasets" 
+ [9] "package:methods"   "Autoloads"         "package:base"  
+\end{lstlisting}
+\erre ha degli spazi separati per gli oggetti (non funzioni) e
+le funzioni quindi all'interno dello stesso ambiente è possibile avere
+un oggetto di nome ad esempio <oggetto> ed una funzione con lo stesso nome senza che questi due oggetti creino conflitti
+tra di loro.
+
+\subsection{Scoping Rules}
+
+Scoping Rules è una cosa che rende molto diverso \erre dal suo genitore S.
+La scoping rules determina come un valore è associato ad una variabile \textbf{libera all'interno}
+di una funzione.
+\erre usa la static scoping (lexical scoping).
+
+Esempio:
+\begin{lstlisting}
+f<-function(x,y){x^2+y/z}
+\end{lstlisting}
+Questa funzione ha due argomenti formali x ed y. Da dove viene z? z è una 
+free variable. Che valore assegnamo a z? Lo decide lo scoping che assegna appunto valori alle free variables.
+
+DEFINIZIONE: Lexical scoping (o static) significa che \erre il valore delle free variables è cercato all'interno dell'ambiente nel quale la funzione è stata definita.
+
+Un ambiente è una collezione di coppie (simboli e valori).
+Ogni ambiente ha un genitore e/o dei figli.
+L'unico ambiente senza genitori che non deriva da altri è l'ambiente vuoto
+empty environment.
+Una funzione + un ambiente = a closure (chiusura) o function closure.
+
+In pratica cosa succede nella ricerca di una free variable.
+La prima cosa è l'ambiente in cui la funzione è definita. Se la definisco nel global
+\erre cerca per prima cosa là dentro.
+Oltre questo se non trova nulla, la va a cercare nei parent environment che è la cosa
+successiva nella search().
+La ricerca continua a scendere fino a quando non incontra il top-level-environment che è il global environment.
+Oltre continua nell'empty environment. Se non la trova neanche qui, il programma mi da un errore.
+
+\subsection{\erre SCOPING RULES}
+
+Quasi sempre le funzioni sono definite nel global environment quindi il valore
+delle free variable è cercato nella workspare dell'utente.
+L'idea di fondo è di creare variabili che magari possono essere usate anche da altre funzioni.
+In \erre ci possono essere anche funzioni definite in altre funzioni (C non permette questo).
+
+Esempio dove una funzione definisce un'altra funzione. Nella funzione pow n non è definito
+ed è quindi una free variable. Tuttavia esso è definito nella make.power e quello sarà
+l'ambiente nel quale pow è definita.
+Quindi pow è definita nell'ambiente make.power.
+La funzione pow prende x e lo eleva alla n. n però a sua volta è una funzione
+\begin{lstlisting}
+make.power <-function(n){pow <- function(x){x^n}
+	pow
+}
+\end{lstlisting}
+E da qui possono creare altre funzioni.
+\begin{lstlisting}
+> make.power <-function(n){pow <- function(x){x^n}
++ 	pow
++ }
+> make.power(3)
+function(x){x^n}
+<environment: 0x7ff6d7cd5b78>
+> cube(3)
+Errore: non trovo la funzione "cube"
+> cube<-make.power(3)
+> cube(3)
+[1] 27
+> square<-make.power(2)
+> square(3)
+[1] 9
+> allaquinta <- make.power(5)
+> allaquinta(2)
+[1] 32
+> allaquinta(34)
+[1] 45435424
+> 
+\end{lstlisting}
+
+Ma quindi in questi casi può diventare complesso capire cosa c'è nell'ambiente di una
+funzione.
+Invocando la funzione ls(environment(<funzione>)) si può dare un occhiata all'ambiente.
+E con get posso sapere quel "n" quanto mi vale in quella funzione.
+\begin{lstlisting}
+> ls(environment(allaquinta))
+[1] "n"   "pow"
+
+> get("n",environment(allaquinta))
+[1] 5
+\end{lstlisting}
+Altro esempio del lexical scoping (che usa \erre):
+Prima definisco y=10 e poi la funzione f e la funzione g. Da notare che la funzione
+f ha al suo interno g(x) e ha come parametro x che non c'è all'interno del corpo
+della funzione stessa.
+Con il lexical scoping il valore di y nella funzione g è cercato nell'ambiente
+in cui questa funzione è definita, quindi 10.
+Con lo scoping dinamico il valore y è cercato nell'ambiente dal quale la funzione
+è chiamata (invocata) e quindi y sarebbe 2.
+\begin{lstlisting}
+y <- 10
+f <- function(x){
+	y <- 2
+	y^2 +g(x)
+}
+
+g <- function(x){
+	x*y
+}
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lstlisting}
+
+\end{lstlisting}
+
+
+\section{TRE PUNTINI (ellipsis)}
+L'argomento ... indica un numero variabile di argomenti che sono "passed" da altre
+funzioni.
+Si usa quando non si vuole copiare l'intero codice quando si vuole estendere
+la funzionalità di un'altra funzione.
+In pratica permette variabilità negli argomenti di una funzione.
+
+Nell'esempio in pratica si integra la già presente funzione plot, con tutti
+i suoi argomenti e si aggiungono x, y e type. I puntini rappresentano tutti
+gli argomenti di plot che normalmente avrebbe.
+\begin{lstlisting}
+myplot <- function(x, y, type = "1", ...){
+	plot(x, y, type = type, ...)
+}
+\end{lstlisting}
+Un altro uso è quando gli argomenti non possono essere conosciuti in anticipo 
+ma sono variabili. Provare args(paste) o args(cat).
+
+Ogni argomento che viene dopo il dot dot dot deve essere chiamato esplicitamente
+e non possono essere chiamati in modo parziale.
+
+args(paste)
+
+Esempio per questa ultima cosa.
+\begin{lstlisting}
+> paste("a", "b", sep =":")
+[1] "a:b"
+> paste("a","b", se=":")
+[1] "a b :"
+> 
+\end{lstlisting}
+
+
+
+********************** WIKIPEDIA E ALTRO LEXICAL SCOPING
+
+Lo scoping in generale è la parte del programma dove un nome può essere usato per
+fare riferimento ad una qualsiasi entità.
+Con il lexical scoping un nome si riferisce sempre al suo ambiente lessicale locale.
+
+> a=1
+> b=2
+> f<-function(x)
++ {
++   a*x + b
++ }
+> g<-function(x)
++ {
++   a=2
++   b=1
++   f(x)
++ }
+> g(2)
+[1] 4
+
+La risposta potrebbe essere 5 perché nella funzione g(x) la funzione da noi scritta
+ridefinisce a=2 e b=1 quindi 2*2+1=5.
+In realtà in \erre ciò non accade perché a=2 e b=1 sono stati definiti all'interno
+della funzione mentre a<-1 e b<-2 sono stati definiti nell'ambiente globale ed è
+questo che conta anche se g(x) ridefinisce i parametri a e b che quindi (quelli
+nella funzione g) non hanno alcun effetto.
+
+********************************
+
+
+CONSEGUENZE DEL LEXICAL SCOPING
+
+Una delle conseguenze è che tutti gli oggetti sono conservati nella memoria.
+Tutto quindi deve essere conservato nella memoria.
+
+
+********** OTTIMIZZAZIONE
+
+Ci sono delle routine di ottimizzazione chiamate optim, nlm, optimize\footnote{In \erre le funzioni di ottimizzazione calcolano sempre il minimo quindi se voglio il massimo devo scegliere il negativo di quelle funzioni.}.
+
+Questo è molto utile perché nella ottimizzazione spesso ho dei dati e non dei semplici parametri quindi devo comunque poter scrivere il codice in modo semplice e chiaro.
+
+L'idea di base è che si può costruire una funzione che a sua volte costruisce la funzione obiettivo e tutti i dati ed i parametri saranno definiti nell'ambiente che definisce questa funzione che quindi se li porterà dietro come se fossero dei bagagli.
+
+Esempio\footnote{In questi esempi bisognerebbe sapere un poco di statistica e di come funziona la massima verosimiglianza in particolare.}: 
+
+make.NegLogLik <- function(data, fixed=c(F,F)){
+	params <- fixed
+	functions(p){
+		params[!fixed] <- p
+		mu <- params[1]
+		sigma <- params[2]
+		a <- -0.5*length(data)*log(2*pi*sigma^2)
+		b <- -0.5*sum((data-mu)^2) / (sigma^2)
+		-(a + b)
+	}
+}
+
+Questa funzione ha due argomenti. Il primo è data il secondo è un vettore logico che chiamo fixed. Dentro la funzione definisco una altra funzione che ha come argomento p come parametro che sarà il vettore di parametro(i?) che voglio ottimizzare.
+Poi il resto non fa altro che restituire la massima verosimiglianza per una normale e compara i dati con questa distribuzione normale.
+Da notare l'uso della funzione set.seed che permette di impostare il ``seme'' iniziale per generare numeri pseudocasuali che siano però riproducibili\footnote{Come diceva il buon Peppe De Luca!}. Questa funzione va impostata di volte in volta\footnote{
+> set.seed(1)
+> rnorm(2)
+[1] -0.6264538  0.1836433
+> rnorm(2)
+[1] -0.8356286  1.5952808
+> set.seed(1)
+> rnorm(2)
+[1] -0.6264538  0.1836433
+> 
+}
+
+
+ESEMPIO:
+
+set.seed(1); normals <- rnorm(100,1,2)
+nLL <- make.NegLogLik(normals)
+nLL
+function(p){
+	params[!fixed] <- p
+	mu <- params[1]
+	sigma <- params[2]
+	a <- -0.5*length(data)*log(2*pi*sigma^2)
+	b <- -0.5*sum((data-mu)^2) / (sigma^2)
+	-(a + b)
+}
+
+--- NON FUNZIONANO QUESTE FUNZIONI
+
+
+************ CODING STANDARS IN R
+
+Ci sono degli standards di base da seguire per rendere il codice più leggibile e semplice.
+- Scriverlo sempre in un editor di testo, salvarlo come file ti testo.
+- Rientri prima riga ecc. ecc. per avere anche una idea visiva del flusso.
+- Limitare la larghezza del codice.
+- Limitare la lunghezza delle funzioni; perché aiuta molto bel debugging, così è più facile capire dove sta il problema.
+
+
+************* DATE E TEMPO IN R
+
+Le date ed il tempo sono un argomento a parte in \erre.
+-Le date sono rappresentate con la classe Date
+-Il tempo è rappresentato con le classi POSIXct e POSIXlt 
+-Le date sono immagazzinate come giorni trascorsi dal 1970-01-01 (1970 gennaio 1)\footnote{Non ho capito se è un esempio oppure questa data è un punto di partenza interno di \erre.}
+-Il tempo è immagazzinato come numero di secondi trascorsi 
+
+In questo esempio:
+
+> x <- as.Date("1970-01-01")
+> x
+[1] "1970-01-01"
+> unclass(x)
+[1] 0
+> unclass(as.Date("1970-01-02"))
+[1] 1
+
+Da notare che la data viene inserita tra una coppia di virgolette come se fosse formata da caratteri. Pur essendo formata da numeri in questo caso particolare è obbligatorio trattarla come se fosse ti tipo caratteri.
+
+Se uso la funzione unclass() mi dice in effetti quanti giorni sono trascorsi dal 1970-01-01
+
+Il tempo è rappresentato con POSIXct e POSIXlt.
+Queste funzioni non a caso hanno il suffisso POSIX che sono una serie di standard codificati dall'nstitute of Electrical and Electronics Engineers (IEEE).
+
+-POSIXct rappresenta il tempo come un numero (molto grosso!) intero che conserva in un vettore di interi.
+-POSIXlt forse rappresenta il tempo come sopra ma aggiunge altri elementi (mese, settimana, giorno della settimana, mese ecc.) e li conserva in una lista\footnote{In effetti sono oggetti diversi una lista è necessaria.}.
+Ne consegue che ci sono una serie di funzioni molto utili come
+- weekdays che da il giorno della settimana
+- months che da il nome del mese
+- quarters che da il numero di trimestre (Q1 Q2 ecc.)
+
+Esempi:
+
+> x <- Sys.time()
+> x
+[1] "2015-01-13 19:26:35 CET"
+
+Posso convertire un formato in un altro:
+
+> p<- as.POSIXlt(x)
+> p
+[1] "2015-01-13 19:26:35 CET"
+> names(unclass(p))
+ [1] "sec"    "min"    "hour"   "mday"   "mon"   
+ [6] "year"   "wday"   "yday"   "isdst"  "zone"  
+[11] "gmtoff"
+
+E se da p estraggo ad esempio il settimo o il primo elemento ottengo:
+
+> p$wday
+[1] 2
+
+> p$sec
+[1] 35.98754
+
+I secondi sotto forma di frazione.
+Sys.time() permette di ottenere il tempo attuale del sistema.
+
+Posso fare lo stesso usando POSIXct
+
+> x <- Sys.time()
+> x
+[1] "2015-01-13 19:35:09 CET"
+> unclass(x)
+[1] 1421174109
+
+Se provo ad estrarre i secondi mi da errore perché il tempo misurato con POSIXct in realtà sul interno non salva nessuna informazione aggiuntiva, la lista non esiste nemmeno.
+
+> x$sec
+Errore in x$sec : $ operator is invalid for atomic vectors
+
+Posso però convertire la mia x in un nuovo oggetto che chiamo p che è computato secondo POSIXlt dal quale è possibile estrarre i secondi chiamandoli in modo nominale con il dollaro.
+
+> p<-as.POSIXlt(x)
+> p$sec
+[1] 9.323077
+> 
+
+C'è la funzione strptime nel caso in cui le date siano scritte in un modo differente che permette di convertirle.
+
+> datestring <- c("January 10, 2012 10;40")
+> x <- strptime(datestring, "%B %d, %Y %H:%M")
+> x
+[1] "2015-01-13 19:35:09 CET"
+
+Si possono fare operazioni (addizione e sottrazione) con le date come sommare ecc.
+L'importante è non commettere l'errore di compiere operazioni con oggetti di classi differenti giorni e mesi ecc.
+
+> x <- as.Date("2012-01-01")
+> y <- strptime("9 Jan 2011 11:34:21","%d %b %Y %H:%M:%S")
+> x-y
+Errore in x - y : argomento non numerico trasformato in operatore binario
+Inoltre: Warning message:
+Metodi incompatibili ("-.Date", "-.POSIXt") per "-" 
+> 
+
+x è un as.Date mentre y è un POSIXlt
+
+
+%%%%%%%%%%%%
+Esercitazioni
+
+La funzione head(<oggetto>, n) usata nelle esercitazioni restituisce i primi n (o gli ultimi -n) valori dell'<oggetto>; n non è obbligatorio.
+
+

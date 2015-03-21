@@ -6,6 +6,7 @@
 \usepackage{microtype}
 \usepackage{indentfirst}
 \usepackage{anyfontsize}
+\usepackage{caption}
 \usepackage{xcolor}
 \usepackage{emptypage}
 \usepackage{listings}
@@ -26,8 +27,15 @@
 		}
 
 \usepackage{amsmath ,amssymb, amsthm}
+%%
 \newcommand{\erre}{\textsf{R}}
 \newcommand{\cod}{\textsf}
+%%
+\usepackage[autostyle, italian = guillemets]{csquotes}
+\usepackage[backend = biber, indexing]{biblatex}
+\DeclareIndexFieldFormat{indextitle}{}{}{} 
+\addbibresource{bibliografia.bib}
+%%
 \usepackage{hyperref}
 \usepackage{bookmark}
 \begin{document}

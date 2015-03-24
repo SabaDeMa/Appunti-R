@@ -5,4 +5,4 @@ la funzione list.files() produce un vettore di caratteri i cui elementi sono i n
 oggetti -> sono strutture di dati
 
 
-funzione summary, str, unique in un paragrafo o sottoparagrafo del primo capitolo per esplorare gli oggetti all'inizio della sessione di lavoro.
+funzione summary, str, unique, ncol, nrow in un paragrafo o sottoparagrafo del primo capitolo per esplorare gli oggetti all'inizio della sessione di lavoro.

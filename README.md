@@ -1,4 +1,4 @@
-# Appunti di R
+# Appunti di R VERSIONE NON PUBBLICA
 
 Raccolta in italiano di appunti, idee, soluzioni pratiche sulla programmazione in R basati principalmente sui corsi tenuti via [Coursera](https://www.coursera.org/) di programmazione in **R** della John Hopkins University.
 

@@ -1,5 +1,7 @@
-\chapter{Loops}
-Quanto le funzioni della famiglia \textsf{apply} non sono sufficienti, e spesso nella programmazione di script e funzioni ciò accade molto spesso, si rende necessario di loops o per essere più precisi di costrutti per il controllo del flusso.
+\chapter{Programmazione}
+
+\section{Costrutti}
+Quando le funzioni della famiglia \textsf{apply} viste nel capitolo precedente non sono sufficienti, e spesso nella programmazione di script ( o nella creazione di funzioni) ciò accade molto spesso, si rende necessario l'utilizzo di strumenti più sofisticati. Questi sono i \textsf{loops} o per essere più precisi, costrutti per il controllo del flusso\footnote{\textsf{Loops} è decisamente un nome più digeribile.}.
 Le strutture di controllo permettono sostanzialmente di controllare il flusso di come le operazioni di un programma vengono eseguite. Strutture comuni sono:
 
 \begin{description}
@@ -10,12 +12,14 @@ Le strutture di controllo permettono sostanzialmente di controllare il flusso di
 \item[break] (inter)rompe l'esecuzione di un loop, necessario con repeat \\
 \item[next] salta l'interazione di un loop \\
 \item[return] permette di uscire da una funzione \\
+\item[switch] valuta una affermazione e restituisce una operazione tra una lista di operazioni, basata sul risultato della affermazione\\
 \end{description}
 
-\section{STRUTTURA IF-ELSE}
+\subsection{STRUTTURA IF-ELSE}
 
-if-else combinato permettono di verificare delle condizioni logiche e di far fare ad \erre determinate operazioni a seconda che le condizioni specificate siano rispettate oppure no. Else è opzionale e diventa operativo se la condizione non è rispettata, perché se è rispettata esegue ciò che if (se) dice di eseguire.
-Ci sono diversi modi di formulare costrutti logici usando questi due strumenti.
+Il costrutto \textsf{if} permette di far eseguire ad \erre\ una o più operazioni determinate e definite tra le parentesi graffe, sulla base della veridicità(\textsf{TRUE}) o meno (\textsf{FALSE}) di una o più condizioni definite tra le parentesi tonde. La sintassi può essere interpretata anche da un punto di vista letterale come ``se è vero questo\dots, esegui questa operazione'', oppure anche ``esegui questa operazione se è vero che\dots''.
+
+Il costrutto \textsf{else} che è opzionale e diventa operativo solo se la condizione non è rispettata, ovvero se è \textsf{FALSE}, permette di eseguire, qualora lo si voglia, un'altra operazione diversa dalla prima dichiarata con \textsf{if}. Ci sono diversi modi di formulare costrutti logici usando questi due strumenti.
 Questo esempio se x è maggiore di tre \erre imposta y=10 oppure se if è falsa,
 quindi se x è minore di tre \erre imposta y=0.
 \begin{lstlisting}
@@ -37,7 +41,7 @@ if(<conditions>) {}
 if(<conditions>) {}
 \end{lstlisting}
 
-\section{STRUTTURA FOR LOOPS}
+\subsection{Costrutto for}
 
 È molto comune, l'idea di base è di avere un indice spesso chiamato i che va tipicamente
 come una sequenza di numeri interi.
@@ -98,7 +102,7 @@ dalla matrice x infatti i va da 1 a 2, e j va da 1 a 3 quindi mi stampa sei elem
 
 Meglio evitare di innestare troppi loop perché benché funzionante si potrebbe creare un comando molto difficile da interpretare. Spesso questa complessità può essere evitata semplicemente ricorrendo alla scrittura di una funzione.
 
-\section{STRUTTURA WHILE}
+\subsection{while}
 
 L'idea di base è che \erre prende quel costrutto logico ed esegue le operazioni basandosi su questo.
 In pratica, se la condizione è rispettata, \erre esegue la(e) operazione(i) e la(e) esegue fino a quando sussiste(-ono). Questo però
@@ -141,7 +145,7 @@ Se entrambe sono vere, finalmente \erre va avanti e va nel corpo del loop while
 ed esegue i comandi in esso specificati.
 
 
-\section{REPEAT, NEXT, BREAK}
+\subsection{REPEAT, NEXT, BREAK}
 
 REPEAT
 
@@ -172,6 +176,11 @@ for(i in 1:100) {if(i <= 20) {next}
 		fa_qualcosa_qua() # esempio
 }
 \end{lstlisting}
+
+
+\subsection{Switch}
+
+
 
 
 \section{FUNZIONI}

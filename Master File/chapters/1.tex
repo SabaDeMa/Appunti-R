@@ -187,9 +187,12 @@ Nelle pagine seguenti, saranno scientemente commesse alcune inesattezze al fine 
 Come molti, \erre\ è un linguaggio di programmazione orientato agli oggetti e si rende quindi necessario definire cosa sono gli oggetti. In questa sede si definiscano oggetti di \erre\ entità con le quali il linguaggio entra in relazione. Ci sono diversi tipi ti oggetti che probabilmente non si vedranno mai mentre ci sono altri ``oggetti'' che di fatto tali non sono ma sono chiamati tali nel linguaggio comune.
 
 Questa apparente confusione potrebbe essere nata da alcuni fattori. In primo luogo \erre\ è un progetto in continua evoluzione e ad oggi, marzo 2015, un software di più di venti anni. A sua volta si basa su S che è molto più vecchio. Da ciò deriva che molte caratteristiche attuali, come l'essere orientato agli oggetti, sono state introdotte successivamente e quindi il sistema se da un lato si è adattato a nuovi sviluppo, dall'altro per motivi di retro-compatibilità ogni nuova versione si porta dietro caratteristiche delle prime versione di fatto obsolete.
-
-
-
+\begin{lstlisting}
+> typeof(get("for"))
+[1] "special"
+> typeof(get("break"))
+[1] "special"
+\end{lstlisting}
 
 \subsection{Classi}
 

@@ -1,3 +1,19 @@
+% Titlesec
+	% Capitoli
+\renewcommand{\thechapter}{\arabic{chapter}}
+\titleformat{\chapter}[display]
+{\filleft\bfseries\LARGE}%
+{\fontsize{80}{75}\selectfont\sffamily\thechapter}
+{4ex}
+{}
+[\vspace{2ex}]
+	% Paragrafi
+\titleformat{\section}[hang]{\sffamily\Large}
+{\bfseries\thesection} {5pt} {}
+	% Sotto Paragrafi
+\titleformat{\subsection}[hang]{\sffamily\large}
+{\bfseries\thesection} {5pt} {}
+
 % Listings
 \lstset{	basicstyle = \sffamily\color[HTML]{0D47A1},%
 		language = R,%

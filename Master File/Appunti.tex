@@ -10,20 +10,18 @@
 \usepackage{xcolor}
 \usepackage{emptypage}
 \usepackage{listings}
-\lstset{	basicstyle = \sffamily,%
-		frame = lines,%
+\lstset{	basicstyle = \sffamily\color[HTML]{0D47A1},%
 		language = R,%
 		breaklines = true,%
 		stringstyle = \color[HTML]{424242},%
-		identifierstyle = \color[HTML]{424242},%
-		keywordstyle = \color[HTML]{0D47A1},%
 		breakatwhitespace = true,%
 		numberblanklines = false,%
 		showstringspaces = false,%
 		numbers = left,%
-		numberstyle = \tiny\sffamily,%
+		numberstyle = \tiny\sffamily\color[HTML]{9E9E9E},%
 		stepnumber = 1,%
-		tabsize = 4
+		tabsize = 4,
+		backgroundcolor = \color[HTML]{F5F5F5}
 		}
 
 \usepackage{amsmath ,amssymb, amsthm}
@@ -35,6 +33,8 @@
 \usepackage[backend = biber, indexing]{biblatex}
 \DeclareIndexFieldFormat{indextitle}{}{}{} 
 \addbibresource{bibliografia.bib}
+%%
+\input{impostazioni}
 %%
 \usepackage{hyperref}
 \usepackage{bookmark}

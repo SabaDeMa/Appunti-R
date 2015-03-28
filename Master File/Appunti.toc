@@ -100,12 +100,12 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.4.1}Base}{36}{subsection.5.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.4.2}lattice}{37}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.2}lattice}{36}{subsection.5.4.2}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.4.3}ggplot2}{37}{subsection.5.4.3}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.5}BASE}{37}{section.5.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.6}Graphic Device}{40}{section.5.6}
+\contentsline {section}{\numberline {5.6}Graphic Device}{39}{section.5.6}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{Aggiornamenti}{41}{section*.4}

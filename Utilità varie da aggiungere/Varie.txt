@@ -1,0 +1,3 @@
+available.packages() 
+
+per vedere il numero di pacchetti disponibili ed altre informazioni.

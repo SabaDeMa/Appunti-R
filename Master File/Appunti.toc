@@ -24,7 +24,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1.4}Working Directory}{7}{section.1.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.5}List}{7}{section.1.5}
+\contentsline {section}{\numberline {1.5}List}{8}{section.1.5}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1.6}Matrici}{9}{section.1.6}
 \defcounter {refsection}{0}\relax 
@@ -106,6 +106,8 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.5}BASE}{37}{section.5.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.6}Graphic Device}{39}{section.5.6}
+\contentsline {section}{\numberline {5.6}Graphic Device}{40}{section.5.6}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{Aggiornamenti}{41}{section*.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Bibliografia}{43}{section*.6}

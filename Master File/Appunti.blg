@@ -1,0 +1,15 @@
+[0] Config.pm:320> INFO - This is Biber 1.9
+[1] Config.pm:323> INFO - Logfile is 'Appunti.blg'
+[101] biber-darwin:277> INFO - === Tue Mar 31, 2015, 18:52:31
+[102] Biber.pm:333> INFO - Reading 'Appunti.bcf'
+[253] Biber.pm:635> INFO - Found 1 citekeys in bib section 0
+[307] Biber.pm:3051> INFO - Processing section 0
+[348] Biber.pm:3189> INFO - Looking for bibtex format file 'bibliografia.bib' for section 0
+[350] bibtex.pm:990> INFO - Decoding LaTeX character macros into UTF-8
+[350] bibtex.pm:864> INFO - Found BibTeX data source 'bibliografia.bib'
+[400] UCollate.pm:66> INFO - Overriding locale 'it-IT' defaults 'variable = shifted' with 'variable = non-ignorable'
+[400] UCollate.pm:66> INFO - Overriding locale 'it-IT' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[401] Biber.pm:2928> INFO - Sorting list 'nty' of type 'entry' with scheme 'nty' and locale 'it-IT'
+[401] Biber.pm:2932> INFO - No sort tailoring available for locale 'it-IT'
+[406] bbl.pm:517> INFO - Writing 'Appunti.bbl' with encoding 'UTF-8'
+[407] bbl.pm:606> INFO - Output to Appunti.bbl

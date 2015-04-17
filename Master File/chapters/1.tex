@@ -21,7 +21,7 @@ oppure con il seguente codice via terminale (o prompt dei comandi, o shell ecc.)
 Esiste anche un altro modo per ottenere questo risultato, si veda il~\cite{core:inst} per maggiori dettagli.
 
 \section{Prime Cose da Sapere}
-Per imparare un software come \erre\ è necessario oltre che studiare, principalmente esercitarsi e mettere alla prova le proprie conoscenze. In \erre\ è presente un pacchetto con dei data set pre caricati molto utili per esercitarsi.
+Per imparare un software come \erre\ è necessario oltre che studiare, principalmente esercitarsi e mettere alla prova le proprie conoscenze. In \erre\ è presente un pacchetto con dei datasets precaricati molto utili per esercitarsi.
 
 Quasi sicuramente la vostra versione di \erre\ oltre ad avere già installato questo pacchetto, lo ha anche già caricato in automatico. Per verificare ciò usate la funzione \lstinline!sessionInfo()! priva di argomenti.
 
@@ -55,9 +55,13 @@ Qualora il pacchetto non fosse installato, e di conseguenza con il comando prete
 > install.packages("datasets")
 \end{lstlisting}
 
-Grazie a questo comando il ``vostro'' \erre\ si connetterà con i databases di CRAN e scaricherà l'ultima versione di \lstinline!datasets!. Questo procedimento è ovviamente valido per qualsiasi dei più di 4000 pacchetti presenti su CRAN.
+Grazie a questo comando il ``vostro'' \erre\ si connetterà con i databases di CRAN e scaricherà l'ultima versione di \lstinline!datasets!. Questo procedimento è ovviamente valido per qualsiasi dei più di 6000 pacchetti presenti su CRAN.
 
-Da notare l'uso delle virgolette per installare il pacchetto, mentre l'assenza di queste per caricarlo con il comando \lstinline!library!. Non preoccupatevi se inizieranno a comparire diversi messaggi sulla console: \erre\ vi informerà di essersi connesso e di aver iniziato il processo di download del file richiesto. Se necessario, \erre\ scaricherà in automatico anche altri pacchetti necessari al corretto funzionamento del pacchetto che avete appena richiesto.
+Qualora vogliate verificare il numero di pacchetti attualmente disponibili (ed altre informazioni sugli stessi), il seguente comando restituisce un oggetto matrice con tutti i pacchetti disponibili su CRAN\footnote{Ce ne sono molti altri su GitHub e quasi 800 su Biocounductor.}.
+\begin{lstlisting}
+packet <- available.packages() 
+\end{lstlisting}
+Tornando alla installazione ed al caricamento di pacchetti da notare è l'uso delle virgolette per installare il pacchetto, mentre l'assenza di queste per caricarlo con il comando \lstinline!library!. Non preoccupatevi se inizieranno a comparire diversi messaggi sulla console: \erre\ vi informerà di essersi connesso e di aver iniziato il processo di download del pacchetto richiesto. Se necessario, \erre\ scaricherà in automatico anche altri pacchetti necessari al corretto funzionamento del pacchetto che avete appena richiesto.
 
 Ci sono anche altre fonti per pacchetti che necessitano una procedura leggermente diversa per l'installazione ma per ora è meglio tralasciare questo aspetto\footnote{Tra cui Bioconductor o i tanti sviluppati ed ancora in fase beta presenti su GitHub.}.
 
@@ -67,7 +71,7 @@ Ora che si conosce la procedura per installare e caricare un pacchetto, il primo
 
 \subsection{La working directory}
 
-Concetto fondamentale in \erre\ è la cosiddetta working directory, lo spazio lavoro dell'utente, il luogo logico del nostro computer dove \erre\ va a cercare i file da caricare ed eventualmente dove salvare i file che noi decidiamo di salvare.
+Concetto fondamentale in \erre\ è la cosiddetta working directory, lo spazio lavoro dell'utente, il luogo logico del nostro computer dove \erre\ va a cercare i file da caricare ed eventualmente dove salvare gli output, i database, i grafici ed altro che noi decidiamo di salvare.
 
 Per sapere quale sia la nostra working directory usiamo il seguente comando che produce come output il percorso della cartella usata da \erre\ come working directory.
 
@@ -115,12 +119,15 @@ Altri comandi molto utili per lavorare, settare ed esplorare la working director
 \section{The Name of the Game}
 
 Cercare un punto da cui partire per introdurre un argomento come \erre, che come vedremo è vastissimo, non è cosa facile.
-Un primo punto da cui partire è capire innanzitutto come ragione R e come sono le ``parole'' che usa, al fine di poter comunicare con questo software\footnote{\erre\ è si un software ma è anche un linguaggio derivato a sua volta da altri linguaggi di più basso livello, \cod{S} ed \cod{S-Plus}. Per ora, al fine di non introdurre troppi concetti si passi questa definizione superficiale.}
+Un primo punto da cui partire è capire innanzitutto come ragiona \erre\ e come sono le ``parole'' che usa, al fine di poter comunicare con questo software\footnote{\erre\ è si un software ma è anche un linguaggio derivato a sua volta da altri linguaggi di più basso livello, \cod{S} ed \cod{S-Plus}. Per ora, al fine di non introdurre troppi concetti si passi questa definizione superficiale.}
 
-La prima cosa da da capire sono i tipi di oggetti, con cui possiamo è possibile lavorare in \erre.
+La prima cosa da da capire sono i tipi di oggetti, con cui è possibile lavorare in \erre.
 
-Sostanzialmente ogni cosa in \erre\ è un oggetto.
+Sostanzialmente ogni cosa in \erre\ è un oggetto anche se spesso la definizione di oggetto può essere diversa da chi si trova a dover conoscere in profondità il software per necessità di programmazione a chi invece si trova a doverlo utilizzare. Nelle pagine seguenti le definizioni di oggetti saranno poco ortodosse prediligendo il punto di vista di un mero utilizzatore che non possiede né le capacità per entrare nei dettagli del linguaggio né ha il bisogno di doverlo fare. Per rendersi conto di questa difformità si prenda ad esempio una matrice. Una matrice potrebbe essere considerata come un oggetto a se stante. Ciò potrebbe essere anche indotto dal fatto che l'utilizzo della funzione class su di una matrice, ad esempio formata da numeri, produce come output “matrix”. Si provino le funzioni typeof e is.atomic sulla stessa matrice e si scoprirà che per \erre\ un vettore numerico ed una matrice sono lo stesso tipo di oggetto.
 
+Ovviamente sebbene da un punto di vista del linguaggio di programmazione essi siano la stessa cosa, anche solo visivamente appaiono diversi. È a tal proposito che ad ogni tipo di oggetto riconosciuto dal linguaggio e dato dalla funzione typeof 
+ 
+\subsection{Vettori}
 Il primo tipo è costituito da ``atomic vector'', chiamati così in quanto sono l'unità fondamentale alla base di \erre.
 Proviamo ad esempio a creare e a stampare, semplicemente scrivendo il suo nome, un elemento che chiameremo first, costituito dal solo numero 1.
 

@@ -1,3 +1,13 @@
 available.packages() 
 
 per vedere il numero di pacchetti disponibili ed altre informazioni.
+
+
+Nel subsetting di un data frame se l'oggetto è
+
+> class(df1)
+[1] "data.frame"
+> class(dt)
+[1] "data.table" "data.frame"
+
+Semplicemente und data frame posso selezionare colonne con df1[ , "Nome" ], mentre con data.table data.frame posso evitare le virgolette dt[ , Nome ].

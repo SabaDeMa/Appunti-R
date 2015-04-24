@@ -104,5 +104,27 @@ NULL
 \subsection{Subset}
 
 La funzione subset è una delle principali funzioni per selezionare dati. La sua forza risiede principalmente nella sua semplicità di utilizzo.
+La sua sintassi è sostanzialmente la seguente:
 
-\section{Pacchetti}
+\begin{lstlisting}
+sottonsieme <- subset(<dati>, <condizione1>, ... <condizione_n>)
+\end{lstlisting}
+
+Il codice precedente in realtà, pur non nascondendo nessuna insidia, va specificato correttamente a seconda dell’oggetto che ci troviamo a dover analizzare.
+
+Ad esempio con un data frame, la (o le) <condizione> può essere anche rappresentata dal semplice nome della colonna/riga e dal suo valore. Nel seguente esempio si utilizza il dataset mtcars per selezionare tutte le autovetture che abbiano un valore di mpg uguale a 21.
+\begin{lstlisting}
+carsmpg21 <- subset(mtcars, mpg == 21)
+\end{lstlisting}
+
+Ovviamente per alcuni casi di subsetting, è necessario ricorrere a più semplici strumenti in quanto utilizzare funzioni come subset sarebbe oltre che superfluo anche macchinoso. Si consideri il semplice esempio sottostante col quale si seleziona la riga corrispondente al nome “Mazda RX4” prima con una procedura normale e poi ricorrendo alla funzione subset.
+\begin{lstlisting}
+mazda1 <- mtcars[ "Mazda RX4" , ]
+
+mazda2 <- subset(mtcars, rownames(mtcars) == "Mazda RX4" )
+\end{lstlisting}
+Appare evidente che il secondo codice sia alquanto superfluo oltre che maldestro. Ovviamente ciò non sempre è vero. Un codice “maldestro” potrebbe risultare utile se il fine è quello di ottenere i dati in un’altra forma e quindi ricorrere alla opzione drop di subset\footnot{Di default imposta su FALSE}.
+
+\subsection{Funzioni di Pacchetti}
+Nelle pagine seguenti alcune utilissime funzioni per eseguire subsetting attivabili solo dopo la installazione ed il relativo caricamento dei pacchetti nei quali sono definite.
+\subsubsection{filter di dplyr}

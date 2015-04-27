@@ -1,9 +1,9 @@
 \chapter{Subsetting}
 \section{Introduzione}
 
-Nelle pratiche applicazioni mai (o quasi) i dati con i quali ci si trova a lavorare sono quelli necessari alla nostra analisi. Spesso sarebbe opportuno avere altri dati oppure, al fine di rispondere a determinate domande, si rende necessario estrarre dai dati in nostro possesso un sotto insieme di questi. La operazione di estrazione di sottoinsiemi di dati da oggetti in \erre\ (che quindi da un punto di vista concettuale diventano insiemi di livello superiore, che quindi contengono i primi) va sotto di subsetting.
+Nelle pratiche applicazioni mai (o quasi) i dati con i quali ci si trova a lavorare sono quelli necessari alla nostra analisi. Spesso sarebbe opportuno avere altri dati oppure, al fine di rispondere a determinate domande, si rende necessario estrarre dai dati in nostro possesso un sotto insieme di questi. La operazione di estrazione di sottoinsiemi di dati da oggetti in \erre\ (che quindi da un punto di vista concettuale diventano insiemi di livello superiore, che quindi contengono i primi) va sotto il nome di subsetting.
 
-Estrarre un sottoinsieme di dati da una base di dati di maggiori dimensioni può diventare una operazione abbastanza frustrante se non si conoscono le corrette procedure per raggiungere il nostro obiettivo se non ci comprende a fondo come lavorano gli strumenti utilizzati per il subsetting ma soprattutto se non si sa bene con che tipo di oggetto si ha a che fare perché ogni tipo di oggetto richiede un approccio diverso.
+Estrarre un sottoinsieme di dati da una base di dati di maggiori dimensioni può diventare una operazione abbastanza frustrante se non si conoscono le corrette procedure per raggiungere il nostro obiettivo e se non ci comprende a fondo come lavorano gli strumenti utilizzati per il subsetting ma soprattutto se non si sa bene con che tipo di oggetto si ha a che fare perché ogni tipo di oggetto richiede un approccio diverso.
 
 \section{Subsetting di Vettori}
 I primi strumenti da utilizzare per il subsetting sono le funzioni date dalla coppia di parentesi quadre e dalla doppia coppia di parentesi quadre: [<valore>] e [[<valore>]].
@@ -99,6 +99,8 @@ Si osservi che se avessimo usato \textsf{[} in luogo di \textsf{[[} nel primo el
 NULL
 \end{lstlisting}
 \section{Operatori Logici}
+Non semo
+
 
 \section{Funzioni}
 \subsection{Subset}
@@ -123,7 +125,7 @@ mazda1 <- mtcars[ "Mazda RX4" , ]
 
 mazda2 <- subset(mtcars, rownames(mtcars) == "Mazda RX4" )
 \end{lstlisting}
-Appare evidente che il secondo codice sia alquanto superfluo oltre che maldestro. Ovviamente ciò non sempre è vero. Un codice “maldestro” potrebbe risultare utile se il fine è quello di ottenere i dati in un’altra forma e quindi ricorrere alla opzione drop di subset\footnot{Di default imposta su FALSE}.
+Appare evidente che il secondo codice sia alquanto superfluo oltre che maldestro. Ovviamente ciò non sempre è vero. Un codice “maldestro” potrebbe risultare utile se il fine è quello di ottenere i dati in un’altra forma e quindi ricorrere alla opzione drop di subset\footnote{Di default imposta su FALSE}.
 
 \subsection{Funzioni di Pacchetti}
 Nelle pagine seguenti alcune utilissime funzioni per eseguire subsetting attivabili solo dopo la installazione ed il relativo caricamento dei pacchetti nei quali sono definite.

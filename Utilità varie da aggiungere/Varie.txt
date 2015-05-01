@@ -57,3 +57,5 @@ multi.sapply <- function(...) {
 
 
 any() posso aggiungere delle condizioni a questa funzione e verificare che almeno un elemento dell'oggetto che gli passo, soddisfi la condizione. Ritorna un vettore TRUE/FALSE con un solo elemento.
+
+all() dato un vettore logico, sono tutti gli elementi veri o falsi?

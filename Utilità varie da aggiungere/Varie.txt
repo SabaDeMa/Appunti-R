@@ -1,3 +1,4 @@
+
 available.packages() 
 
 per vedere il numero di pacchetti disponibili ed altre informazioni.
@@ -11,3 +12,48 @@ Nel subsetting di un data frame se l'oggetto è
 [1] "data.table" "data.frame"
 
 Semplicemente und data frame posso selezionare colonne con df1[ , "Nome" ], mentre con data.table data.frame posso evitare le virgolette dt[ , Nome ].
+
+
+
+applicare più funzioni:
+
+sapply(df,function(x) list(mean=mean(x),sd=sd(x),var=var(x)))
+
+
+
+
+
+
+applicare più funzioni altro approccio:
+
+multi.fun <- function(x) {
+      c(min = min(x), mean = mean(x), max = max(x))
+}
+
+It gives the following result for cars data set:
+
+> sapply(cars, multi.fun)
+     speed   dist
+min    4.0   2.00
+mean  15.4  42.98
+max   25.0 120.00
+
+However, when I work in interactive mode I would prefer to have a function that would accept multiple functions as arguments. I came up with the following solution to this problem:
+
+multi.sapply <- function(...) {
+      arglist <- match.call(expand.dots = FALSE)$...
+      var.names <- sapply(arglist, deparse)
+      has.name <- (names(arglist) != "")
+      var.names[has.name] <- names(arglist)[has.name]
+      arglist <- lapply(arglist, eval.parent, n = 2)
+      x <- arglist[[1]]
+      arglist[[1]] <- NULL
+      result <- sapply(arglist, function (FUN, x) sapply(x, FUN), x)
+      colnames(result) <- var.names[-1]
+      return(result)
+}
+
+
+
+
+any() posso aggiungere delle condizioni a questa funzione e verificare che almeno un elemento dell'oggetto che gli passo, soddisfi la condizione. Ritorna un vettore TRUE/FALSE con un solo elemento.

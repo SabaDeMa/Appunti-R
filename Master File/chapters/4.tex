@@ -75,11 +75,20 @@ Una molto utile combinazione di funzioni per la ricerca di stringhe è la seguen
 \begin{lstlisting}
 length(grep(“<parola>”, <oggetto>))
 \end{lstlisting}
-Se come risultato mi da 0 vuol dire che nell'oggetto cercato non ci sono elementi con la stringa "JeffStreet", quindi questo è un modo semplice per verificare se un certo valore appare nelle stringhe di un oggetto.
+
+Questa funzione restituisce un numero pari a quello delle stringhe <parola> presenti nell’oggetto.
+
+\subsection{Varie}
+Di seguito vengono introdotte brevemente alcune funzioni varie per lavorare con stringhe. Per dettagli su ognuna di esse si veda la relativa documentazione.
+\begin{description}
+\item[nchar] restituisce il numero di caratteri in una stringa; si noti che uno spazio vuoto è un carattere.
+\item[paste] per unire senza spazio è possibile usare anche la variante paste0 che come specificato nella documentazione, è più efficiente.
+\item[substr] estrae da una stringa (o un vettore di stringhe) gli elementi i-esimi fino al j-esimo. Nulla vieta di estrarne solo uno, in questo caso 
+\end{description}
 
 un'altra funzione utile può essere nchar() che mi dice il numero di caratteri che ci sono in una stringa; oppure substr(<stringa>, 1, 7) che mi prende solo le lettere dalla uno alla sette della <stringa>.
 
-Paste() permette di fonderle insieme fuse da uno spaio, se metto solo le stringhe oppure unite da un altro simbolo se lo imposto con sep = ""
+paste() permette di fonderle insieme fuse da uno spaio, se metto solo le stringhe oppure unite da un altro simbolo se lo imposto con sep = ""
 
 Posso fonderle senza spazio usando direttamente la funzione paste0()
 

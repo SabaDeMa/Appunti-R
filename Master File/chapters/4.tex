@@ -63,17 +63,18 @@ L'esempio seguente mostra il suo funzionamento, simile a \textsf{sub}.
 
 \section{Ricerca di Stringhe}
 Posso cercare tra i nomi tutte le stringe che contengono una determinata parola:
-
+\begin{lstlisting}
 	grep("<parola>", <oggetto>)
+\end{lstlisting}
+Grep restituisce un vettore con le posizioni degli elementi dell’oggetto che contengono la parola ricercata. Per far si che ritorni i valori bisogna settare l’opzione value = TRUE.
 
-Grep mi restituisce un vettore con le posizioni (non i valori, ma solo i numeri delle posizioni) dove la stringa cercata appare. Per far si che ritorni i valori devo settore in grep l'opzione value = TRUE. Così facendo grep non mi da le posizioni ma gli elementi stessi.
+Qualora invece fosse più comodo ai nostri fini ottenere un vettore logico è possibile utilizzare la funzione grepl che funziona allo stesso modo di grep 
+Posso usare anche grepl che si differenzia da grep perché restituisce un vettore logico di lunghezza pari a quella dell’oggetto cercato composto da elementi TRUE qualora il valore cercato fosse presente alla i-esima posizione ed ovviamente FALSE in caso contrario.
 
-Posso usare anche grepl che si differenzia da grep perché restituisce un vettore logico con TRUE quando la stringa cercata c'è e FALSE quando non c'è.
-
-Sempre con grep posso usare la funzione lenght
-
-	length(grep("JeffStreet",cameraData$intersection))
-
+Una molto utile combinazione di funzioni per la ricerca di stringhe è la seguente:
+\begin{lstlisting}
+length(grep(“<parola>”, <oggetto>))
+\end{lstlisting}
 Se come risultato mi da 0 vuol dire che nell'oggetto cercato non ci sono elementi con la stringa "JeffStreet", quindi questo è un modo semplice per verificare se un certo valore appare nelle stringhe di un oggetto.
 
 un'altra funzione utile può essere nchar() che mi dice il numero di caratteri che ci sono in una stringa; oppure substr(<stringa>, 1, 7) che mi prende solo le lettere dalla uno alla sette della <stringa>.

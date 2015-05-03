@@ -1,6 +1,7 @@
 \chapter{Manipolare Stringhe}
 \section{Stringhe}
-Un importante passo per la pulizia dei dati è manipolare stringhe di testo. 
+Una parte importante 
+Un importante passo per la pulizia,  dei dati è manipolare stringhe di testo.  
 Una prima funzione semplice che potrebbe tornare utile nella manipolazione di stringhe è \textsf{tolower} che permette di eliminare caratteri maiuscoli da un   oggetto di classe character datogli come argomento. 
 \begin{lstlisting}
 > x <- c("prova", "prOVA3")
@@ -82,13 +83,13 @@ Questa funzione restituisce un numero pari a quello delle stringhe <parola> pres
 Di seguito vengono introdotte brevemente alcune funzioni varie per lavorare con stringhe. Per dettagli su ognuna di esse si veda la relativa documentazione.
 \begin{description}
 \item[nchar] restituisce il numero di caratteri in una stringa; si noti che uno spazio vuoto è un carattere.
-\item[paste] per unire senza spazio è possibile usare anche la variante paste0 che come specificato nella documentazione, è più efficiente.
+\item[paste] permette di fondere insieme due stringhe; per unire senza spazio è possibile usare anche la variante paste0 che come specificato nella documentazione, è più efficiente.
 \item[substr] estrae da una stringa (o un vettore di stringhe) gli elementi i-esimi fino al j-esimo. Nulla vieta di estrarne solo uno, in questo caso 
 \end{description}
 
 un'altra funzione utile può essere nchar() che mi dice il numero di caratteri che ci sono in una stringa; oppure substr(<stringa>, 1, 7) che mi prende solo le lettere dalla uno alla sette della <stringa>.
 
-paste() permette di fonderle insieme fuse da uno spaio, se metto solo le stringhe oppure unite da un altro simbolo se lo imposto con sep = ""
+paste() permette di fonderle insieme fuse da uno spaio, se metto solo le stringhe oppure unite da un altro simbolo se lo imposto con 
 
 Posso fonderle senza spazio usando direttamente la funzione paste0()
 
@@ -137,24 +138,26 @@ Il segno più include almeno uno dei simboli
 
 [0-9]
 
+\subsection{Metacaratteri}
 
+Nella ricerca di particolari stringhe quasi sempre però gli obiettivi sono molto più complessi di quelli visti negli esempi precedenti. Potrebbe capitare di dover seleziona tutte le stringhe che possiedano al loro interno un determinato carattere o combinazioni di più caratteri, oppure qualsiasi stringa che inizi con un determinato simbolo, o che con questi vi termini. Si deduce da queste semplici considerazioni che sono necessari strumenti per istruire meglio e nel giusto modo le funzioni in erre, ma anche in altri linguaggi, per estrarre stringhe secondo le esigenze dell’utente.
 
+Questi strumenti sono i metacaratteri. I metacaratteri sono caratteri che all’interno di un linguaggio di programmazione assumono un particolare significato. \erre\ utilizza i 14 metacaratteri del POSIX extended regular expressions di cui si parlerà nel prosieguo di questo paragrafo. Ovviamente fin da ora è bene specificare che i metacaratteri, in quanto tali, hanno un significato proprio in \erre\ ed in molti altri linguaggi che supportano questo standard ma allo stesso tempo sono grafi utilizzati nella comune scritta.
 
-\section{data}
-la funzione date() restituisce la data
-Sys.Date() restituisce la data ma la classe è "Date" che quindi permette di fare altre cose.
+Si pensi ad esempio ai simboli delle parentesi quadre [ ].  Nella comune compilazione di testi, secondo le odierne consuetudini tipografiche queste sono utilizzate per “per inserire delle correzioni, specialmente nelle citazioni; delimitano, insomma, delle parti che nella citazione originale mancavano o erano diverse” come affermato in~\cite{latex:guida}. Il loro significato come metacaratteri è molto diverso in quanto permette di creare quella che in \erre\ è definita come una classe di caratteri che è più che altro un nome per identificare un contenitore come si vedrà e \textbf{non} ha nulla a che vedere con la modalità character propria delle classi di \erre.
 
-format(oggetto_data, "%a %b %d" )   permette di riformattare la data abbreviandola con
+Per utilizzare uno od entrambi i simboli delle parentesi quadre nel loro significato tipografica è necessario quindi far si che l’interprete ignori il metacarattere e lo consideri un semplice glifo. In \erre\ tutti i metacaratteri sono ignorati e quindi considerati secondo il loro proprio significato tipografico con due backslash.
 
-- %a le iniziali del nome abbreviate (%A  non abrreviato)
-- %d un giorno espresso in numero tra 0-31
-- %m mese 1-12
-- %B mese non abbreviato
-- %y anno espresso in due cifre
-- %Y anno intero
+La tabella seguente, tratta da ~\cite[san.gast] riassume i 14 metacaratteri ed il codice da utilizzare per ignorarli come tali e considerali come semplici glifi.
 
-as.Date(<oggetto>, "%d%b%Y") mi converte l'oggetto in date secondo le istruzioni del secondo argomento che io gli do.
-
+\begin{tabular}{ll}
+\toprule
+metacarattere	& significato \\
+\textbf{\^a}	& seleziona tutti gli elementi che iniziano con la lettere a.\\
+\midrule
+\textbf{a\$} 	& seleziona tutti gli elementi che terminano con a. Da notare che il simbolo va posto successivamente al carattere da ricercare.\\
+\bottomrule
+\end{tabular}
 
 
 

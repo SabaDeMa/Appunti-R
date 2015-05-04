@@ -59,3 +59,36 @@ multi.sapply <- function(...) {
 any() posso aggiungere delle condizioni a questa funzione e verificare che almeno un elemento dell'oggetto che gli passo, soddisfi la condizione. Ritorna un vettore TRUE/FALSE con un solo elemento.
 
 all() dato un vettore logico, sono tutti gli elementi veri o falsi?
+
+
+
+
+
+
+note su subset prese da Wickham
+http://adv-r.had.co.nz/Computing-on-the-language.html
+
+paragrafo Non-standard evaluation in subset
+
+:
+
+subset() is special because it implements different scoping rules: the expressions a >= 4 or b == c are evaluated in the specified data frame rather than in the current or global environments. This is the essence of non-standard evaluation.
+
+How does subset() work? We’ve already seen how to capture an argument’s expression rather than its result, so we just need to figure out how to evaluate that expression in the right context. Specifically, we want x to be interpreted as sample_df$x, not globalenv()$x. To do this, we need eval(). This function takes an expression and evaluates it in the specified environment.
+
+
+
+
+
+# funzione intersect per verificare elementi comuni in due oggetti.
+
+
+
+# si noti la differenza tra . e $
+
+> pr <- c("a-1", "ab1", "andc1", "a?1")
+> pr[5] <- "aadd"
+> grep("d$", pr, value = TRUE)
+[1] "aadd"
+> grep(".d", pr, value = TRUE)
+[1] "andc1" "aadd"

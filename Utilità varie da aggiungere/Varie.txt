@@ -92,3 +92,8 @@ How does subset() work? We’ve already seen how to capture an argument’s expr
 [1] "aadd"
 > grep(".d", pr, value = TRUE)
 [1] "andc1" "aadd"
+
+
+
+
+### FUNZIONE all.equal() funziona come identical se è vera l'ipotesi che gli oggetti sono uguali, ma se sono diversi mi restituisce informazioni sulla differenza.

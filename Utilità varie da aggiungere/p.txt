@@ -1,0 +1,29 @@
+## 	VEDERE TUTTE LE LOCALE
+
+system("locale -a", intern = TRUE)
+
+
+# vedere la locale in uso
+Sys.getlocale()
+
+## IMPOSTARE QUELLA CHE MI SERVE
+
+Sys.setlocale(locale = "en_US.UTF-8")
+
+
+## LISTA DI TUTTE LE VARIABILI IMPOSTABILI
+
+Sys.getenv()
+
+# e posso poi impostarla con
+
+Sys.setenv("variabile" = <valore>)
+
+
+## ESEMPIO
+
+Sys.setenv(LANG = "en_US.UTF-8")
+
+
+
+"en_US.UTF-8"

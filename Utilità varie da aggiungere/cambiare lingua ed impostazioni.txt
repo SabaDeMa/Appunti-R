@@ -7,3 +7,9 @@ All'interno di questo file piazzeremo la seguente funzione
 }
 
 Tutto ciò che si trova all'interno della funzione .First sarà eseguito in automatico da R.
+Ovviamente tutto ciò se da un lato favorisce la comodità dall'altro può penalizzare la riproducibilità che in alcune contesti potrebbe essere un elemento vitale di qualsiasi lavoro con R.
+
+
+
+impostazioni iniziali	
+?Startup

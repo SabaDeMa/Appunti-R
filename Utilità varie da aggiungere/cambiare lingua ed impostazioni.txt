@@ -1,0 +1,9 @@
+Un altro modo che può sembrare può macchinoso ma che in realtà nasconde grandi potenzialità è quello di salvare un apposito file col nome .Rprofile, quindi un file senza nome e con estensione .Rprofile nella working directory.
+
+All'interno di questo file piazzeremo la seguente funzione
+
+.First <- function(){
+	Sys.setenv(LANG = "en_US.UTF-8")
+}
+
+Tutto ciò che si trova all'interno della funzione .First sarà eseguito in automatico da R.

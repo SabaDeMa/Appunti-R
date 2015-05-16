@@ -105,3 +105,8 @@ comando
 R.version.string
 
 permette di vedere la versione di R, in effetti mostra solo una piccola parte del più generale sessionInfo()
+
+
+
+
+jitter crea rumore 

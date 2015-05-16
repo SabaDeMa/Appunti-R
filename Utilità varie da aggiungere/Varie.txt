@@ -14,6 +14,21 @@ Nel subsetting di un data frame se l'oggetto è
 Semplicemente und data frame posso selezionare colonne con df1[ , "Nome" ], mentre con data.table data.frame posso evitare le virgolette dt[ , Nome ].
 
 
+In realtà non funziona devo comunque fare:
+
+mtcars[mtcars$"mpg" >= 21, ]
+
+Se faccio:
+mtcars["mpg" >= 21, ]
+
+R mi restituisce tutta la tabella perché è come se stessi chiedendo "la stringa 'mpg' è maggiore o uguale di 21". Il programma mi restituisce TRUE e quindi è come se dicessi:
+
+mtcars[ TRUE, ]
+
+e quindi dammi tutte le righe (con TRUE) e, siccome non scrivo nulla, dammi tutte le colonne.
+
+
+
 
 applicare più funzioni:
 
@@ -110,3 +125,20 @@ permette di vedere la versione di R, in effetti mostra solo una piccola parte de
 
 
 jitter crea rumore 
+
+
+
+
+> x <- matrix(1:9, 3, 3)
+> x
+     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9
+> attributes(x)
+$dim
+[1] 3 3
+
+
+# DIVIDE IN NUMERO DI INTERVALLI 
+cut(x, 2) 

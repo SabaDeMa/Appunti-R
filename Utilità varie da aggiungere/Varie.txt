@@ -97,3 +97,11 @@ How does subset() work? We’ve already seen how to capture an argument’s expr
 
 
 ### FUNZIONE all.equal() funziona come identical se è vera l'ipotesi che gli oggetti sono uguali, ma se sono diversi mi restituisce informazioni sulla differenza.
+
+
+
+comando
+
+R.version.string
+
+permette di vedere la versione di R, in effetti mostra solo una piccola parte del più generale sessionInfo()

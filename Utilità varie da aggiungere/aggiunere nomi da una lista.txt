@@ -1,0 +1,11 @@
+È possibile creare una lista con elementi da utilizzare come nomi di colonne ad esempio.
+
+nomi <- list("Country", 1980:2007)
+
+per impostare i nomi però non bisogna 
+
+names(dati) <- nomi
+
+altrimenti saranno assegnati solo due nomi "Country" e "1980:2007". È possibile ovviare a questo con un semplice unlist.
+
+names(dati) <- unlist(nomi)

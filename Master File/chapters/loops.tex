@@ -5,14 +5,14 @@ Quando le funzioni della famiglia \textsf{apply} viste in precedenza non sono su
 Le strutture di controllo permettono sostanzialmente di controllare il flusso di come le operazioni di un programma vengono eseguite. Strutture comuni sono:
 
 \begin{description}
-\item[if,else] servono per testare una condizione \\
-\item[for] esegue un loop un numero finito di volte \\
-\item[while] esegue un loop fino a quando la condizione specificata è rispettata \\
-\item[repeat] lo ripete in infinito \\
-\item[break] (inter)rompe l'esecuzione di un loop, necessario con repeat \\
-\item[next] salta l'interazione di un loop \\
-\item[return] permette di uscire da una funzione \\
-\item[switch] valuta una affermazione e restituisce una operazione tra una lista di operazioni, basata sul risultato della affermazione\\
+\item[if,else] servono per testare una condizione
+\item[for] esegue un loop un numero finito di volte
+\item[while] esegue un loop fino a quando la condizione specificata è rispettata
+\item[repeat] lo ripete in infinito
+\item[break] (inter)rompe l'esecuzione di un loop, necessario con repeat
+\item[next] salta l'interazione di un loop
+\item[return] permette di uscire da una funzione 
+\item[switch] valuta una affermazione e restituisce una operazione tra una lista di operazioni, basata sul risultato della affermazione
 \end{description}
 
 \subsection{STRUTTURA IF-ELSE}
@@ -20,14 +20,16 @@ Le strutture di controllo permettono sostanzialmente di controllare il flusso di
 Il costrutto \textsf{if} permette di far eseguire ad \erre\ una o più operazioni determinate e definite tra le parentesi graffe, sulla base della veridicità(\textsf{TRUE}) o meno (\textsf{FALSE}) di una o più condizioni definite tra le parentesi tonde. La sintassi può essere interpretata anche da un punto di vista letterale come ``se è vero questo\dots, esegui questa operazione'', oppure anche ``esegui questa operazione se è vero che\dots''.
 
 Il costrutto \textsf{else} che è opzionale e diventa operativo solo se la condizione non è rispettata, ovvero se è \textsf{FALSE}, permette di eseguire, qualora lo si voglia, un'altra operazione diversa dalla prima dichiarata con \textsf{if}. Ci sono diversi modi di formulare costrutti logici usando questi due strumenti.
-Questo esempio se x è maggiore di tre \erre imposta y=10 oppure se if è falsa,
-quindi se x è minore di tre \erre imposta y=0.
+Si consideri il seguente esempio.
+
 \begin{lstlisting}
-if(x>3) {
-	y<-10
-} else {
-	y<-0
-}
+> x <- 3
+> if(x > 1) {
++ 	print("x è maggiore di uno")
++ } else {
++ 	# Non fa niente
++ }
+[1] "x è maggiore di uno"
 \end{lstlisting}
 È possibile anche fare in un altro modo:
 \begin{lstlisting}

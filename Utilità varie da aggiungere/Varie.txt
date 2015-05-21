@@ -142,3 +142,6 @@ $dim
 
 # DIVIDE IN NUMERO DI INTERVALLI 
 cut(x, 2) 
+
+
+funzione ave

@@ -1,0 +1,3 @@
+Funzione per generare livelli
+
+gl(2, 5, labels = c("A", "B"))

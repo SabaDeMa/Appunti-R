@@ -1,0 +1,20 @@
+Differenza tra length e seq_along nei loops.
+
+
+> x <- NULL
+> X
+Error: object 'X' not found
+> x
+NULL
+> length(x)
+[1] 0
+> for(i in 1:length(x)){print("sti cazzi")}
+[1] "sti cazzi"
+[1] "sti cazzi"
+> for(i in 1:seq_along(x)){print("sti cazzi")}
+Error in 1:seq_along(x) : argument of length 0
+> 
+
+
+
+Se l'indice ha lunghezza zero con length il loop produce comunque due iterazioni. con seq-along invece no.

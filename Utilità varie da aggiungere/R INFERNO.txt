@@ -22,3 +22,25 @@ http://en.wikipedia.org/wiki/Side_effect_(computer_science)
 
 PAGINA 29
 IL niente è importante, infatti i vettori possono avere lunghezza zero.
+
+
+atomic vector può avere come attributo solo "names" ecco un altro motivo perché atomic
+
+PAGINA 35:
+<<- l'uso del global assignement è sconsigliato perché produce produce side effects anche in funzioni pensato appositamente per avere tali effetti.
+
+
+PAGINA 38:
+
+FUNZIONE generica ---> guarda all'attributo class del loro primo argomento ---> se l'argomento ha una class la funzione guarda al particolare method per quella classe ---> se esiste questa corrispondenza il metodo scelto è usato ----> se non c'è corrispondenza è usato il metodo di default.
+
+
+
+PAGINA 39
+
+scrivere nome funzione per vederne il corpo se esce UseMethod, posso usare getS3method("nome", "metodo"), per vedere invece tutti i metodi per la funzione, quindi tutti i possibili secondi argomenti della funzione precedente posso usare methods(<funzione>)
+
+
+
+PAGINA: 55
+match() e which() fanno la stessa cosa solo che match si ferma al primo elemento mentre which 

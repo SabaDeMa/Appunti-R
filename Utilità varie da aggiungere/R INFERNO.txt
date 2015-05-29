@@ -43,4 +43,16 @@ scrivere nome funzione per vederne il corpo se esce UseMethod, posso usare getS3
 
 
 PAGINA: 55
-match() e which() fanno la stessa cosa solo che match si ferma al primo elemento mentre which 
+match() e which() fanno la stessa cosa solo che match si ferma al primo elemento mentre which tutti.
+
+
+PAGINA 58-59
+cat e print. Cat interpreta comunque la stringa che ha come argomento, perché alcuni caratteri sono speciali e possono essere interpretati. Si veda ?Quote. Si consideri il seguente esempio. Una volta interpretato \t indica un tab e non una semplice stringa. La interpretazione avviene anche perché ad esempio la nuova linea nella funzione print è data da \n.
+
+> x
+[1] "\t"
+> cat(x)
+	
+> print(x)
+[1] "\t"
+

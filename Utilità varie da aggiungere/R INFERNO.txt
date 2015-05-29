@@ -1,0 +1,24 @@
+VARIE PRESE DA R INFERNO
+
+PAGINA 28:
+
+il corpo di una funzione deve essere una singola espressione, le parentesi graffe che lo racchiudono hanno proprio il compito di trasformare un numero di espressioni in un'unica singola espressione combinata. Quando infatti il corpo della funzione è costituito da una singola espressione queste non sono più necessarie.
+
+
+pagina 28:
+
+approccio alla scrittura di funzioni ----> scrivere diverse funzioni piccole separate e poi combinarle in modo tale da spezzare il processo in diversi passaggi.
+
+pagina 28:
+
+l'ultimo oggetto in una funzione è restituito, per evitare ciò, qualora lo si voglia, è possibile utilizzare la funzione return().
+
+pagina 28 SIDE EFFECT:
+una funzione può avere side effect, che è un cambiamento del sistema piuttosto che ottenere un valore.
+
+
+http://en.wikipedia.org/wiki/Side_effect_(computer_science)
+
+
+PAGINA 29
+IL niente è importante, infatti i vettori possono avere lunghezza zero.

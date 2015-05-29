@@ -1,0 +1,3 @@
+Subset date 
+
+prova <- subset(gmvd, as.numeric(format(gmv, "%m")) == 9 & as.numeric(format(gmv, "%d")) == 4)

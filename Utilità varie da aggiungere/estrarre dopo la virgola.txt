@@ -1,0 +1,5 @@
+sub('^[^,]+,', '', df1$polyname)
+
+
+
+http://stackoverflow.com/questions/30534608/how-can-i-extract-all-information-after-a-comma-in-a-data-frame-column-in-r-stud

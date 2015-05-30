@@ -56,3 +56,23 @@ cat e print. Cat interpreta comunque la stringa che ha come argomento, perché a
 > print(x)
 [1] "\t"
 
+
+PAGINA 60: Backtick (o backquote)
+serve per definire il nome di un oggetto che rompe le normali convenzioni per i nomi.
+Ad esempio non si può nominare un oggetto 
+
+> 1232 <- "prova"
+Error in 1232 <- "prova" : invalid (do_set) left-hand side to assignment
+
+ma neanche 
+
+> "1232" <- "prova"
+> "1232"
+[1] "1232"
+
+con il backtick si può
+
+> `1232` <- "prova"
+> `1232`
+[1] "prova"
+

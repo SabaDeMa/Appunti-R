@@ -1,0 +1,11 @@
+COMPARAZIONI:
+
+> 1 < 2 & 2 < 3
+[1] TRUE
+> 1 < 2 < 3
+Error: unexpected '<' in "1 < 2 <"
+
+
+
+> 1 < 2 & 2 < 3 & 3 > 1
+[1] TRUE

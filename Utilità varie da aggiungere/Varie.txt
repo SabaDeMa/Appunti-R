@@ -145,3 +145,12 @@ cut(x, 2)
 
 
 funzione ave
+
+
+
+funzioni sort e order
+
+
+
+
+FUNZIONE: upper.tri()

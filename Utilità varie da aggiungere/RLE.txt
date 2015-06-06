@@ -1,0 +1,5 @@
+Funzione RLE
+
+link:  http://www.r-bloggers.com/r-function-of-the-day-rle/
+
+

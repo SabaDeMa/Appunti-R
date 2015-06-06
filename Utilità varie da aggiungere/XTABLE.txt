@@ -1,0 +1,6 @@
+PACCHETTO PER ESPORTARE XTABLE
+
+
+library(xtable)
+pa <- xtable(mtcars)
+print.xtable(pa, type="latex", file="filename.tex")

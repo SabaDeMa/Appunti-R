@@ -1,0 +1,5 @@
+pacchetto xts
+
+funzioni apply.dayly ecc.
+
+aggiungere in capitolo apply

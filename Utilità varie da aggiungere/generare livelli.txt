@@ -1,3 +1,12 @@
 Funzione per generare livelli
 
 gl(2, 5, labels = c("A", "B"))
+
+
+altro semplice modo per generali partendo da un vettore anche di caratteri:
+
+
+> d
+[1] "Peter"   "Paul"    "John"    "Melissa" "Paul"    "Peter"  
+> match(d, unique(d))
+[1] 1 2 3 4 2 1

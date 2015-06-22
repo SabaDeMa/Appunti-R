@@ -1,0 +1,114 @@
+---
+title: 'reshape2: la funzione cast e melt'
+author: "Sabato De Maio"
+date: "21 giugno 2015"
+output: html_document
+---
+
+Questo breve articolo nasce sostanzialmente dal fatto che nonostante prove e tentativi vari, non riuscivo bene a capire il funzionamento di questa funzione del pacchetto reshape2.
+
+Di seguito sono quindi riproposti tutti gli esempi *commentati*, presenti nella documentazione di questa utilissima funzione.
+
+Prima diamo uno sguardo ai dati:
+```{r}
+library(plyr)
+library(tidyr)
+library(reshape2)
+names(airquality) <-tolower(names(airquality))
+head(airquality)
+```
+
+Dopodiche con la funzione melt possiamo trasformare i dati da un formato estesto in larghezza ad un formato esteso in lunghezza. Rende decisamente meglio in inglese: from wide to long.
+
+Sostanzialmente questa funzione "scioglie i dati". Invocando la sola funzione senza alcun argomento se non ovviamente il nome dell'oggetto che vogliamo trasformare, melt incolonna tutti i dati in base al loro tipo (caratteri con caratteri, fattori con fattori, numeri con numeri, logical con logical). Di fatto melt opera una trasformazione di variabili (banalmente nomi di colonne) in un'unica colonna denominata *variable*.
+
+```{r}
+aqm <- melt(airquality, id.vars =  c("month", "day"), na.rm=TRUE)
+head(aqm)
+```
+
+la funzione cast è un po' più tricky. Innanzitutto il suffisso del nome varia in base al risultato desiderato. Nulla di trascendentale: *a*cast se come ouput si desidera un array o *d*cast se come otput si desidera un data frame.
+
+L'ordine con cui sono invocate le variabili nel argomento *fun* è molto importante. Più la variabile si trova a destra e più varierà velocemente.
+
+Il seguente esempio si usano i mesi month che diventano nomi delle righe e la variabile variable che diventano nomi delle colonne. Si noti che è stata anche impostata la funzione mean.
+```{r}
+acast(aqm, month ~ variable, mean)
+```
+Lo stesso avviene con il codice seguente con l'aggiunta di una ulteriore riga che computa le medie di ogni riga e di ogni tabella.
+
+```{r}
+acast(aqm, month ~ variable, mean, margins = TRUE)
+dcast(aqm, month ~ variable, mean )
+```
+
+un altro esempio
+```{r}
+acast(aqm, variable ~ month, mean )
+```
+
+Nel seguente esempio si preparano i dati. Come si può vedere con melt selezioniamo le variabili da non toccare dalla due alla quattro (in effetti tutto il dataset tranne la prima varibile). Come conseguenza di ciò la prima variabile *weight* viene fusa in una colonna rinominta appunto variable ed i corrsispondenti valori di questa trasposti in una colonna adiacente deonominata value.
+```{r}
+names(ChickWeight) <- tolower(names(ChickWeight))
+head(ChickWeight)
+chick_m <- melt(ChickWeight, id=2:4, na.rm=TRUE)
+head(chick_m)
+dcast(chick_m, diet ~ variable, mean)
+```
+
+How many chicks at each time?
+```{r}
+acast(chick_m, time ~ diet, length)
+dcast(chick_m, diet + chick ~ time)
+```
+
+```{r}
+acast(chick_m, chick ~ time ~ diet)
+```
+
+
+
+```{r}
+acast(chick_m, diet + chick ~ time, length, margins="diet")
+  acast(chick_m, diet + chick ~ time, length, drop = FALSE)
+```
+
+
+## Altri esempi con il data set French fries
+
+```{r}
+head(french_fries)
+ff_d <- melt(french_fries, id=1:4, na.rm=TRUE)
+head(ff_d)
+acast(ff_d, subject ~ time, length)
+acast(ff_d, subject ~ time, length, fill=0)
+dcast(ff_d, treatment ~ variable, mean, margins = TRUE)
+dcast(ff_d, treatment + subject ~ variable, mean, margins="treatment")
+```
+
+
+
+Alcuni risultati si possono ottenere con il pacchetto tidyr. Come lo stesso autore (di entrambi i pacchetti) sottolinea nella pagina github ufficiale di tidyr la funzione dcast di reshape2 e spread di tidyr sono due sinonimi. Con una sintassi differente è possibile gli stessi risultati.
+
+Si consideri il seguente esempio.
+
+```{r}
+exsp <- spread(aqm, variable, value)
+exdc <- dcast(aqm, ... ~ variable)
+identical(exsp, exdc)
+head(exsp)
+head(exdc)
+```
+
+Una prima differenza sta nel fatto che spread necessita di sapere quale variabile (chiave) associata a quale colonna (valore). In questo caso variable e value. Tutto il resto è immutato.
+
+Con dcast di reshape2 invece dobbiamo indicare la variable long da trasformare in formato wide soltanto. Non dimentcando però di includere nella trasformazione tutte le altre variabili rappresentate dalla elipsis (i tre puntini ...).
+
+la funzione dcast prevede anche l'argomento opzionale per applicare funzioni ai dati. Questo può renderla a volte un pratico strumento anche in sostituzione di altri. Si consideri ad esempio la funzione table.
+
+```{r}
+table(mtcars$gear, mtcars$cyl)
+dcast(mtcars, gear ~ cyl, length)
+```
+
+Nell esempio precedente utilizzando la funzione length come argomento opzionale FUN di dcast, di fatto otteniamo una tabella di frequenza.

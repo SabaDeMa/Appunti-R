@@ -1,0 +1,8 @@
+showMethods("mean")
+
+showMethods("show")
+
+
+mostra i metodi per le funzioni di classe S4 e per vedere il codice delle S4 devo usare
+
+getMethod()
